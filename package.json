@@ -1,0 +1,24 @@
+{
+  "name": "rainjoy1993-cloud",
+  "version": "1.0.1",
+  "description": "A wx-miniprogram project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "npx git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/zhouyu1993/RainJoy1993-cloud.git"
+  },
+  "keywords": [
+    "wx-miniprogram",
+    "wx-miniapp"
+  ],
+  "author": "RainJoy <1490079545@qq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhouyu1993/RainJoy1993-cloud/issues"
+  },
+  "homepage": "https://github.com/zhouyu1993/RainJoy1993-cloud#readme"
+}

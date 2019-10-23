@@ -18,7 +18,7 @@ const db = cloud.database()
  *
  */
 exports.main = async (event, context) => {
-  const time = Date.now()
+  const time = Date.now() + 8 * 60 * 60 * 1000
 
   console.log('debug: ', event, '||', context, time)
 

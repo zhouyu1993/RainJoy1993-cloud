@@ -15,7 +15,7 @@ const splitTime = date => {
 }
 
 const formatTime = (time, format = 'YY-MM-DD hh:mm:ss', original = false) => {
-  const date = new Date(+time + 8 * 60 * 60 * 1000)
+  const date = new Date(+time)
 
   if (+date !== 0 && !+date) return format
 

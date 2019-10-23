@@ -4,6 +4,7 @@ page, .container {
 
 .header {
   width: 100%;
+  background-size: cover;
 }
 
 .header .userinfo {
@@ -11,12 +12,19 @@ page, .container {
   align-items: center;
   justify-content: center;
   height: 280rpx;
+  background: none;
 }
 
-.header .userinfo image {
+.header .userinfo .userinfo-avatar {
   width: 120rpx;
   height: 120rpx;
   vertical-align: middle;
+}
+
+.header .userinfo .userinfo-nickname {
+  font-weight: bolder;
+  color: #fff;
+  background: none;
 }
 
 .main {

@@ -3,8 +3,15 @@ App({
   globalData: {
     userInfo: null,
     openid: '',
+    shareTicket: null,
   },
-  onLaunch: function () {
+  onLaunch (options) {
+    console.log('App.onLaunch: ', options)
+
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -29,6 +36,15 @@ App({
       //     console.error('[云函数] [timingMessage] 调用失败', err)
       //   },
       // })
+    }
+  },
+  onShow (options) {
+    console.log('App.onShow: ', options)
+
+    const { shareTicket, } = options
+
+    if (shareTicket) {
+      this.globalData.shareTicket = shareTicket
     }
   },
 })

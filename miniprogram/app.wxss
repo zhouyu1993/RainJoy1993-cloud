@@ -18,6 +18,18 @@ button::after{
   border: none;
 }
 
+open-data {
+  display: block;
+  overflow: hidden;
+  text-align: center;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  background-color: transparent;
+}
+
 .container {
   display: flex;
   flex-direction: column;

@@ -4,9 +4,9 @@ const app = getApp()
 Page({
   data: {
     logged: false,
+    userInfo: null,
     avatarUrl: '../../images/user-unlogin.png',
     nickName: '点击登录',
-    userInfo: null,
 
     collectionUrl: '../../images/collection.png',
     thumbsUpUrl: '../../images/thumbsUp.png',
@@ -17,6 +17,7 @@ Page({
     customerServiceUrl: '../../images/customerService.png',
     feedbackUrl: '../../images/feedback.png',
     authorizationUrl: '../../images/authorization.png',
+    groupSignUpUrl: '../../images/groupSignUp.png',
   },
   onShow () {
     if (!wx.cloud) {
@@ -26,6 +27,10 @@ Page({
     }
 
     this.getUserInfo()
+
+    wx.setNavigationBarTitle({
+      title: '设置',
+    })
   },
 
   getUserInfo () {
@@ -53,7 +58,7 @@ Page({
       }
     })
   },
-  onGetUserInfo (e) {
+  async onGetUserInfo (e) {
     const userInfo = e.detail.userInfo
 
     if (!this.data.logged && userInfo) {
@@ -68,16 +73,22 @@ Page({
 
       const db = wx.cloud.database()
 
-      // 新增用户
-      db.collection('profiles').add({
-        data: userInfo,
-        success: res => {
-          console.log('[数据库] [add] 成功: ', res)
-        },
-        fail: err => {
-          console.error('[数据库] [add] 失败：', err)
-        },
-      })
+      const profiles = db.collection('profiles')
+
+      const count = await profiles.count()
+
+      if (!count.total) {
+        // 新增用户
+        db.collection('profiles').add({
+          data: userInfo,
+          success: res => {
+            console.log('[数据库] [add] 成功: ', res)
+          },
+          fail: err => {
+            console.error('[数据库] [add] 失败：', err)
+          },
+        })
+      }
     }
   },
   getOpenid (callback) {
@@ -122,6 +133,23 @@ Page({
 
     wx.navigateTo({
       url: '/pages/myCircle/index',
+    })
+  },
+
+  toGroupSignUp () {
+    const openid = app.globalData.openid
+
+    if (!openid) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+      })
+
+      return
+    }
+
+    wx.navigateTo({
+      url: '/pages/groupSignUp/index',
     })
   },
 

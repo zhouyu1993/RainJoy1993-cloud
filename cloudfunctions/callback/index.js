@@ -17,7 +17,7 @@ cloud.init({
  *
  */
 exports.main = async (event, context) => {
-  const time = Date.now()
+  const time = Date.now() + 8 * 60 * 60 * 1000
 
   console.log('debug: ', event, '||', context, time)
 
@@ -26,7 +26,8 @@ exports.main = async (event, context) => {
 
     const { Content = '', CreateTime = '', MsgType = '', } = event
 
-    const date = new Date(+`${CreateTime}000` + 8 * 60 * 60 * 1000)
+    const time = +`${CreateTime}000` + 8 * 60 * 60 * 1000
+    const date = new Date(time)
     const h = date.getHours()
 
     let msgtype = 'text'

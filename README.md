@@ -130,11 +130,8 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
   - 在线健身 - 提供各类型的健身运动在线学习/在线指导服务
 
 * 工具
-  - 记账
   - 办公 ✅
-  - 字典
   - 图片 ✅
-  - 计算类
   - 信息查询 ✅
   - 效率 ✅
   - 预约/报名 ✅

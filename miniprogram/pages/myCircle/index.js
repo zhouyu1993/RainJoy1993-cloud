@@ -6,9 +6,9 @@ const app = getApp()
 Page({
   data: {
     logged: false,
+    userInfo: null,
     avatarUrl: '../../images/user-unlogin.png',
     nickName: '点击登录',
-    userInfo: null,
 
     articles: [],
 
@@ -28,6 +28,10 @@ Page({
     }
 
     this.getUserInfo()
+
+    wx.setNavigationBarTitle({
+      title: '我的微圈',
+    })
   },
   onPullDownRefresh () {
     if (!wx.cloud) {
@@ -69,7 +73,7 @@ Page({
       }
     })
   },
-  onGetUserInfo (e) {
+  async onGetUserInfo (e) {
     const userInfo = e.detail.userInfo
 
     if (!this.data.logged && userInfo) {
@@ -86,16 +90,22 @@ Page({
 
       const db = wx.cloud.database()
 
-      // 新增用户
-      db.collection('profiles').add({
-        data: userInfo,
-        success: res => {
-          console.log('[数据库] [add] 成功: ', res)
-        },
-        fail: err => {
-          console.error('[数据库] [add] 失败：', err)
-        },
-      })
+      const profiles = db.collection('profiles')
+
+      const count = await profiles.count()
+
+      if (!count.total) {
+        // 新增用户
+        db.collection('profiles').add({
+          data: userInfo,
+          success: res => {
+            console.log('[数据库] [add] 成功: ', res)
+          },
+          fail: err => {
+            console.error('[数据库] [add] 失败：', err)
+          },
+        })
+      }
     }
   },
   getOpenid (callback) {

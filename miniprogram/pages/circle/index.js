@@ -19,6 +19,10 @@ Page({
     }
 
     this.getUserInfo()
+
+    wx.setNavigationBarTitle({
+      title: '微圈',
+    })
   },
   onPullDownRefresh () {
     if (!wx.cloud) {

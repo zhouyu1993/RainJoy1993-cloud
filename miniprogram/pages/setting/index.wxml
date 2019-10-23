@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <!-- 用户信息 -->
-  <view class="header">
+  <view class="header" style="background-image: url(https://source.unsplash.com/random/750x280)">
     <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}"></image>
       <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
@@ -14,38 +14,43 @@
       <view>我的收藏</view>
     </button>
     <button hover-class="none" bindtap="temporary">
-      <image src="{{thumbsUpUrl}}"></image>
+      <image src="{{thumbsUpUrl}}" mode="aspectFit"></image>
       <view>我的点赞</view>
     </button>
     <button hover-class="none" bindtap="toMyCircle">
-      <image src="{{microCircleUrl}}"></image>
+      <image src="{{microCircleUrl}}" mode="aspectFit"></image>
       <view>我的微圈</view>
     </button>
 
     <button hover-class="none" bindtap="temporary">
-      <image src="{{authorUrl}}"></image>
+      <image src="{{authorUrl}}" mode="aspectFit"></image>
       <view>关于作者</view>
     </button>
     <button hover-class="none" bindtap="temporary">
-      <image src="{{rewardUrl}}"></image>
+      <image src="{{rewardUrl}}" mode="aspectFit"></image>
       <view>打赏支持</view>
     </button>
     <button hover-class="none" bindtap="temporary">
-      <image src="{{updateLogUrl}}"></image>
+      <image src="{{updateLogUrl}}" mode="aspectFit"></image>
       <view>更新日志</view>
     </button>
 
     <button hover-class="none" open-type="contact">
-      <image src="{{customerServiceUrl}}"></image>
+      <image src="{{customerServiceUrl}}" mode="aspectFit"></image>
       <view>联系客服</view>
     </button>
     <button hover-class="none" open-type="feedback">
-      <image src="{{feedbackUrl}}"></image>
+      <image src="{{feedbackUrl}}" mode="aspectFit"></image>
       <view>意见反馈</view>
     </button>
     <button hover-class="none" open-type="openSetting">
-      <image src="{{authorizationUrl}}"></image>
+      <image src="{{authorizationUrl}}" mode="aspectFit"></image>
       <view>授权设置</view>
+    </button>
+
+    <button hover-class="none" bindtap="toGroupSignUp">
+      <image src="{{groupSignUpUrl}}" mode="aspectFit"></image>
+      <view>拼团报名</view>
     </button>
   </view>
 </view>

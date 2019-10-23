@@ -1,0 +1,36 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="main">
+    <view class="groupName" wx:if="{{openGId}}">
+      群名：<open-data type="groupName" open-gid="{{openGId}}"></open-data>
+    </view>
+
+    <scroll-view class="list" scroll-y>
+      <view class="list-item center">
+        <text>模版：姓名 公司 商品</text>
+      </view>
+      <view class="list-item center">
+        <text>举例：RainJoy 小米9楼 西瓜1个</text>
+      </view>
+
+      <block wx:for="{{list}}" wx:key="{{index}}">
+        <view class="list-item">
+          <text>{{index + 1}}、{{item.userInfo.nickName}} {{item.company}} {{item.goods}}</text>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+
+  <view class="footer">
+    <form bindsubmit="formSubmit" bindreset="formReset">
+      <!-- 需要在表单组件中加上 name 来作为 key -->
+      <input class="input" name="company" placeholder="您的公司和楼层" />
+      <textarea class="textarea" name="goods" placeholder="需要什么" />
+
+      <view class="btn-area">
+        <button type="primary" hover-class="none" form-type="submit" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">提交</button>
+        <button type="warn" hover-class="none" form-type="reset">重置</button>
+      </view>
+    </form>
+  </view>
+</view>

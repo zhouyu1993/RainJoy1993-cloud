@@ -25,7 +25,7 @@ const splitTime = date => {
 }
 
 const formatTime = (time, format = 'YY-MM-DD hh:mm:ss', original = false) => {
-  const date = new Date(+time + 8 * 60 * 60 * 1000)
+  const date = new Date(+time)
 
   if (+date !== 0 && !+date) return format
 
@@ -54,7 +54,7 @@ const formatTime = (time, format = 'YY-MM-DD hh:mm:ss', original = false) => {
  *
  */
 exports.main = async (event, context) => {
-  const time = Date.now()
+  const time = Date.now() + 8 * 60 * 60 * 1000
 
   console.log('debug: ', event, '||', context, time)
 

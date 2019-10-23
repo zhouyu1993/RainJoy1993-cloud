@@ -13,7 +13,7 @@ page, .container {
   height: 280rpx;
 }
 
-.header .userinfo image {
+.header .userinfo .userinfo-avatar {
   width: 120rpx;
   height: 120rpx;
   vertical-align: middle;
@@ -109,18 +109,18 @@ page, .container {
   background-color: #fff;
 }
 
-.footer .form .btns {
+.footer .form .btn-area {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.footer .form .btns button {
+.footer .form .btn-area button {
   margin: 0;
   font-size: 28rpx;
 }
 
-.footer .form .btns button.submit {
+.footer .form .btn-area button.submit {
   margin-right: 20rpx;
 }
 

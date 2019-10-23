@@ -1,14 +1,15 @@
 {
   "pages": [
-    "pages/setting/index",
     "pages/circle/index",
-    "pages/myCircle/index"
+    "pages/setting/index",
+    "pages/myCircle/index",
+    "pages/groupSignUp/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "微圈",
+    "navigationBarTitleText": "RainJoy1993",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true
   },

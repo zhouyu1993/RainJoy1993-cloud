@@ -3,7 +3,7 @@
   <!-- 用户信息 -->
   <view class="header">
     <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}"></image>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
       <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
     </button>
   </view>
@@ -11,16 +11,16 @@
   <view class="main">
     <view class="articles" wx:if="{{articles.length}}">
       <block wx:for="{{articles}}" wx:key="{{index}}">
-        <view class="articles-item" wx:if="{{articles.length}}">
+        <view class="articles-item">
           <view class="articles-item-left">
-            <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}"></image>
+            <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
           </view>
           <view class="articles-item-right">
             <view class="nickname">{{item.userInfo.nickName || '匿名用户'}}</view>
             <text>{{item.textarea}}</text>
             <view class="images" wx:if="{{item.images.length}}">
               <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">
-                <image class="image" src="{{image}}" mode="aspectFill"></image>
+                <image class="image" src="{{image}}" mode="aspectFit"></image>
               </block>
             </view>
             <view class="address" bindtap="openLocation" data-latitude="{{item.location.latitude}}" data-longitude="{{item.location.longitude}}" wx:if="{{item.location.name}}">{{item.location.name}}（{{item.location.address}}）</view>
@@ -35,7 +35,7 @@
     <image class="camera" src="{{cameraUrl}}" bindtap="chooseImage" bindlongpress="showForm"></image>
 
     <view class="form" wx:if="{{visible}}">
-      <view class="btns">
+      <view class="btn-area">
         <button class="reset" hover-class="none" bindtap="formCancel">取消</button>
         <button class="submit" type="primary" hover-class="none" bindtap="formSubmit">发表</button>
       </view>
@@ -45,14 +45,14 @@
       <view class="uploader">
         <view class="uploader-images">
           <block wx:for="{{images}}" wx:key="{{index}}">
-            <image class="uploader-image" src="{{item}}" mode="aspectFill"></image>
+            <image class="uploader-image" src="{{item}}" mode="aspectFit"></image>
           </block>
           <image class="uploader-image" src="{{plusUrl}}" bindtap="chooseImage"></image>
         </view>
       </view>
 
       <view class="location" bindtap="chooseLocation">
-        <image class="location-image" src="{{locationUrl}}"></image>
+        <image class="location-image" src="{{locationUrl}}" mode="aspectFit"></image>
         <view class="location-name" wx:if="{{location.name}}">{{location.name}}（{{location.address}}）</view>
         <view wx:else>所在位置</view>
       </view>

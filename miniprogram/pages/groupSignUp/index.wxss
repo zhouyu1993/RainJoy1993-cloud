@@ -1,0 +1,43 @@
+page, .container {
+  height: 100%;
+  background-color: #fff;
+}
+
+.main {
+  width: 100%;
+}
+
+.main .groupName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10rpx;
+}
+
+.main .list {
+  width: 100%;
+  height: 500rpx;
+  margin-top: 20rpx;
+}
+
+.main .list .list-item {
+  padding: 10rpx 40rpx;
+}
+
+.main .list .center {
+  text-align: center;
+}
+
+.footer form .input, .footer form .textarea {
+  margin-top: 20rpx;
+  padding: 20rpx;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer form .textarea {
+  height: 200rpx;
+}
+
+.footer form button {
+  margin-top: 20rpx;
+}

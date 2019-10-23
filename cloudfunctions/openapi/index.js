@@ -1,23 +1,31 @@
 // 云函数入口文件
+// 部署：在 cloud-functions/openapi 文件夹右击选择 “上传并部署”
 const cloud = require('wx-server-sdk')
 
+// 初始化 cloud
 cloud.init({
   // API 调用都保持和云函数当前所在环境一致
   env: cloud.DYNAMIC_CURRENT_ENV
 })
 
 // 云函数入口函数
+/**
+ * 将经自动鉴权过的小程序用户 openid 返回给小程序端
+ *
+ * event 参数包含小程序端调用传入的 data
+ *
+ */
 exports.main = async (event, context) => {
-  console.log(event)
+  const time = Date.now()
+
+  console.log('debug: ', event, '||', context, time)
+
   switch (event.action) {
-    case 'sendTemplateMessage': {
-      return sendTemplateMessage(event)
+    case 'sendSubscribeMessage': {
+      return sendSubscribeMessage(event)
     }
-    case 'getWXACode': {
-      return getWXACode(event)
-    }
-    case 'getOpenData': {
-      return getOpenData(event)
+    case 'sendCustomerServiceMessage': {
+      return sendCustomerServiceMessage(event)
     }
     default: {
       return
@@ -25,71 +33,83 @@ exports.main = async (event, context) => {
   }
 }
 
-async function sendTemplateMessage(event) {
-  const { OPENID } = cloud.getWXContext()
+async function sendSubscribeMessage (event) {
+  try {
+    const {
+      touser = 'oSfYh0aXrNuSzCq7RbWq-oh_zNTg',
+      templateId = '44qDkTAVyd51oOrS14W1KNTFmGcoObSXuszbgaK8a6s',
+      page = 'pages/index/index',
+      data = {},
+    } = event
 
-  // 接下来将新增模板、发送模板消息、然后删除模板
-  // 注意：新增模板然后再删除并不是建议的做法，此处只是为了演示，模板 ID 应在添加后保存起来后续使用
-  const addResult = await cloud.openapi.templateMessage.addTemplate({
-    id: 'AT0002',
-    keywordIdList: [3, 4, 5]
-  })
+    const result = await cloud.openapi.subscribeMessage.send({
+      touser: touser,
+      templateId: templateId,
+      page: page,
+      data: data,
+    })
 
-  const templateId = addResult.templateId
+    return result
+  } catch (e) {
+    console.error(e)
 
-  const sendResult = await cloud.openapi.templateMessage.send({
-    touser: OPENID,
-    templateId,
-    formId: event.formId,
-    page: 'pages/openapi/openapi',
-    data: {
-      keyword1: {
-        value: '未名咖啡屋',
-      },
-      keyword2: {
-        value: '2019 年 1 月 1 日',
-      },
-      keyword3: {
-        value: '拿铁',
-      },
-    }
-  })
-
-  await cloud.openapi.templateMessage.deleteTemplate({
-    templateId,
-  })
-
-  return sendResult
-}
-
-async function getWXACode(event) {
-
-  // 此处将获取永久有效的小程序码，并将其保存在云文件存储中，最后返回云文件 ID 给前端使用
-
-  const wxacodeResult = await cloud.openapi.wxacode.get({
-    path: 'pages/openapi/openapi',
-  })
-
-  const fileExtensionMatches = wxacodeResult.contentType.match(/\/([^\/]+)/)
-  const fileExtension = (fileExtensionMatches && fileExtensionMatches[1]) || 'jpg'
-
-  const uploadResult = await cloud.uploadFile({
-    // 云文件路径，此处为演示采用一个固定名称
-    cloudPath: `wxacode_default_openapi_page.${fileExtension}`,
-    // 要上传的文件内容可直接传入图片 Buffer
-    fileContent: wxacodeResult.buffer,
-  })
-
-  if (!uploadResult.fileID) {
-    throw new Error(`upload failed with empty fileID and storage server status code ${uploadResult.statusCode}`)
+    return e
   }
-
-  return uploadResult.fileID
 }
 
-async function getOpenData(event) {
-  // 需 wx-server-sdk >= 0.5.0
-  return cloud.getOpenData({
-    list: event.openData.list,
-  })
+async function sendCustomerServiceMessage (event) {
+  try {
+    const {
+      touser = 'oSfYh0aXrNuSzCq7RbWq-oh_zNTg',
+      msgtype = 'text',
+      text = {},
+      image = {},
+      link = {},
+      miniprogrampage = {},
+    } = event
+
+    let param = {
+      touser,
+      msgtype,
+      text,
+      image,
+      link,
+      miniprogrampage,
+    }
+    if (msgtype === 'text') {
+      param = {
+        touser,
+        msgtype,
+        text,
+      }
+    } else if (msgtype === 'image') {
+      param = {
+        touser,
+        msgtype,
+        image,
+      }
+    } else if (msgtype === 'link') {
+      param = {
+        touser,
+        msgtype,
+        link,
+      }
+    } else if (msgtype === 'miniprogrampage') {
+      param = {
+        touser,
+        msgtype,
+        miniprogrampage,
+      }
+    }
+
+    console.log('debug: ', param)
+
+    const result = await cloud.openapi.customerServiceMessage.send(param)
+
+    return result
+  } catch (e) {
+    console.error(e)
+
+    return e
+  }
 }

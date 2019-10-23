@@ -1,0 +1,46 @@
+page, .container {
+  height: 100%;
+}
+
+.header {
+  width: 100%;
+}
+
+.header .userinfo {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 280rpx;
+}
+
+.header .userinfo image {
+  width: 120rpx;
+  height: 120rpx;
+  vertical-align: middle;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10rpx 20rpx;
+  background-color: #fff;
+}
+
+.main button {
+  width: 220rpx;
+  margin: 10rpx 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.main button image {
+  width: 80rpx;
+  height: 80rpx;
+  vertical-align: middle;
+}
+
+.main button view {
+  font-size: 24rpx;
+}

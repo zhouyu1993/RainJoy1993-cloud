@@ -1,5 +1,5 @@
 // 云函数入口文件
-// 部署：在 cloud-functions/login 文件夹右击选择 “上传并部署”
+// 部署：在 cloud-functions/deleteFile 文件夹右击选择 “上传并部署”
 const cloud = require('wx-server-sdk')
 
 // 初始化 cloud
@@ -21,16 +21,13 @@ exports.main = async (event, context) => {
   console.log('debug: ', event, '||', context, time)
 
   try {
-    const wxContext = cloud.getWXContext()
+    const { fileList = [], } = event
 
-    return {
-      event,
-      openid: wxContext.OPENID,
-      appid: wxContext.APPID,
-      unionid: wxContext.UNIONID,
-      env: wxContext.ENV,
-      source: wxContext.SOURCE,
-    }
+    const result = await cloud.deleteFile({
+      fileList,
+    })
+
+    return result
   } catch (e) {
     console.error(e)
 

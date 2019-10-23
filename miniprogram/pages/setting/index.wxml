@@ -1,0 +1,51 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="header">
+    <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}"></image>
+      <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
+    </button>
+  </view>
+
+  <view class="main">
+    <button hover-class="none" bindtap="temporary">
+      <image src="{{collectionUrl}}"></image>
+      <view>我的收藏</view>
+    </button>
+    <button hover-class="none" bindtap="temporary">
+      <image src="{{thumbsUpUrl}}"></image>
+      <view>我的点赞</view>
+    </button>
+    <button hover-class="none" bindtap="toMyCircle">
+      <image src="{{microCircleUrl}}"></image>
+      <view>我的微圈</view>
+    </button>
+
+    <button hover-class="none" bindtap="temporary">
+      <image src="{{authorUrl}}"></image>
+      <view>关于作者</view>
+    </button>
+    <button hover-class="none" bindtap="temporary">
+      <image src="{{rewardUrl}}"></image>
+      <view>打赏支持</view>
+    </button>
+    <button hover-class="none" bindtap="temporary">
+      <image src="{{updateLogUrl}}"></image>
+      <view>更新日志</view>
+    </button>
+
+    <button hover-class="none" open-type="contact">
+      <image src="{{customerServiceUrl}}"></image>
+      <view>联系客服</view>
+    </button>
+    <button hover-class="none" open-type="feedback">
+      <image src="{{feedbackUrl}}"></image>
+      <view>意见反馈</view>
+    </button>
+    <button hover-class="none" open-type="openSetting">
+      <image src="{{authorizationUrl}}"></image>
+      <view>授权设置</view>
+    </button>
+  </view>
+</view>

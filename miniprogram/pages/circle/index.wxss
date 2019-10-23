@@ -1,0 +1,73 @@
+page, .container {
+  height: 100%;
+}
+
+.main .articles {
+  width: 100%;
+  padding-bottom: 20rpx;
+  background-color: #fff;
+}
+
+.main .articles .articles-item {
+  display: flex;
+  padding: 20rpx;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.main .articles .articles-item:last-child {
+  border-bottom: 0;
+}
+
+.main .articles .articles-item .articles-item-left {
+  width: 100rpx;
+  margin-right: 20rpx;
+}
+
+.main .articles .articles-item .articles-item-left .avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 20rpx;
+}
+
+.main .articles .articles-item .articles-item-right {
+  flex: 1;
+}
+
+.main .articles .articles-item .articles-item-right .nickname {
+  margin-bottom: 20rpx;
+  color: #007aff;
+}
+
+.main .articles .articles-item .articles-item-right .images {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.main .articles .articles-item .articles-item-right .image {
+  width: 180rpx;
+  height: 180rpx;
+  margin-top: 20rpx;
+  margin-left: 25rpx;
+}
+
+.main .articles .articles-item .articles-item-right .image:nth-child(3n+1) {
+  margin-left: 0;
+}
+
+.main .articles .articles-item .articles-item-right .address {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #75a8e0;
+}
+
+.main .articles .articles-item .articles-item-right .time {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.main .articles .articles-item .articles-item-right .delete {
+  margin-left: 20rpx;
+  color: #f00;
+}

@@ -1,0 +1,179 @@
+page, .container {
+  height: 100%;
+}
+
+.header {
+  width: 100%;
+}
+
+.header .userinfo {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 280rpx;
+}
+
+.header .userinfo image {
+  width: 120rpx;
+  height: 120rpx;
+  vertical-align: middle;
+}
+
+.main .articles {
+  width: 100%;
+  padding-bottom: 20rpx;
+  background-color: #fff;
+}
+
+.main .articles .articles-item {
+  display: flex;
+  padding: 20rpx;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.main .articles .articles-item:last-child {
+  border-bottom: 0;
+}
+
+.main .articles .articles-item .articles-item-left {
+  width: 100rpx;
+  margin-right: 20rpx;
+}
+
+.main .articles .articles-item .articles-item-left .avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 20rpx;
+}
+
+.main .articles .articles-item .articles-item-right {
+  flex: 1;
+}
+
+.main .articles .articles-item .articles-item-right .nickname {
+  margin-bottom: 20rpx;
+  color: #007aff;
+}
+
+.main .articles .articles-item .articles-item-right .images {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.main .articles .articles-item .articles-item-right .image {
+  width: 180rpx;
+  height: 180rpx;
+  margin-top: 20rpx;
+  margin-left: 25rpx;
+}
+
+.main .articles .articles-item .articles-item-right .image:nth-child(3n+1) {
+  margin-left: 0;
+}
+
+.main .articles .articles-item .articles-item-right .address {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #75a8e0;
+}
+
+.main .articles .articles-item .articles-item-right .time {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.main .articles .articles-item .articles-item-right .delete {
+  margin-left: 20rpx;
+  color: #f00;
+}
+
+.footer .camera {
+  position: fixed;
+  bottom: 10rpx;
+  left: 50%;
+  width: 80rpx;
+  height: 80rpx;
+  margin-left: -40rpx;
+  z-index: 998;
+}
+
+.footer .form {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  background-color: #fff;
+}
+
+.footer .form .btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer .form .btns button {
+  margin: 0;
+  font-size: 28rpx;
+}
+
+.footer .form .btns button.submit {
+  margin-right: 20rpx;
+}
+
+.footer .form .textarea {
+  width: 100%;
+  height: 200rpx;
+  padding: 20rpx 40rpx;
+  font-size: 24rpx;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.footer .form .uploader {
+  padding: 0 40rpx;
+  box-sizing: border-box;
+}
+
+.footer .form .uploader .uploader-images {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.footer .form .uploader .uploader-image {
+  width: 180rpx;
+  height: 180rpx;
+  margin-left: 25rpx;
+  margin-top: 20rpx;
+}
+
+.footer .form .uploader .uploader-image:nth-child(3n+1) {
+  margin-left: 0;
+}
+
+.footer .form .location {
+  display: flex;
+  align-items: center;
+  margin: 0 20rpx;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.footer .form .location .location-image {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 20rpx;
+}
+
+.footer .form .location .location-name {
+  flex: 1;
+  color: #ff397e;
+}

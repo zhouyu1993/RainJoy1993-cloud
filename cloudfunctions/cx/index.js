@@ -1,5 +1,5 @@
 // 云函数入口文件
-// 部署：在 cloud-functions/login 文件夹右击选择 “上传并部署”
+// 部署：在 cloud-functions/cx 文件夹右击选择 “上传并部署”
 const cloud = require('wx-server-sdk')
 
 // 初始化 cloud

@@ -1,7 +1,10 @@
 //app.js
 App({
+  globalData: {
+    userInfo: null,
+    openid: '',
+  },
   onLaunch: function () {
-    
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -13,8 +16,19 @@ App({
         // env: 'my-env-id',
         traceUser: true,
       })
-    }
 
-    this.globalData = {}
-  }
+      // wx.cloud.callFunction({
+      //   name: 'timingMessage',
+      //   data: {
+      //
+      //   },
+      //   success: res => {
+      //     console.log('[云函数] [timingMessage] 调用成功', res)
+      //   },
+      //   fail: err => {
+      //     console.error('[云函数] [timingMessage] 调用失败', err)
+      //   },
+      // })
+    }
+  },
 })

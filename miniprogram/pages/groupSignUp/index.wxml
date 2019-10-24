@@ -1,36 +1,59 @@
 <!--index.wxml-->
 <view class="container">
+  <!-- 用户信息 -->
+  <view class="header">
+    <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
+      <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
+    </button>
+  </view>
+
   <view class="main">
+    <button type="primary" hover-class="none" bindtap="subscribe2" style="margin: 20rpx;">明天提醒</button>
+    <button type="primary" hover-class="none" bindtap="setClipboardDataAll" style="margin: 20rpx;" wx:if="{{admin && list.length}}">一键复制</button>
+
     <view class="groupName" wx:if="{{openGId}}">
-      群名：<open-data type="groupName" open-gid="{{openGId}}"></open-data>
+      群名：
+      <open-data type="groupName" open-gid="{{openGId}}"></open-data>
     </view>
 
-    <scroll-view class="list" scroll-y>
-      <view class="list-item center">
-        <text>模版：姓名 公司 商品</text>
-      </view>
-      <view class="list-item center">
-        <text>举例：RainJoy 小米9楼 西瓜1个</text>
-      </view>
-
+    <view class="list" wx:if="{{list.length}}">
       <block wx:for="{{list}}" wx:key="{{index}}">
-        <view class="list-item">
-          <text>{{index + 1}}、{{item.userInfo.nickName}} {{item.company}} {{item.goods}}</text>
-        </view>
+        <view class="list-item" data-index="{{index}}" data-data="{{item}}" bindtap="setClipboardDataOne">
+          <view class="list-item-left">
+            <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
+          </view>
+          <view class="list-item-right">
+            <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}">{{item.userInfo.nickName || '匿名用户'}}</view>
+            <text>{{item.textarea}}</text>
+            <view class="address" wx:if="{{item.address.userName}}">{{item.address.userName}} {{item.address.provinceName}} {{item.address.cityName}} {{item.address.countyName}}（{{item.address.detailInfo}}）{{item.address.telNumber}}</view>
+            <view class="time">{{item.time}}<text class="delete" data-id="{{item._id}}" bindtap="delete" wx:if="{{openid === item._openid}}">删除</text></view>
+            <view class="action" wx:if="{{admin}}">
+              <input placeholder="请输入金额" data-index="{{index}}" bindinput="amountInput" />
+              <text data-index="{{index}}" data-id="{{item._id}}" data-openid="{{item._openid}}" data-textarea="{{item.textarea}}" bindtap="notify">通知</text>
+            </view>
+          </view>
+         </view>
       </block>
-    </scroll-view>
+    </view>
   </view>
 
   <view class="footer">
-    <form bindsubmit="formSubmit" bindreset="formReset">
-      <!-- 需要在表单组件中加上 name 来作为 key -->
-      <input class="input" name="company" placeholder="您的公司和楼层" />
-      <textarea class="textarea" name="goods" placeholder="需要什么" />
+    <image class="plus" src="{{plusUrl}}" bindtap="showForm"></image>
 
+    <view class="form" wx:if="{{visible}}">
       <view class="btn-area">
-        <button type="primary" hover-class="none" form-type="submit" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">提交</button>
-        <button type="warn" hover-class="none" form-type="reset">重置</button>
+        <button class="reset" hover-class="none" bindtap="formCancel">取消</button>
+        <button class="submit" type="primary" hover-class="none" bindtap="subscribe">发表</button>
       </view>
-    </form>
+
+      <textarea class="textarea" name="textarea" value="{{textarea}}" placeholder="您公司楼层+需要的物品" bindinput="textareaInput" />
+
+      <view class="address" bindtap="chooseAddress">
+        <image class="address-image" src="{{addressUrl}}" mode="aspectFit"></image>
+        <view class="address-name" wx:if="{{address.userName}}">{{address.userName}} {{address.provinceName}} {{address.cityName}} {{address.countyName}}（{{address.detailInfo}}）{{address.telNumber}}</view>
+        <view wx:else>所在位置</view>
+      </view>
+    </view>
   </view>
 </view>

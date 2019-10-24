@@ -5,19 +5,20 @@ Page({
   data: {
     logged: false,
     userInfo: null,
-    avatarUrl: '../../images/user-unlogin.png',
+    avatarUrl: 'https://zhouyu1993.github.io/images/user-unlogin.png',
     nickName: '点击登录',
 
-    collectionUrl: '../../images/collection.png',
-    thumbsUpUrl: '../../images/thumbsUp.png',
-    microCircleUrl: '../../images/microCircle.png',
-    authorUrl: '../../images/author.png',
-    rewardUrl: '../../images/reward.png',
-    updateLogUrl: '../../images/updateLog.png',
-    customerServiceUrl: '../../images/customerService.png',
-    feedbackUrl: '../../images/feedback.png',
-    authorizationUrl: '../../images/authorization.png',
-    groupSignUpUrl: '../../images/groupSignUp.png',
+    modules: [],
+
+    systemInfo: {},
+    speacialValue: '',
+  },
+  onLoad () {
+    const systemInfo = wx.getSystemInfoSync()
+
+    this.setData({
+      systemInfo,
+    })
   },
   onShow () {
     if (!wx.cloud) {
@@ -31,6 +32,8 @@ Page({
     wx.setNavigationBarTitle({
       title: '设置',
     })
+
+    this.getModules()
   },
 
   getUserInfo () {
@@ -119,58 +122,104 @@ Page({
     }
   },
 
-  toMyCircle () {
-    const openid = app.globalData.openid
+  getModules () {
+    const db = wx.cloud.database()
 
-    if (!openid) {
-      wx.showToast({
-        title: '请先登录',
-        icon: 'none',
+    // 获取模块
+    db.collection('modules')
+    .where({
+
+    })
+    .get()
+    .then(res => {
+      console.log(res)
+
+      this.setData({
+        modules: res.data,
       })
+    })
+  },
 
-      return
+  goTo (e) {
+    const { login = false, link = '', } = e.currentTarget.dataset
+
+    if (login) {
+      const openid = app.globalData.openid
+
+      if (!openid) {
+        wx.showToast({
+          title: '请先登录',
+          icon: 'none',
+        })
+
+        return
+      }
     }
 
     wx.navigateTo({
-      url: '/pages/myCircle/index',
-    })
-  },
-
-  toGroupSignUp () {
-    const openid = app.globalData.openid
-
-    if (!openid) {
-      wx.showToast({
-        title: '请先登录',
-        icon: 'none',
-      })
-
-      return
-    }
-
-    wx.navigateTo({
-      url: '/pages/groupSignUp/index',
-    })
-  },
-
-  temporary () {
-    wx.showToast({
-      title: '待开发',
-      icon: 'none',
-    })
-  },
-
-  subscribe () {
-    wx.requestSubscribeMessage({
-      tmplIds: [
-        '44qDkTAVyd51oOrS14W1KNTFmGcoObSXuszbgaK8a6s',
-        '8pRtPqdEiWvwK2d1ETXro3VRRjL44x-1VpZpoaMv65o',
-      ],
+      url: link,
       success: res => {
-        console.log('[requestSubscribeMessage] 调用成功', res)
+        console.log('wx.navigateTo.success: ', res)
       },
       fail: err => {
-        console.error('[requestSubscribeMessage] 调用失败', err)
+        console.error('wx.navigateTo.fail: ', err)
+
+        if (/a tabbar page/.test(err.errMsg)) {
+          wx.switchTab({
+            url: value,
+            success: res => {
+              console.log('wx.switchTab.success: ', res)
+            },
+            fail: err => {
+              console.error('wx.switchTab.fail: ', err)
+            },
+          })
+        } else if (/is not found/.test(err.errMsg)) {
+          wx.showToast({
+            title: '待开发功能',
+            icon: 'none',
+          })
+        }
+      },
+    })
+  },
+
+  speacialInput (event) {
+    const { value } = event.detail
+
+    this.setData({
+      speacialValue: value,
+    })
+  },
+  speacialSearch () {
+    const value = this.data.speacialValue
+
+    if (!value) return
+
+    wx.navigateTo({
+      url: value,
+      success: res => {
+        console.log('wx.navigateTo.success: ', res)
+      },
+      fail: err => {
+        console.error('wx.navigateTo.fail: ', err)
+
+        if (/a tabbar page/.test(err.errMsg)) {
+          wx.switchTab({
+            url: value,
+            success: res => {
+              console.log('wx.switchTab.success: ', res)
+            },
+            fail: err => {
+              console.error('wx.switchTab.fail: ', err)
+            },
+          })
+        } else if (/is not found/.test(err.errMsg)) {
+          wx.showToast({
+            title: '待开发功能',
+            icon: 'none',
+          })
+        }
       },
     })
   },

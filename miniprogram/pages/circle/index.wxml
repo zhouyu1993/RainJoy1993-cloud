@@ -8,7 +8,7 @@
             <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
           </view>
           <view class="articles-item-right">
-            <view class="nickname">{{item.userInfo.nickName || '匿名用户'}}</view>
+            <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}">{{item.userInfo.nickName || '匿名用户'}}</view>
             <text>{{item.textarea}}</text>
             <view class="images" wx:if="{{item.images.length}}">
               <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">

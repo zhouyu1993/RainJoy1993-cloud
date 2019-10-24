@@ -3,6 +3,22 @@ page, .container {
   background-color: #fff;
 }
 
+.header {
+  width: 100%;
+}
+
+.header .userinfo {
+  flex-direction: column;
+  justify-content: center;
+  height: 280rpx;
+}
+
+.header .userinfo .userinfo-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  vertical-align: middle;
+}
+
 .main {
   width: 100%;
 }
@@ -11,33 +27,149 @@ page, .container {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   padding: 10rpx;
 }
 
 .main .list {
   width: 100%;
-  height: 500rpx;
-  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+  background-color: #fff;
 }
 
 .main .list .list-item {
-  padding: 10rpx 40rpx;
-}
-
-.main .list .center {
-  text-align: center;
-}
-
-.footer form .input, .footer form .textarea {
-  margin-top: 20rpx;
+  display: flex;
   padding: 20rpx;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.main .list .list-item:last-child {
+  border-bottom: 0;
+}
+
+.main .list .list-item .list-item-left {
+  width: 100rpx;
+  margin-right: 20rpx;
+}
+
+.main .list .list-item .list-item-left .avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 20rpx;
+}
+
+.main .list .list-item .list-item-right {
+  flex: 1;
+}
+
+.main .list .list-item .list-item-right .nickname {
+  margin-bottom: 20rpx;
+}
+
+.main .list .list-item .list-item-right .nickname.man {
+  color: #007aff;
+}
+
+.main .list .list-item .list-item-right .nickname.woman {
+  color: #ff397e;
+}
+
+.main .list .list-item .list-item-right .address {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #75a8e0;
+}
+
+.main .list .list-item .list-item-right .time {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.main .list .list-item .list-item-right .delete {
+  margin-left: 20rpx;
+  color: #f00;
+}
+
+.main .list .list-item .list-item-right .action {
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.main .list .list-item .list-item-right input {
+  width: 200rpx;
+  padding: 0 20rpx;
+  font-size: 24rpx;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.footer form .textarea {
-  height: 200rpx;
+.main .list .list-item .list-item-right .action text {
+  margin-left: 20rpx;
+  font-size: 24rpx;
+  color: #07c160;
 }
 
-.footer form button {
-  margin-top: 20rpx;
+.footer .plus {
+  position: fixed;
+  bottom: 10rpx;
+  left: 50%;
+  width: 80rpx;
+  height: 80rpx;
+  margin-left: -40rpx;
+  z-index: 998;
+}
+
+.footer .form {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  background-color: #fff;
+}
+
+.footer .form .btn-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer .form .btn-area button {
+  margin: 0;
+  font-size: 28rpx;
+}
+
+.footer .form .btn-area button.submit {
+  margin-right: 20rpx;
+}
+
+.footer .form .textarea {
+  width: 100%;
+  height: 200rpx;
+  padding: 20rpx 40rpx;
+  font-size: 24rpx;
+  background-color: #fff;
+}
+
+.footer .form .address {
+  display: flex;
+  align-items: center;
+  margin: 0 20rpx;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer .form .address .address-image {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 20rpx;
+}
+
+.footer .form .address .address-name {
+  flex: 1;
+  color: #ff397e;
 }

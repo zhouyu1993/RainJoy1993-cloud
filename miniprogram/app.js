@@ -8,6 +8,12 @@ App({
   onLaunch (options) {
     console.log('App.onLaunch: ', options)
 
+    const { shareTicket, } = options
+
+    if (shareTicket) {
+      this.globalData.shareTicket = shareTicket
+    }
+
     wx.showShareMenu({
       withShareTicket: true
     })
@@ -24,18 +30,18 @@ App({
         traceUser: true,
       })
 
-      // wx.cloud.callFunction({
-      //   name: 'timingMessage',
-      //   data: {
-      //
-      //   },
-      //   success: res => {
-      //     console.log('[云函数] [timingMessage] 调用成功', res)
-      //   },
-      //   fail: err => {
-      //     console.error('[云函数] [timingMessage] 调用失败', err)
-      //   },
-      // })
+      wx.cloud.callFunction({
+        name: 'timingMessage',
+        data: {
+
+        },
+        success: res => {
+          console.log('[云函数] [timingMessage] 调用成功', res)
+        },
+        fail: err => {
+          console.error('[云函数] [timingMessage] 调用失败', err)
+        },
+      })
     }
   },
   onShow (options) {
@@ -46,5 +52,9 @@ App({
     if (shareTicket) {
       this.globalData.shareTicket = shareTicket
     }
+
+    wx.showShareMenu({
+      withShareTicket: true
+    })
   },
 })

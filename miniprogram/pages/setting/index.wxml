@@ -9,48 +9,43 @@
   </view>
 
   <view class="main">
-    <button hover-class="none" bindtap="temporary">
-      <image src="{{collectionUrl}}"></image>
-      <view>我的收藏</view>
-    </button>
-    <button hover-class="none" bindtap="temporary">
-      <image src="{{thumbsUpUrl}}" mode="aspectFit"></image>
-      <view>我的点赞</view>
-    </button>
-    <button hover-class="none" bindtap="toMyCircle">
-      <image src="{{microCircleUrl}}" mode="aspectFit"></image>
-      <view>我的微圈</view>
-    </button>
-
-    <button hover-class="none" bindtap="temporary">
-      <image src="{{authorUrl}}" mode="aspectFit"></image>
-      <view>关于作者</view>
-    </button>
-    <button hover-class="none" bindtap="temporary">
-      <image src="{{rewardUrl}}" mode="aspectFit"></image>
-      <view>打赏支持</view>
-    </button>
-    <button hover-class="none" bindtap="temporary">
-      <image src="{{updateLogUrl}}" mode="aspectFit"></image>
-      <view>更新日志</view>
-    </button>
-
-    <button hover-class="none" open-type="contact">
-      <image src="{{customerServiceUrl}}" mode="aspectFit"></image>
-      <view>联系客服</view>
-    </button>
-    <button hover-class="none" open-type="feedback">
-      <image src="{{feedbackUrl}}" mode="aspectFit"></image>
-      <view>意见反馈</view>
-    </button>
-    <button hover-class="none" open-type="openSetting">
-      <image src="{{authorizationUrl}}" mode="aspectFit"></image>
-      <view>授权设置</view>
-    </button>
-
-    <button hover-class="none" bindtap="toGroupSignUp">
-      <image src="{{groupSignUpUrl}}" mode="aspectFit"></image>
-      <view>拼团报名</view>
-    </button>
+    <view class="modules" wx:if="{{modules.length}}">
+      <block wx:for="{{modules}}" wx:key="{{index}}">
+        <block wx:if="{{item.link}}">
+          <button hover-class="none" data-login="{{item.login}}" data-link="{{item.link}}" bindtap="goTo">
+            <image src="{{item.image}}" mode="aspectFit"></image>
+            <view>{{item.name}}</view>
+          </button>
+        </block>
+        <block wx:elif="{{item.openType}}">
+          <button hover-class="none" open-type="{{item.openType}}">
+            <image src="{{item.image}}" mode="aspectFit"></image>
+            <view>{{item.name}}</view>
+          </button>
+        </block>
+      </block>
+    </view>
   </view>
+
+  <view class="footer">
+    <block wx:if="{{systemInfo.SDKVersion}}">
+      <view class="module-title">系统检测</view>
+      <view class="systemInfo">
+        <view class="brand">手机品牌:<text>{{systemInfo.brand}}</text></view>
+        <view class="model">手机品牌:<text>{{systemInfo.model}}</text></view>
+        <view class="pixelRatio">手机像素比:<text>{{systemInfo.pixelRatio}}</text></view>
+        <view class="system">手机操作系统版本:<text>{{systemInfo.system}}</text></view>
+        <view class="windowWidth">页面可视宽度:<text>{{systemInfo.windowWidth}}</text></view>
+        <view class="windowHeight">页面可视高度:<text>{{systemInfo.windowHeight}}</text></view>
+        <view class="windowWidth">屏幕宽度:<text>{{systemInfo.screenWidth}}</text></view>
+        <view class="windowHeight">屏幕高度:<text>{{systemInfo.screenHeight}}</text></view>
+        <view class="windowHeight">状态栏高度:<text>{{systemInfo.statusBarHeight}}</text></view>
+        <view class="version">微信版本号:<text>{{systemInfo.version}}</text></view>
+        <view class="SDKVersion">小程序基础库版本号:<text>{{systemInfo.SDKVersion}}</text></view>
+      </view>
+    </block>
+
+    <input placeholder="请输入" confirm-type="search" bindinput="speacialInput" bindconfirm="speacialSearch" class="speacial" />
+  </view>
+
 </view>

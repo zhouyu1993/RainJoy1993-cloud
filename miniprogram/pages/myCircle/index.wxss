@@ -8,7 +8,6 @@ page, .container {
 
 .header .userinfo {
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   height: 280rpx;
 }
@@ -21,70 +20,49 @@ page, .container {
 
 .main .articles {
   width: 100%;
-  padding-bottom: 20rpx;
   background-color: #fff;
 }
 
 .main .articles .articles-item {
-  display: flex;
-  padding: 20rpx;
+  padding: 40rpx 80rpx;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .main .articles .articles-item:last-child {
+  padding: 40rpx 80rpx 100rpx;
   border-bottom: 0;
 }
 
-.main .articles .articles-item .articles-item-left {
-  width: 100rpx;
-  margin-right: 20rpx;
-}
-
-.main .articles .articles-item .articles-item-left .avatar {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 20rpx;
-}
-
-.main .articles .articles-item .articles-item-right {
-  flex: 1;
-}
-
-.main .articles .articles-item .articles-item-right .nickname {
-  margin-bottom: 20rpx;
-  color: #007aff;
-}
-
-.main .articles .articles-item .articles-item-right .images {
+.main .articles .articles-item .images {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
 
-.main .articles .articles-item .articles-item-right .image {
+.main .articles .articles-item .image {
   width: 180rpx;
   height: 180rpx;
   margin-top: 20rpx;
   margin-left: 25rpx;
 }
 
-.main .articles .articles-item .articles-item-right .image:nth-child(3n+1) {
+.main .articles .articles-item .image:nth-child(3n+1) {
   margin-left: 0;
 }
 
-.main .articles .articles-item .articles-item-right .address {
+.main .articles .articles-item .address {
   margin-top: 20rpx;
   font-size: 24rpx;
   color: #75a8e0;
 }
 
-.main .articles .articles-item .articles-item-right .time {
+.main .articles .articles-item .time {
   margin-top: 20rpx;
   font-size: 24rpx;
   color: #666;
 }
 
-.main .articles .articles-item .articles-item-right .delete {
+.main .articles .articles-item .delete {
   margin-left: 20rpx;
   color: #f00;
 }
@@ -130,12 +108,10 @@ page, .container {
   padding: 20rpx 40rpx;
   font-size: 24rpx;
   background-color: #fff;
-  box-sizing: border-box;
 }
 
 .footer .form .uploader {
   padding: 0 40rpx;
-  box-sizing: border-box;
 }
 
 .footer .form .uploader .uploader-images {
@@ -164,7 +140,6 @@ page, .container {
   font-size: 28rpx;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
 }
 
 .footer .form .location .location-image {

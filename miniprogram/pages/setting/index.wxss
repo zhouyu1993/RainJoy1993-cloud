@@ -9,7 +9,6 @@ page, .container {
 
 .header .userinfo {
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   height: 280rpx;
   background: none;
@@ -27,7 +26,7 @@ page, .container {
   background: none;
 }
 
-.main {
+.main .modules {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -37,18 +36,53 @@ page, .container {
   background-color: #fff;
 }
 
-.main button {
+.main .modules button {
   width: 220rpx;
   margin: 10rpx 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.main button image {
+.main .modules button image {
   width: 80rpx;
   height: 80rpx;
   vertical-align: middle;
 }
 
-.main button view {
+.main .modules button view {
   font-size: 24rpx;
+}
+
+.footer {
+  width: 100%;
+  margin-top: 20rpx;
+  background-color: #fff;
+}
+
+.footer .module-title {
+  height: 100rpx;
+  margin-top: 20rpx;
+  font-size: 36rpx;
+  line-height: 100rpx;
+  text-align: center;
+  background-color: #fff;
+}
+
+.footer .systemInfo {
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.footer .systemInfo text {
+  margin-left: 20rpx;
+  color: #333;
+}
+
+.footer .speacial {
+  height: 80rpx;
+  padding: 20rpx;
+  margin: 20rpx;
+  font-size: 24rpx;
+  line-height: 80rpx;
+  border: 1px solid #ddd;
 }

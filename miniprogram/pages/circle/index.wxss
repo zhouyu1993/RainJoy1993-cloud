@@ -35,7 +35,14 @@ page, .container {
 
 .main .articles .articles-item .articles-item-right .nickname {
   margin-bottom: 20rpx;
+}
+
+.main .articles .articles-item .articles-item-right .nickname.man {
   color: #007aff;
+}
+
+.main .articles .articles-item .articles-item-right .nickname.woman {
+  color: #ff397e;
 }
 
 .main .articles .articles-item .articles-item-right .images {

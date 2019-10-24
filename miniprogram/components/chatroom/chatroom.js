@@ -33,8 +33,8 @@ Component({
       this.properties.onGetUserInfo(e)
     },
 
-    getOpenID() { 
-      return this.properties.getOpenID() 
+    getOpenID() {
+      return this.properties.getOpenID()
     },
 
     mergeCommonCriteria(criteria) {

@@ -67,28 +67,27 @@ exports.main = async (event, context) => {
   try {
     const wxContext = cloud.getWXContext()
 
+    const openid = wxContext.OPENID
+
     const result = await cloud.callFunction({
       name: 'openapi',
       data: {
         action: 'sendSubscribeMessage',
-        touser: wxContext.OPENID,
-        templateId: '8pRtPqdEiWvwK2d1ETXro3VRRjL44x-1VpZpoaMv65o',
-        page: 'pages/index/index',
+        touser: openid,
+        templateId: 'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
+        page: 'pages/groupSignUp/index',
         data: {
           thing1: {
-            value: '每日签到',
+            value: '亲爱的朋友' || '昵称',
           },
           thing2: {
-            value: '点击立即签到',
+            value: '快来参加拼团报名吧' || '活动名称',
           },
-          name3: {
-            value: 'RainJoy',
+          date3: {
+            value: formatTime(time, 'YY-MM-DD') || '活动日期',
           },
-          date4: {
-            value: formatTime(time, 'YY-MM-DD'),
-          },
-          time5: {
-            value: formatTime(time, 'hh:mm:ss'),
+          thing4: {
+            value: '请点击微信群里' || '活动说明',
           },
         },
       },

@@ -5,7 +5,7 @@ const app = getApp()
 
 Page({
   data: {
-    avatarUrl: '../../images/user-unlogin.png',
+    avatarUrl: 'https://zhouyu1993.github.io/images/user-unlogin.png',
 
     openid: '',
 
@@ -106,6 +106,10 @@ Page({
         },
       })
     } else {
+      this.setData({
+        openid,
+      })
+
       callback && callback(openid)
     }
   },
@@ -189,7 +193,7 @@ Page({
             success: res => {
               console.log('[云函数] [remove] 调用成功', res)
 
-              const { removed } = res.result && res.result.stats
+              const { removed, } = res.result && res.result.stats
 
               if (removed) {
                 wx.showToast({
@@ -233,21 +237,6 @@ Page({
             },
           })
         }
-      },
-    })
-  },
-
-  subscribe () {
-    wx.requestSubscribeMessage({
-      tmplIds: [
-        '44qDkTAVyd51oOrS14W1KNTFmGcoObSXuszbgaK8a6s',
-        '8pRtPqdEiWvwK2d1ETXro3VRRjL44x-1VpZpoaMv65o',
-      ],
-      success: res => {
-        console.log('[requestSubscribeMessage] 调用成功', res)
-      },
-      fail: err => {
-        console.error('[requestSubscribeMessage] 调用失败', err)
       },
     })
   },

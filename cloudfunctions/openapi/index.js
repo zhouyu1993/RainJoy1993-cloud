@@ -37,16 +37,16 @@ async function sendSubscribeMessage (event) {
   try {
     const {
       touser = 'oSfYh0aXrNuSzCq7RbWq-oh_zNTg',
-      templateId = '44qDkTAVyd51oOrS14W1KNTFmGcoObSXuszbgaK8a6s',
+      templateId = 'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
       page = 'pages/index/index',
       data = {},
     } = event
 
     const result = await cloud.openapi.subscribeMessage.send({
-      touser: touser,
-      templateId: templateId,
-      page: page,
-      data: data,
+      touser,
+      templateId,
+      page,
+      data,
     })
 
     return result

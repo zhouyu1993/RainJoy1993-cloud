@@ -7,18 +7,79 @@ Page({
   data: {
     logged: false,
     userInfo: null,
-    avatarUrl: '../../images/user-unlogin.png',
+    avatarUrl: 'https://zhouyu1993.github.io/images/user-unlogin.png',
     nickName: '点击登录',
 
     articles: [],
 
-    cameraUrl: '../../images/camera.png',
-    plusUrl: '../../images/plus.png',
-    locationUrl: '../../images/location.png',
+    cameraUrl: 'https://zhouyu1993.github.io/images/camera.png',
+    plusUrl: 'https://zhouyu1993.github.io/images/plus.png',
+    locationUrl: 'https://zhouyu1993.github.io/images/location.png',
     visible: false,
     textarea: '',
     images: [],
     location: {},
+  },
+  onLoad (options) {
+    const { groupSignUpId, } = options
+
+    if (groupSignUpId) {
+      const db = wx.cloud.database()
+
+      // 获取报名信息
+      const groupSignUp = db.collection('groups').doc(groupSignUpId)
+
+      groupSignUp.get({
+        success: res => {
+          console.log('groupSignUp.get.success: ', res)
+
+          if (!res.data.state) {
+            wx.showModal({
+              title: '',
+              content: '确定收货吗？',
+              cancelText: '取消',
+              confirmText: '收货',
+              success: res => {
+                if (res.confirm) {
+                  // 更改报名
+
+                  groupSignUp.update({
+                    data: {
+                      state: 1,
+                    },
+                    success: res => {
+                      console.log('groupSignUp.update.success: ', res)
+
+                      if (res.stats.uodated) {
+                        wx.showToast({
+                          title: '收货成功',
+                        })
+                      } else {
+                        wx.showToast({
+                          title: '收货失败',
+                          icon: 'none',
+                        })
+                      }
+                    },
+                    fail: err => {
+                      console.error('groupSignUp.update.fail: ', err)
+
+                      wx.showToast({
+                        title: '收货失败',
+                        icon: 'none',
+                      })
+                    },
+                  })
+                }
+              },
+            })
+          }
+        },
+        fail: err => {
+          console.error('groupSignUp.get.fail: ', err)
+        },
+      })
+    }
   },
   onShow () {
     if (!wx.cloud) {
@@ -219,7 +280,7 @@ Page({
             success: res => {
               console.log('[云函数] [remove] 调用成功', res)
 
-              const { removed } = res.result && res.result.stats
+              const { removed, } = res.result && res.result.stats
 
               if (removed) {
                 wx.showToast({
@@ -460,14 +521,27 @@ Page({
   subscribe () {
     wx.requestSubscribeMessage({
       tmplIds: [
-        '44qDkTAVyd51oOrS14W1KNTFmGcoObSXuszbgaK8a6s',
-        '8pRtPqdEiWvwK2d1ETXro3VRRjL44x-1VpZpoaMv65o',
+        'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
       ],
       success: res => {
         console.log('[requestSubscribeMessage] 调用成功', res)
+
+        if (res['NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s'] === 'accept') {
+          this.formSubmit()
+        } else {
+          wx.showToast({
+            title: '请您接受订阅消息，否则无法收到通知',
+            icon: 'none',
+          })
+        }
       },
       fail: err => {
         console.error('[requestSubscribeMessage] 调用失败', err)
+
+        wx.showToast({
+          title: '请您接受订阅消息，否则无法收到通知',
+          icon: 'none',
+        })
       },
     })
   },

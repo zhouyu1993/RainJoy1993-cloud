@@ -3,7 +3,9 @@
     "pages/circle/index",
     "pages/setting/index",
     "pages/myCircle/index",
-    "pages/groupSignUp/index"
+    "pages/groupSignUp/index",
+    "pages/about/index",
+    "pages/reward/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -18,7 +20,7 @@
       {
         "pagePath": "pages/circle/index",
         "text": "微圈",
-        "iconPath": "images/microCircle.png"
+        "iconPath": "images/circle.png"
       },
       {
         "pagePath": "pages/setting/index",
@@ -26,6 +28,11 @@
         "iconPath": "images/setting.png"
       }
     ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
   },
   "sitemapLocation": "sitemap.json"
 }

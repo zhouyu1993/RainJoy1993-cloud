@@ -12,20 +12,14 @@
     <view class="articles" wx:if="{{articles.length}}">
       <block wx:for="{{articles}}" wx:key="{{index}}">
         <view class="articles-item">
-          <view class="articles-item-left">
-            <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
+          <text>{{item.textarea}}</text>
+          <view class="images" wx:if="{{item.images.length}}">
+            <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">
+              <image class="image" src="{{image}}" mode="aspectFit"></image>
+            </block>
           </view>
-          <view class="articles-item-right">
-            <view class="nickname">{{item.userInfo.nickName || '匿名用户'}}</view>
-            <text>{{item.textarea}}</text>
-            <view class="images" wx:if="{{item.images.length}}">
-              <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">
-                <image class="image" src="{{image}}" mode="aspectFit"></image>
-              </block>
-            </view>
-            <view class="address" bindtap="openLocation" data-latitude="{{item.location.latitude}}" data-longitude="{{item.location.longitude}}" wx:if="{{item.location.name}}">{{item.location.name}}（{{item.location.address}}）</view>
-            <view class="time">{{item.time}}<text class="delete" data-id="{{item._id}}" data-filelist="{{item.images}}" bindtap="delete">删除</text></view>
-          </view>
+          <view class="address" bindtap="openLocation" data-latitude="{{item.location.latitude}}" data-longitude="{{item.location.longitude}}" wx:if="{{item.location.name}}">{{item.location.name}}（{{item.location.address}}）</view>
+          <view class="time">{{item.time}}<text class="delete" data-id="{{item._id}}" data-filelist="{{item.images}}" bindtap="delete">删除</text></view>
         </view>
       </block>
     </view>
@@ -37,7 +31,7 @@
     <view class="form" wx:if="{{visible}}">
       <view class="btn-area">
         <button class="reset" hover-class="none" bindtap="formCancel">取消</button>
-        <button class="submit" type="primary" hover-class="none" bindtap="formSubmit">发表</button>
+        <button class="submit" type="primary" hover-class="none" bindtap="subscribe">发表</button>
       </view>
 
       <textarea class="textarea" name="textarea" value="{{textarea}}" placeholder="这一刻的想法..." bindinput="textareaInput" />

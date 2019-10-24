@@ -1,0 +1,11 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="main">
+    <image class="avatar" src="{{avatar}}" mode="aspectFit"></image>
+    <view class="name">{{name}}</view>
+    <view class="intro">{{intro}}</view>
+    <view class="aphorisms">
+      <view wx:for="{{aphorisms}}" wx:key="{{index}}">{{item}}</view>
+    </view>
+  </view>
+</view>

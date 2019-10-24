@@ -85,4 +85,6 @@ page, .container {
   font-size: 24rpx;
   line-height: 80rpx;
   border: 1px solid #ddd;
+  color: #ff397e;
+  background-color: #eee;
 }

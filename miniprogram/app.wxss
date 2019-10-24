@@ -37,6 +37,7 @@ open-data,
 web-view,
 ad {
   box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
 ::before {

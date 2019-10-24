@@ -1,9 +1,9 @@
 <view class="container">
   <view class="topList">
     <view class="topList-info" wx:if="{{musicTopList.topinfo}}" data-text="{{musicTopList.topinfo.info}}" bindtap="showInfo">
-      <image lazy-load src="{{musicTopList.topinfo.pic_album}}" class="topList-info-bg"></image>
+      <image lazy-load src="{{musicTopList.topinfo.pic_album}}" mode="aspectFit" class="topList-info-bg"></image>
       <view class="topList-info-content">
-        <image lazy-load src="{{musicTopList.topinfo.pic_album}}"></image>
+        <image lazy-load src="{{musicTopList.topinfo.pic_album}}" mode="aspectFit"></image>
         <view class="topList-info-rt">
           <view class="topList-info-title">{{musicTopList.topinfo.ListName}}</view>
           <view class="topList-info-update_time">{{musicTopList.update_time}} 更新</view>

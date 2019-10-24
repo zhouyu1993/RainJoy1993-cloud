@@ -47,7 +47,10 @@ Page({
 
       this.setData({
         musicHome: {
-          topList,
+          topList: topList.map(item => ({
+            ...item,
+            picUrl: item.picUrl.replace('http://', 'https://'),
+          })),
         },
       })
     } catch (e) {

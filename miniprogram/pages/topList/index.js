@@ -45,6 +45,11 @@ Page({
 
     const res = await getMusicTopList(id)
 
+    const pic_album = res.topinfo && res.topinfo.pic_album
+    if (res.topinfo.pic_album) {
+      res.topinfo.pic_album = pic_album.replace('http://', 'https://')
+    }
+
     this.setData({
       musicTopList: res,
     })

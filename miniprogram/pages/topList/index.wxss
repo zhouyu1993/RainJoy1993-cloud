@@ -1,0 +1,155 @@
+.container {
+  height: 100%;
+  background-color: #fff; }
+
+.topList {
+  background-color: #fff; }
+  .topList .topList-info {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 400rpx; }
+    .topList .topList-info .topList-info-bg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      -webkit-filter: blur(10px);
+              filter: blur(10px); }
+    .topList .topList-info .topList-info-content {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 4;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      width: 100%;
+      height: 100%; }
+      .topList .topList-info .topList-info-content image {
+        width: 250rpx;
+        height: 250rpx; }
+      .topList .topList-info .topList-info-content .topList-info-rt {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
+        height: 250rpx;
+        margin-left: 20rpx;
+        color: #fff; }
+        .topList .topList-info .topList-info-content .topList-info-rt .topList-info-desc {
+          overflow: hidden;
+          font-size: 24rpx;
+          -o-text-overflow: ellipsis;
+             text-overflow: ellipsis;
+          height: 120rpx;
+          line-height: 40rpx;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          width: 400rpx; }
+  .topList .topList-list {
+    padding: 20rpx;
+    margin-top: 50rpx; }
+    .topList .topList-list .topList-list-head {
+      color: #666; }
+    .topList .topList-list .topList-songlist .song-item {
+      position: relative;
+      z-index: 1;
+      border-radius: 0rpx;
+      padding: 20rpx 0; }
+      .topList .topList-list .topList-songlist .song-item::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        pointer-events: none;
+        content: ' ';
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+        -webkit-transform-origin: left top;
+            -ms-transform-origin: left top;
+                transform-origin: left top;
+        border-bottom: 1px solid #ddd; }
+      @media only screen and (-webkit-min-device-pixel-ratio: 1) {
+        .topList .topList-list .topList-songlist .song-item::before {
+          width: 100%;
+          height: 100%;
+          border-radius: 0rpx;
+          -webkit-transform: scale(1);
+              -ms-transform: scale(1);
+                  transform: scale(1); } }
+      @media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+        .topList .topList-list .topList-songlist .song-item::before {
+          width: 150%;
+          height: 150%;
+          border-radius: 0rpx;
+          -webkit-transform: scale(0.66667);
+              -ms-transform: scale(0.66667);
+                  transform: scale(0.66667); } }
+      @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+        .topList .topList-list .topList-songlist .song-item::before {
+          width: 200%;
+          height: 200%;
+          border-radius: 0rpx;
+          -webkit-transform: scale(0.5);
+              -ms-transform: scale(0.5);
+                  transform: scale(0.5); } }
+      @media only screen and (-webkit-min-device-pixel-ratio: 2.5) {
+        .topList .topList-list .topList-songlist .song-item::before {
+          width: 250%;
+          height: 250%;
+          border-radius: 0rpx;
+          -webkit-transform: scale(0.4);
+              -ms-transform: scale(0.4);
+                  transform: scale(0.4); } }
+      @media only screen and (-webkit-min-device-pixel-ratio: 3) {
+        .topList .topList-list .topList-songlist .song-item::before {
+          width: 300%;
+          height: 300%;
+          border-radius: 0rpx;
+          -webkit-transform: scale(0.33333);
+              -ms-transform: scale(0.33333);
+                  transform: scale(0.33333); } }
+      @media only screen and (-webkit-min-device-pixel-ratio: 3.5) {
+        .topList .topList-list .topList-songlist .song-item::before {
+          width: 350%;
+          height: 350%;
+          border-radius: 0rpx;
+          -webkit-transform: scale(0.28571);
+              -ms-transform: scale(0.28571);
+                  transform: scale(0.28571); } }
+      @media only screen and (-webkit-min-device-pixel-ratio: 4) {
+        .topList .topList-list .topList-songlist .song-item::before {
+          width: 400%;
+          height: 400%;
+          border-radius: 0rpx;
+          -webkit-transform: scale(0.25);
+              -ms-transform: scale(0.25);
+                  transform: scale(0.25); } }
+      .topList .topList-list .topList-songlist .song-item view {
+        margin-top: 10rpx; }
+        .topList .topList-list .topList-songlist .song-item view.song-name {
+          font-size: 32rpx; }
+        .topList .topList-list .topList-songlist .song-item view.song-singer {
+          font-size: 26rpx;
+          color: #666; }

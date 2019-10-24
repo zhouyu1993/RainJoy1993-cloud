@@ -1,11 +1,14 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/circle/index",
     "pages/setting/index",
     "pages/myCircle/index",
     "pages/groupSignUp/index",
     "pages/about/index",
-    "pages/reward/index"
+    "pages/reward/index",
+    "pages/updateLog/index",
+    "pages/topList/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -17,6 +20,11 @@
   },
   "tabBar": {
     "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png"
+      },
       {
         "pagePath": "pages/circle/index",
         "text": "微圈",

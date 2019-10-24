@@ -1,4 +1,5 @@
 //index.js
+
 const app = getApp()
 
 Page({
@@ -12,8 +13,22 @@ Page({
 
     systemInfo: {},
     speacialValue: '',
+
+    enableDebug: false,
   },
-  onLoad () {
+  onLoad (options) {
+    const { debug = '', } = options
+
+    if (debug) {
+      wx.setEnableDebug({
+        enableDebug: true,
+      })
+    } else {
+      wx.setEnableDebug({
+        enableDebug: false,
+      })
+    }
+
     const systemInfo = wx.getSystemInfoSync()
 
     this.setData({
@@ -29,11 +44,25 @@ Page({
 
     this.getUserInfo()
 
-    wx.setNavigationBarTitle({
-      title: '设置',
-    })
-
     this.getModules()
+  },
+  onShareAppMessage (options) {
+    return {
+      title: '设置',
+      path: '/pages/setting/index',
+      success: res => {
+        wx.showToast({
+          title: '分享成功',
+          icon: 'success',
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          title: '取消分享',
+          icon: 'none',
+        })
+      },
+    }
   },
 
   getUserInfo () {
@@ -132,8 +161,6 @@ Page({
     })
     .get()
     .then(res => {
-      console.log(res)
-
       this.setData({
         modules: res.data,
       })

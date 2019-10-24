@@ -1,0 +1,47 @@
+.container {
+  height: 100%;
+  background-color: #fff; }
+
+.topList {
+  width: 100%;
+  padding: 20rpx;
+  margin-top: 20rpx;
+  background-color: #fff; }
+  .topList .topList-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin-bottom: 20rpx; }
+    .topList .topList-item .topList-item-image {
+      width: 200rpx;
+      height: 200rpx; }
+    .topList .topList-item .topList-item-rt {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      width: 500rpx;
+      height: 180rpx;
+      font-size: 32rpx; }
+      .topList .topList-item .topList-item-rt .topList-item-songList {
+        color: #666; }
+        .topList .topList-item .topList-item-rt .topList-item-songList view {
+          overflow: hidden;
+          font-size: 26rpx;
+          -o-text-overflow: ellipsis;
+             text-overflow: ellipsis;
+          height: 40rpx;
+          line-height: 40rpx;
+          white-space: nowrap; }

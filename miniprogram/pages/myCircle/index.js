@@ -1,4 +1,5 @@
 //index.js
+
 import formatTime from '../../utils/formatTime'
 
 const app = getApp()
@@ -89,10 +90,6 @@ Page({
     }
 
     this.getUserInfo()
-
-    wx.setNavigationBarTitle({
-      title: '我的微圈',
-    })
   },
   onPullDownRefresh () {
     if (!wx.cloud) {

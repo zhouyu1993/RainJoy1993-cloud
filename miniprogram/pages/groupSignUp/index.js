@@ -1,4 +1,5 @@
 //index.js
+
 import formatTime from '../../utils/formatTime'
 
 const app = getApp()
@@ -32,10 +33,6 @@ Page({
     }
 
     this.getUserInfo()
-
-    wx.setNavigationBarTitle({
-      title: '拼团报名',
-    })
 
     const { shareTicket, } = app.globalData
 
@@ -98,7 +95,7 @@ Page({
           icon: 'success',
         })
       },
-      fail: res => {
+      fail: err => {
         wx.showToast({
           title: '取消分享',
           icon: 'none',
@@ -165,7 +162,28 @@ Page({
       }
     }
   },
-  getOpenid (callback) {
+  async getOpenid (callback) {
+    const db = wx.cloud.database()
+
+    let administrators = [
+      {
+        openid: 'oSfYh0aXrNuSzCq7RbWq-oh_zNTg',
+      },
+    ]
+
+    try {
+      // 获取管理员
+      const result = await db.collection('administrators')
+      .where({
+
+      })
+      .get()
+
+      administrators = result.data
+    } catch (e) {
+      console.error(e)
+    }
+
     const openid = app.globalData.openid
 
     if (!openid) {
@@ -178,9 +196,11 @@ Page({
 
           const openid = res.result.openid
 
+          const admin = administrators.some(administrator => administrator.openid === openid)
+
           this.setData({
             openid,
-            admin: openid === 'oSfYh0aXrNuSzCq7RbWq-oh_zNTg',
+            admin,
           })
 
           app.globalData.openid = openid
@@ -192,9 +212,11 @@ Page({
         },
       })
     } else {
+      const admin = administrators.some(administrator => administrator.openid === openid)
+
       this.setData({
         openid,
-        admin: openid === 'oSfYh0aXrNuSzCq7RbWq-oh_zNTg',
+        admin,
       })
 
       callback && callback(openid)

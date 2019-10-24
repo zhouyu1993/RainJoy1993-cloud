@@ -1,4 +1,5 @@
 //index.js
+
 const app = getApp()
 
 Page({
@@ -12,5 +13,23 @@ Page({
       '玉树临风美少年，揽镜自顾夜不眠',
       '不知入夜能来否，红蜡先教刻五分',
     ],
+  },
+  onShareAppMessage (options) {
+    return {
+      title: '打赏支持',
+      path: '/pages/reward/index',
+      success: res => {
+        wx.showToast({
+          title: '分享成功',
+          icon: 'success',
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          title: '取消分享',
+          icon: 'none',
+        })
+      },
+    }
   },
 })

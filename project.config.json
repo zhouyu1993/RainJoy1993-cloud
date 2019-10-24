@@ -1,105 +1,119 @@
 {
-	"miniprogramRoot": "miniprogram/",
-	"cloudfunctionRoot": "cloudfunctions/",
-	"compileType": "miniprogram",
-	"setting": {
-		"urlCheck": true,
-		"es6": true,
-		"enhance": true,
-		"postcss": true,
-		"minified": true,
-		"newFeature": true,
-		"coverView": true,
-		"nodeModules": true,
-		"autoAudits": false,
-		"uglifyFileName": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"bundle": false
-	},
-	"libVersion": "2.8.3",
-	"appid": "wx8d1d9b1abb35ca02",
-	"projectname": "RainJoy1993-cloud",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": 0,
-					"name": "pages/circle/index",
-					"pathName": "pages/circle/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 1,
-					"name": "pages/setting/index",
-					"pathName": "pages/setting/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 2,
-					"name": "pages/myCircle/index",
-					"pathName": "pages/myCircle/index",
-					"query": "groupSignUpId=",
-					"scene": null
-				},
-				{
-					"id": 3,
-					"name": "pages/groupSignUp/index",
-					"pathName": "pages/groupSignUp/index",
-					"query": "",
-					"scene": 1044,
-					"shareInfo": {
-						"groupName": "测试模拟群0",
-						"shareName": "IyqduntHJXkCJ3cuZsr18KQQNMwTaM6gHE5AF2YIQtc@cr4dev",
-						"shareKey": "JW6armzEey4TdDsoUmgdMFCl8u7uveuLQJpC6TJTgJ2K2GaZaAPBo2W4w-KoHxULLa5h8TADlXza_W15K8bQxQ~~"
-					}
-				},
-				{
-					"id": -1,
-					"name": "pages/about/index",
-					"pathName": "pages/about/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/reward/index",
-					"pathName": "pages/reward/index",
-					"query": "",
-					"scene": null
-				}
-			]
-		}
-	}
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "compileType": "miniprogram",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": true,
+    "autoAudits": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "bundle": false
+  },
+  "libVersion": "2.9.0",
+  "appid": "wx8d1d9b1abb35ca02",
+  "projectname": "RainJoy1993-cloud",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "plugin": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": [
+        {
+          "id": 0,
+          "name": "pages/circle/index",
+          "pathName": "pages/circle/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 1,
+          "name": "pages/setting/index",
+          "pathName": "pages/setting/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 2,
+          "name": "pages/myCircle/index",
+          "pathName": "pages/myCircle/index",
+          "query": "groupSignUpId=",
+          "scene": null
+        },
+        {
+          "id": 3,
+          "name": "pages/groupSignUp/index",
+          "pathName": "pages/groupSignUp/index",
+          "query": "",
+          "scene": 1044,
+          "shareInfo": {
+            "groupName": "测试模拟群0",
+            "shareName": "IyqduntHJXkCJ3cuZsr18KQQNMwTaM6gHE5AF2YIQtc@cr4dev",
+            "shareKey": "JW6armzEey4TdDsoUmgdMFCl8u7uveuLQJpC6TJTgJ2K2GaZaAPBo2W4w-KoHxULLa5h8TADlXza_W15K8bQxQ~~"
+          }
+        },
+        {
+          "id": 4,
+          "name": "pages/about/index",
+          "pathName": "pages/about/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 5,
+          "name": "pages/reward/index",
+          "pathName": "pages/reward/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 6,
+          "name": "pages/updateLog/index",
+          "pathName": "pages/updateLog/index",
+          "query": "id=4",
+          "scene": null
+        },
+        {
+          "id": 7,
+          "name": "pages/topList/index",
+          "pathName": "pages/topList/index",
+          "query": "id=4",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

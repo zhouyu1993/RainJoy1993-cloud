@@ -1,7 +1,7 @@
 {
   "navigationBarBackgroundColor": "#ff397e",
   "navigationBarTextStyle": "white",
-  "navigationBarTitleText": "设置",
+  "navigationBarTitleText": "更新日志",
   "backgroundColor": "#eee",
   "backgroundTextStyle": "dark",
   "enablePullDownRefresh": false,

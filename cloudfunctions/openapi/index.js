@@ -68,43 +68,14 @@ async function sendCustomerServiceMessage (event) {
       miniprogrampage = {},
     } = event
 
-    let param = {
+    const result = await cloud.openapi.customerServiceMessage.send({
       touser,
       msgtype,
       text,
       image,
       link,
       miniprogrampage,
-    }
-    if (msgtype === 'text') {
-      param = {
-        touser,
-        msgtype,
-        text,
-      }
-    } else if (msgtype === 'image') {
-      param = {
-        touser,
-        msgtype,
-        image,
-      }
-    } else if (msgtype === 'link') {
-      param = {
-        touser,
-        msgtype,
-        link,
-      }
-    } else if (msgtype === 'miniprogrampage') {
-      param = {
-        touser,
-        msgtype,
-        miniprogrampage,
-      }
-    }
-
-    console.log('debug: ', param)
-
-    const result = await cloud.openapi.customerServiceMessage.send(param)
+    })
 
     return result
   } catch (e) {

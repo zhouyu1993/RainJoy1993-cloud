@@ -24,6 +24,8 @@ exports.main = async (event, context) => {
   try {
     const wxContext = cloud.getWXContext()
 
+    const touser = wxContext.OPENID
+
     const { Content = '', CreateTime = '', MsgType = '', } = event
 
     const time = +`${CreateTime}000` + 8 * 60 * 60 * 1000
@@ -80,18 +82,27 @@ exports.main = async (event, context) => {
       }
     }
 
-    const result = await cloud.callFunction({
-      name: 'openapi',
-      data: {
-        action: 'sendCustomerServiceMessage',
-        touser: wxContext.OPENID,
-        msgtype,
-        text,
-        image,
-        link,
-        miniprogrampage,
-      },
+    const result = await cloud.openapi.customerServiceMessage.send({
+      touser,
+      msgtype,
+      text,
+      image,
+      link,
+      miniprogrampage,
     })
+
+    // const result = await cloud.callFunction({
+    //   name: 'openapi',
+    //   data: {
+    //     action: 'sendCustomerServiceMessage',
+    //     touser,
+    //     msgtype,
+    //     text,
+    //     image,
+    //     link,
+    //     miniprogrampage,
+    //   },
+    // })
 
     return result
   } catch (e) {

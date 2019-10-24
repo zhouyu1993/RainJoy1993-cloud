@@ -1,3 +1,11 @@
 {
+  "navigationBarBackgroundColor": "#ff397e",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "打赏支持",
+  "backgroundColor": "#eee",
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": false,
+  "onReachBottomDistance": 50,
+  "disableScroll": false,
   "usingComponents": {}
 }

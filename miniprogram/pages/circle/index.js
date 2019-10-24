@@ -1,4 +1,5 @@
 //index.js
+
 import formatTime from '../../utils/formatTime'
 
 const app = getApp()
@@ -19,10 +20,6 @@ Page({
     }
 
     this.getUserInfo()
-
-    wx.setNavigationBarTitle({
-      title: '微圈',
-    })
   },
   onPullDownRefresh () {
     if (!wx.cloud) {
@@ -46,7 +43,7 @@ Page({
           icon: 'success',
         })
       },
-      fail: res => {
+      fail: err => {
         wx.showToast({
           title: '取消分享',
           icon: 'none',

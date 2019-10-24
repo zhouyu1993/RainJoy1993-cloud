@@ -1,4 +1,11 @@
 {
-  "usingComponents": {},
-  "enablePullDownRefresh": false
+  "navigationBarBackgroundColor": "#ff397e",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "拼团报名",
+  "backgroundColor": "#eee",
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": false,
+  "onReachBottomDistance": 50,
+  "disableScroll": false,
+  "usingComponents": {}
 }

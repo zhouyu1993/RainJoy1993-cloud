@@ -4,7 +4,7 @@
   "navigationBarTitleText": "我的微圈",
   "backgroundColor": "#eee",
   "backgroundTextStyle": "dark",
-  "enablePullDownRefresh": false,
+  "enablePullDownRefresh": true,
   "onReachBottomDistance": 50,
   "disableScroll": false,
   "usingComponents": {}

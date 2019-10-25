@@ -1,0 +1,32 @@
+.container {
+  height: 100%;
+  background-color: #fff; }
+
+.main {
+  width: 100%;
+}
+
+.singer-image {
+  padding: 20rpx 0;
+  text-align: center; }
+  .singer-image image {
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 50%; }
+
+.song {
+  padding: 20rpx;
+  background-color: #fff; }
+  .song .song-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    font-size: 32rpx;
+    line-height: 70rpx;
+    border-top: 1rpx solid #ddd; }

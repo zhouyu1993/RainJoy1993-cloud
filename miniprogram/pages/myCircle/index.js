@@ -103,6 +103,24 @@ Page({
   onReachBottom () {
     this.getArticles()
   },
+  onShareAppMessage (options) {
+    return {
+      title: '我的微圈',
+      path: '/pages/myCircle/index',
+      success: res => {
+        wx.showToast({
+          title: '分享成功',
+          icon: 'success',
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          title: '取消分享',
+          icon: 'none',
+        })
+      },
+    }
+  },
 
   getUserInfo () {
     // 获取用户信息

@@ -3,7 +3,7 @@
   <!-- 用户信息 -->
   <view class="header" style="background-image: url(https://source.unsplash.com/random/750x280)">
     <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}"></image>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
       <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
     </button>
   </view>

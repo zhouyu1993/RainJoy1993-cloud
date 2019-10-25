@@ -8,7 +8,10 @@
     "pages/about/index",
     "pages/reward/index",
     "pages/updateLog/index",
-    "pages/topList/index"
+    "pages/music/index",
+    "pages/topList/index",
+    "pages/jitaSinger/index",
+    "pages/jitaSong/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

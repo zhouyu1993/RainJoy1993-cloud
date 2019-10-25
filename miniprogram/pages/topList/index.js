@@ -22,9 +22,12 @@ Page({
 
     this.getMusicTopList()
   },
+  onShow () {
+
+  },
   onShareAppMessage (options) {
     return {
-      title: (this.data.musicTopList && this.data.musicTopList.topinfo && this.data.musicTopList.topinfo.ListName) || '排行榜',
+      title: (this.data.musicTopList && this.data.musicTopList.topinfo && this.data.musicTopList.topinfo.ListName) || '史上最权威的音乐排行榜',
       path: `/pages/topList/index?id=${this.data.id}`,
       success: res => {
         wx.showToast({

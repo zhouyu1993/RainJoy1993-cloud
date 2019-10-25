@@ -40,8 +40,10 @@ const navigateTo = option => {
     success: res => {
       success(res)
 
-      setTimeout(() => {
+      const st = setTimeout(() => {
         flag = false
+
+        clearTimeout(st)
       }, 300)
     },
     fail: err => {
@@ -55,8 +57,10 @@ const navigateTo = option => {
         fail(err)
       }
 
-      setTimeout(() => {
+      const st = setTimeout(() => {
         flag = false
+
+        clearTimeout(st)
       }, 300)
     },
   })

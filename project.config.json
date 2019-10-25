@@ -112,6 +112,20 @@
 					"pathName": "pages/topList/index",
 					"query": "id=4",
 					"scene": null
+				},
+				{
+					"id": 8,
+					"name": "pages/jitaSinger/index",
+					"pathName": "pages/jitaSinger/index",
+					"query": "id=118",
+					"scene": null
+				},
+				{
+					"id": 9,
+					"name": "pages/jitaSong/index",
+					"pathName": "pages/jitaSong/index",
+					"query": "id=2224",
+					"scene": null
 				}
 			]
 		}

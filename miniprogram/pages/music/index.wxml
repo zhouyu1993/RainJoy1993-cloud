@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="main">
+    <view class="topList" wx:if="{{musicHome.topList && musicHome.topList.length}}">
+      <block wx:for="{{musicHome.topList}}" wx:key="{{index}}">
+        <view class="topList-item" hidden="{{item.id === 201}}" data-id="{{item.id}}" bindtap="musicTopList">
+          <image lazy-load src="{{item.picUrl}}" mode="aspectFit" class="topList-item-image" />
+          <view class="topList-item-rt">
+            <view class="topList-item-name">{{item.topTitle}}</view>
+            <view class="topList-item-songList">
+              <view wx:for="{{item.songList}}" wx:key="{{index}}">{{index + 1}}. {{item.songname}}-{{item.singername}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

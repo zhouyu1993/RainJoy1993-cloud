@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="main">
+    <view class="singer-image" wx:if="{{jitaSinger.singer_face}}">
+      <image lazy-load src="{{jitaSinger.singer_face}}" mode="aspectFit" />
+    </view>
+    <view class="song" wx:if="{{jitaSinger.list && jitaSinger.list.length}}">
+      <block wx:for="{{jitaSinger.list}}" wx:key="{{index}}">
+        <view class="song-item" data-id="{{item.id}}" bindtap="toJitaSong">
+          <text class="singer-name">{{item.name}}</text>
+          <text class="singer-click">{{item.click}}</text>
+        </view>
+      </block>
+    </view>
+
+    <view style="height:100rpx;;background-color:#fff;"></view>
+  </view>
+</view>

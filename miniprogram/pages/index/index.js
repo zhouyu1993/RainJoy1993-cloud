@@ -1,6 +1,4 @@
-//index.js
-
-import { getMusicHome, } from '../../utils/actions'
+import { searchJita, getJitaHome } from '../../utils/actions'
 
 import navigateTo from '../../utils/navigateTo'
 
@@ -8,16 +6,20 @@ const app = getApp()
 
 Page({
   data: {
-    musicHome: {},
+    gepuValue: '',
+    jitaHome: {},
   },
   onLoad (options) {
     console.log('Page.onLoad: ', options)
 
-    this.getMusicHomeAsync()
+    this.getJitaHomeAsync()
+  },
+  onShow () {
+
   },
   onShareAppMessage (options) {
     return {
-      title: '最权威的音乐排行榜',
+      title: '史上最全的吉他曲谱',
       path: '/pages/index/index',
       success: res => {
         wx.showToast({
@@ -25,7 +27,7 @@ Page({
           icon: 'success',
         })
       },
-      fail: err => {
+      fail: res => {
         wx.showToast({
           title: '取消分享',
           icon: 'none',
@@ -33,29 +35,65 @@ Page({
       },
     }
   },
-  async getMusicHomeAsync () {
+  async getJitaHomeAsync () {
+    const res = await getJitaHome()
+
+    const data = res.data || {}
+
+    data.singer.unshift({
+      face: 'http://pu.jitami.96sn.com/singer/20150205165852_7345.jpg',
+      id: 10,
+      name: '林俊杰',
+    })
+
+    data.singer.unshift({
+      face: 'http://pu.jitami.96sn.com/singer/20150302100911_6698.jpg',
+      id: 118,
+      name: '曾轶可',
+    })
+
+    this.setData({
+      jitaHome: data,
+    })
+  },
+  gepuInput (event) {
+    const { value } = event.detail
+
+    this.setData({
+      gepuValue: value,
+    })
+  },
+  async gepuSearch () {
+    const value = this.data.gepuValue
+
+    if (!value) return
+
     try {
-      const res = await getMusicHome()
+      const res = await searchJita(value)
 
       const data = res.data || {}
 
-      const topList = data.topList || []
-
       this.setData({
-        musicHome: {
-          topList: topList.map(item => ({
-            ...item,
-            picUrl: item.picUrl.replace('http://', 'https://'),
-          })),
-        },
+        jitaData: data,
       })
     } catch (e) {
-      console.error(e)
+      console.log(e)
     }
   },
-  musicTopList (event) {
+  gepuSearchCancel () {
+    this.setData({
+      gepuValue: '',
+      jitaData: {},
+    })
+  },
+  toJitaSinger (event) {
     const { id } = event.currentTarget.dataset
 
-    navigateTo(`/pages/topList/index?id=${id}`)
+    navigateTo(`/pages/jitaSinger/index?id=${id}`)
+  },
+  toJitaSong (event) {
+    const { id } = event.currentTarget.dataset
+
+    navigateTo(`/pages/jitaSong/index?id=${id}`)
   },
 })

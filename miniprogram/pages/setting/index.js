@@ -94,11 +94,11 @@ Page({
     const userInfo = e.detail.userInfo
 
     if (!this.data.logged && userInfo) {
+      this.data.logged = true
+
       this.setData({
-        logged: true,
         userInfo,
       })
-
       app.globalData.userInfo = userInfo
 
       this.getOpenid()

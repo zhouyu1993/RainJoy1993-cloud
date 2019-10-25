@@ -14,8 +14,18 @@
     </view>
     <view class="topList-list" wx:if="{{musicTopList.total_song_num}}">
       <view class="topList-list-head">排行榜 共{{musicTopList.total_song_num}}首</view>
-      <view class="topList-songlist">
-        <block wx:for="{{musicTopList.songlist}}" wx:key="{{index}}">
+      <view class="topList-songlist" wx:if="{{songlist1.length}}">
+        <block wx:for="{{songlist1}}" wx:key="{{index}}">
+          <view class="song-item" data-songmid="{{item.data.songmid}}" data-songname="{{item.data.songname}}" data-albumname="{{item.data.albumname}}" data-singername="{{item.data.singer[0].name}}" bindtap="musicSong">
+            <view class="song-name">{{item.data.songname}}-{{item.data.albumname}}</view>
+            <view class="song-singer">
+              <text wx:for="{{item.data.singer}}" wx:key="{{index}}">{{item.name}} </text>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="topList-songlist" wx:if="{{songlist2.length}}">
+        <block wx:for="{{songlist2}}" wx:key="{{index}}">
           <view class="song-item" data-songmid="{{item.data.songmid}}" data-songname="{{item.data.songname}}" data-albumname="{{item.data.albumname}}" data-singername="{{item.data.singer[0].name}}" bindtap="musicSong">
             <view class="song-name">{{item.data.songname}}-{{item.data.albumname}}</view>
             <view class="song-singer">

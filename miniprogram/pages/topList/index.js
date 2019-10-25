@@ -8,6 +8,8 @@ Page({
   data: {
     id: '',
     musicTopList: {},
+    songlist1: [],
+    songlist2: [],
   },
   onLoad (options) {
     console.log('Page.onLoad: ', options)
@@ -17,9 +19,8 @@ Page({
     this.setData({
       id,
     })
-  },
-  onShow () {
-    this.getData()
+
+    this.getMusicTopList()
   },
   onShareAppMessage (options) {
     return {
@@ -39,7 +40,7 @@ Page({
       },
     }
   },
-  async getData () {
+  async getMusicTopList () {
     const id = this.data.id
     if (!id) return
 
@@ -50,8 +51,12 @@ Page({
       res.topinfo.pic_album = pic_album.replace('http://', 'https://')
     }
 
+    const songlist = res.songlist || []
+
     this.setData({
       musicTopList: res,
+      songlist1: songlist.slice(0, 50),
+      songlist2: songlist.slice(50),
     })
 
     if (res.topinfo && res.topinfo.ListName) {

@@ -87,7 +87,7 @@ exports.main = async (event, context) => {
             value: formatTime(time, 'YY-MM-DD') || '活动日期',
           },
           thing4: {
-            value: '请点击微信群里' || '活动说明',
+            value: '请分享至微信群里参加拼团报名' || '活动说明',
           },
         },
       },

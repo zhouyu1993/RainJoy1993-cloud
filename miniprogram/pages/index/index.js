@@ -12,9 +12,8 @@ Page({
   },
   onLoad (options) {
     console.log('Page.onLoad: ', options)
-  },
-  onShow () {
-    this.getData()
+
+    this.getMusicHomeAsync()
   },
   onShareAppMessage (options) {
     return {
@@ -33,9 +32,6 @@ Page({
         })
       },
     }
-  },
-  getData () {
-    this.getMusicHomeAsync()
   },
   async getMusicHomeAsync () {
     try {

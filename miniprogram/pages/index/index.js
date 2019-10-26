@@ -1,4 +1,6 @@
-import { searchJita, getJitaHome } from '../../utils/actions'
+//index.js
+
+import formatTime from '../../utils/formatTime'
 
 import navigateTo from '../../utils/navigateTo'
 
@@ -6,20 +8,63 @@ const app = getApp()
 
 Page({
   data: {
-    gepuValue: '',
-    jitaHome: {},
+    clock: {},
+    clockDate: [],
+    clockDateNum: 0,
+    canPunchClock: false,
   },
   onLoad (options) {
     console.log('Page.onLoad: ', options)
 
-    this.getJitaHomeAsync()
+    const _this = this
+
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = now.getMonth() + 1
+    const date = now.getDate()
+
+    const clock = {
+      year,
+      month,
+      today: date,
+      view: `date-${date - 4}`,
+      _point: date,
+      point: date,
+      date: {},
+    }
+
+    now.setMonth(month)
+    now.setDate(0)
+    const dates = [...new Array(now.getDate())]
+
+    const clockDate = dates.map((v, k) => {
+      let d = k + 1
+      const dd = d < 10 ? `0${d}` : d
+
+      return {
+        date: dd,
+        title: `${clock.month}.${dd}`,
+        state: clock.today === k + 1 ? 'now' : clock.point === k + 1 ? 'selected' : clock.today < k + 1 ? 'upcoming' : clock.date[k + 1] === 1 ? '' : 'fail'
+      }
+    })
+
+    this.setData({
+      clock,
+      clockDate,
+    })
   },
   onShow () {
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
 
+      return
+    }
+
+    this.getUserInfo()
   },
   onShareAppMessage (options) {
     return {
-      title: '史上最全的吉他曲谱',
+      title: '打卡签到',
       path: '/pages/index/index',
       success: res => {
         wx.showToast({
@@ -27,7 +72,7 @@ Page({
           icon: 'success',
         })
       },
-      fail: res => {
+      fail: err => {
         wx.showToast({
           title: '取消分享',
           icon: 'none',
@@ -35,65 +80,257 @@ Page({
       },
     }
   },
-  async getJitaHomeAsync () {
-    const res = await getJitaHome()
 
-    const data = res.data || {}
+  getUserInfo () {
+    // 获取用户信息
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              const userInfo = res.userInfo
 
-    data.singer.unshift({
-      face: 'http://pu.jitami.96sn.com/singer/20150205165852_7345.jpg',
-      id: 10,
-      name: '林俊杰',
-    })
+              this.setData({
+                userInfo,
+              })
 
-    data.singer.unshift({
-      face: 'http://pu.jitami.96sn.com/singer/20150302100911_6698.jpg',
-      id: 118,
-      name: '曾轶可',
-    })
+              app.globalData.userInfo = userInfo
 
-    this.setData({
-      jitaHome: data,
+              this.getOpenid(() => {
+                this.getClocks()
+              })
+            },
+          })
+        } else {
+          console.error('获取用户信息：未授权')
+        }
+      }
     })
   },
-  gepuInput (event) {
-    const { value } = event.detail
+  getOpenid (callback) {
+    const openid = app.globalData.openid
 
-    this.setData({
-      gepuValue: value,
-    })
-  },
-  async gepuSearch () {
-    const value = this.data.gepuValue
+    if (!openid) {
+      // 调用云函数 login
+      wx.cloud.callFunction({
+        name: 'login',
+        data: {},
+        success: res => {
+          console.log('[云函数] [login] 调用成功', res)
 
-    if (!value) return
+          const openid = res.result.openid
 
-    try {
-      const res = await searchJita(value)
+          app.globalData.openid = openid
 
-      const data = res.data || {}
-
-      this.setData({
-        jitaData: data,
+          callback && callback(openid)
+        },
+        fail: err => {
+          console.error('[云函数] [login] 调用失败', err)
+        },
       })
-    } catch (e) {
-      console.log(e)
+    } else {
+      callback && callback(openid)
     }
   },
-  gepuSearchCancel () {
-    this.setData({
-      gepuValue: '',
-      jitaData: {},
+
+  toRank () {
+    navigateTo({
+      url: '/pages/rank/index'
     })
   },
-  toJitaSinger (event) {
-    const { id } = event.currentTarget.dataset
 
-    navigateTo(`/pages/jitaSinger/index?id=${id}`)
+  getClocks () {
+    const openid = app.globalData.openid
+
+    if (!openid) {
+      return
+    }
+
+    const db = wx.cloud.database()
+
+    // 获取签到
+    db.collection('clocks')
+    .where({
+      _openid: openid,
+    })
+    .get()
+    .then(res => {
+      const { data = [], } = res
+
+      const length = data.length
+
+      if (length) {
+        const clock = this.data.clock
+
+        data.forEach(v => {
+          const timestamp = v.timestamp
+
+          const timeObj = formatTime(timestamp, '', true)
+
+          clock.date[timeObj.DD] = 1
+        })
+
+        const dates = this.data.clockDate
+
+        const clockDate = dates.map((v, k) => {
+          let d = k + 1
+          const dd = d < 10 ? `0${d}` : d
+
+          return {
+            date: dd,
+            title: `${clock.month}.${dd}`,
+            state: clock.today === k + 1 ? 'now' : clock.point === k + 1 ? 'selected' : clock.today < k + 1 ? 'upcoming' : clock.date[k + 1] === 1 ? '' : 'fail'
+          }
+        })
+
+        this.setData({
+          clock,
+          clockDate,
+          clockDateNum: length,
+        })
+      }
+
+      this.data.canPunchClock = true
+    })
   },
-  toJitaSong (event) {
-    const { id } = event.currentTarget.dataset
 
-    navigateTo(`/pages/jitaSong/index?id=${id}`)
+  changeClock (e) {
+    const { date, } = e.currentTarget.dataset
+
+    if (date < this.data.clock.today) return null
+
+    const clock = this.data.clock
+
+    clock.point = date
+    clock._point = date
+    clock.view = `date-${date - 4}`
+
+    const dates = this.data.clockDate
+
+    const clockDate = dates.map((v, k) => {
+      let d = k + 1
+      const dd = d < 10 ? `0${d}` : d
+
+      return {
+        date: dd,
+        title: `${clock.month}.${dd}`,
+        state: clock.today === k + 1 ? 'now' : clock.point === k + 1 ? 'selected' : clock.today < k + 1 ? 'upcoming' : clock.date[k + 1] === 1 ? '' : 'fail'
+      }
+    })
+
+    this.setData({
+      clock,
+      clockDate,
+    })
+  },
+  punchClock () {
+    const openid = app.globalData.openid
+
+    if (!openid) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+      })
+
+      const st = setTimeout(() => {
+        wx.switchTab({
+          url: '/pages/setting/index',
+          success: res => {
+            console.log('wx.switchTab.success: ', res)
+
+            clearTimeout(st)
+          },
+          fail: err => {
+            console.error('wx.switchTab.fail: ', err)
+          },
+        })
+      }, 300)
+
+      return
+    }
+
+    if (!this.data.canPunchClock) {
+      wx.showToast({
+        title: '数据还在加载中...',
+        icon: 'none',
+      })
+
+      return
+    }
+
+    wx.showModal({
+      title: '',
+      content: '立即签到？',
+      cancelText: '取消',
+      confirmText: '确定',
+      success: res => {
+        if (res.confirm) {
+          const userInfo = app.globalData.userInfo
+
+          const timestamp = Date.now()
+
+          const db = wx.cloud.database()
+
+          // 新增签到
+          db.collection('clocks').add({
+            data: {
+              userInfo,
+              timestamp,
+            },
+            success: res => {
+              console.log('[数据库] [add] 成功: ', res)
+
+              const clock = this.data.clock
+
+              clock.date[clock.today] = 1
+
+              const clockDateNum = this.data.clockDateNum
+
+              this.setData({
+                clock,
+                clockDateNum: clockDateNum + 1,
+              })
+            },
+            fail: err => {
+              console.error('[数据库] [add] 失败：', err)
+
+              wx.showToast({
+                title: '签到失败',
+                icon: 'none',
+              })
+            },
+          })
+        }
+      },
+    })
+  },
+
+  subscribe () {
+    wx.requestSubscribeMessage({
+      tmplIds: [
+        'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
+      ],
+      success: res => {
+        console.log('[requestSubscribeMessage] 调用成功', res)
+
+        if (res['NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s'] === 'accept') {
+          this.punchClock()
+        } else {
+          wx.showToast({
+            title: '请您接受订阅消息，否则无法收到通知',
+            icon: 'none',
+          })
+        }
+      },
+      fail: err => {
+        console.error('[requestSubscribeMessage] 调用失败', err)
+
+        wx.showToast({
+          title: '请您接受订阅消息，否则无法收到通知',
+          icon: 'none',
+        })
+      },
+    })
   },
 })

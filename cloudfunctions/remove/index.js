@@ -18,13 +18,26 @@ const db = cloud.database()
  *
  */
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+
+  // const {
+  //   OPENID,
+  //   APPID,
+  //   UNIONID,
+  //   ENV,
+  //   SOURCE,
+  // } = wxContext
+
   const time = Date.now() + 8 * 60 * 60 * 1000
 
-  console.log('debug: ', event, '||', context, time)
+  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
+
+  const {
+    name = '',
+    rule = {},
+  } = event
 
   try {
-    const { name = '', rule = {}, } = event
-
     const result = await db.collection(name).where(rule).remove()
 
     return result

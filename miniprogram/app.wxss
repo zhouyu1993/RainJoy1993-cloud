@@ -49,10 +49,11 @@ ad {
 }
 
 page {
-  background: #f6f6f6;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  width: 100%;
+  background-color: #f6f6f6;
 }
 
 button {
@@ -83,12 +84,17 @@ open-data {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+.main {
+  width: 100%;
 }
 
 .userinfo {
   height: 140rpx;
   width: 100%;
-  background: #fff;
+  background-color: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: row;

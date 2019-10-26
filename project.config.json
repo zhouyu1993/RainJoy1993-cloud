@@ -108,9 +108,9 @@
 				},
 				{
 					"id": 7,
-					"name": "pages/topList/index",
-					"pathName": "pages/topList/index",
-					"query": "id=4",
+					"name": "pages/jita/index",
+					"pathName": "pages/jita/index",
+					"query": "",
 					"scene": null
 				},
 				{
@@ -125,6 +125,27 @@
 					"name": "pages/jitaSong/index",
 					"pathName": "pages/jitaSong/index",
 					"query": "id=2224",
+					"scene": null
+				},
+				{
+					"id": 10,
+					"name": "pages/rank/index",
+					"pathName": "pages/rank/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 11,
+					"name": "pages/music/index",
+					"pathName": "pages/music/index",
+					"query": "id=4",
+					"scene": null
+				},
+				{
+					"id": 12,
+					"name": "pages/topList/index",
+					"pathName": "pages/topList/index",
+					"query": "id=4",
 					"scene": null
 				}
 			]

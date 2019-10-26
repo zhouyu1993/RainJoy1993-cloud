@@ -2,7 +2,7 @@
 <view class="container">
   <!-- 用户信息 -->
   <view class="header">
-    <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
+    <button class="userinfo" hover-class="none" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
       <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
     </button>

@@ -16,13 +16,25 @@ cloud.init({
  *
  */
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+
+  // const {
+  //   OPENID,
+  //   APPID,
+  //   UNIONID,
+  //   ENV,
+  //   SOURCE,
+  // } = wxContext
+
   const time = Date.now() + 8 * 60 * 60 * 1000
 
-  console.log('debug: ', event, '||', context, time)
+  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
+
+  const {
+    fileList = [],
+  } = event
 
   try {
-    const { fileList = [], } = event
-
     const result = await cloud.deleteFile({
       fileList,
     })

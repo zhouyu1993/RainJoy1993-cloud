@@ -1,3 +1,5 @@
+//index.js
+
 import { getJitaSong } from '../../utils/actions'
 
 import navigateTo from '../../utils/navigateTo'

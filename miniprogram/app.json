@@ -10,8 +10,10 @@
     "pages/updateLog/index",
     "pages/music/index",
     "pages/topList/index",
+    "pages/jita/index",
     "pages/jitaSinger/index",
-    "pages/jitaSong/index"
+    "pages/jitaSong/index",
+    "pages/rank/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

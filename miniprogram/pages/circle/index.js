@@ -6,7 +6,7 @@ const app = getApp()
 
 Page({
   data: {
-    avatarUrl: 'https://zhouyu1993.github.io/images/user-unlogin.png',
+    avatarUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/user-unlogin.png',
 
     openid: '',
 
@@ -152,8 +152,10 @@ Page({
         }
       })
 
+      const new_articles = refresh ? data : articles.concat(data)
+
       this.setData({
-        articles: refresh ? data : articles.concat(data),
+        articles: new_articles,
       })
     })
   },

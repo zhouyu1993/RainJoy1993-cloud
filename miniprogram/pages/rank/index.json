@@ -1,7 +1,7 @@
 {
   "navigationBarBackgroundColor": "#ff397e",
   "navigationBarTextStyle": "white",
-  "navigationBarTitleText": "打卡签到",
+  "navigationBarTitleText": "签到排行榜",
   "backgroundColor": "#eee",
   "backgroundTextStyle": "dark",
   "enablePullDownRefresh": false,

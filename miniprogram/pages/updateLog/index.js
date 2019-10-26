@@ -4,7 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    avatar: 'https://zhouyu1993.github.io/images/avatar.png',
+    avatar: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/avatar.png',
     name: 'RainJoy',
     intro: '前端研发工程师',
     logs: [
@@ -14,7 +14,8 @@ Page({
       '1.0.3: 增加小说搜索',
       '1.0.4: 增加外卖搜索',
       '1.0.5: 使用新脚手架',
-      '2.0.0: 使用云开发'
+      '2.0.0: 使用云开发',
+      '2.0.1: 静态资源上传云平台；新增打卡签到',
     ],
   },
   onShareAppMessage (options) {

@@ -8,79 +8,25 @@ Page({
   data: {
     logged: false,
     userInfo: null,
-    avatarUrl: 'https://zhouyu1993.github.io/images/user-unlogin.png',
+    avatarUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/user-unlogin.png',
     nickName: '点击登录',
 
     articles: [],
 
-    cameraUrl: 'https://zhouyu1993.github.io/images/camera.png',
-    plusUrl: 'https://zhouyu1993.github.io/images/plus.png',
-    locationUrl: 'https://zhouyu1993.github.io/images/location.png',
+    cameraUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/camera.png',
+    plusUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/plus.png',
+    locationUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/location.png',
     visible: false,
     textarea: '',
     images: [],
     location: {},
+
+    groupSignUpId: '',
   },
   onLoad (options) {
     const { groupSignUpId, } = options
 
-    if (groupSignUpId) {
-      const db = wx.cloud.database()
-
-      // 获取报名信息
-      const groupSignUp = db.collection('groups').doc(groupSignUpId)
-
-      groupSignUp.get({
-        success: res => {
-          console.log('groupSignUp.get.success: ', res)
-
-          if (!res.data.state) {
-            wx.showModal({
-              title: '',
-              content: '确定收货吗？',
-              cancelText: '取消',
-              confirmText: '收货',
-              success: res => {
-                if (res.confirm) {
-                  // 更改报名
-
-                  groupSignUp.update({
-                    data: {
-                      state: 1,
-                    },
-                    success: res => {
-                      console.log('groupSignUp.update.success: ', res)
-
-                      if (res.stats.uodated) {
-                        wx.showToast({
-                          title: '收货成功',
-                        })
-                      } else {
-                        wx.showToast({
-                          title: '收货失败',
-                          icon: 'none',
-                        })
-                      }
-                    },
-                    fail: err => {
-                      console.error('groupSignUp.update.fail: ', err)
-
-                      wx.showToast({
-                        title: '收货失败',
-                        icon: 'none',
-                      })
-                    },
-                  })
-                }
-              },
-            })
-          }
-        },
-        fail: err => {
-          console.error('groupSignUp.get.fail: ', err)
-        },
-      })
-    }
+    this.data.groupSignUpId = groupSignUpId
   },
   onShow () {
     if (!wx.cloud) {
@@ -173,7 +119,7 @@ Page({
 
       if (!count.total) {
         // 新增用户
-        db.collection('profiles').add({
+        profiles.add({
           data: userInfo,
           success: res => {
             console.log('[数据库] [add] 成功: ', res)
@@ -258,9 +204,83 @@ Page({
         }
       })
 
+      const new_articles = refresh ? data : articles.concat(data)
+
       this.setData({
-        articles: refresh ? data : articles.concat(data),
+        articles: new_articles,
       })
+
+      const groupSignUpId = this.data.groupSignUpId
+
+      if (groupSignUpId) {
+        const db = wx.cloud.database()
+
+        // 获取报名信息
+        const groupSignUp = db.collection('groups').doc(groupSignUpId)
+
+        groupSignUp.get({
+          success: res => {
+            console.log('groupSignUp.get.success: ', res)
+
+            if (!res.data.state) {
+              wx.showModal({
+                title: '',
+                content: '确定收货吗？',
+                cancelText: '取消',
+                confirmText: '收货',
+                success: res => {
+                  if (res.confirm) {
+                    // 更改报名
+
+                    groupSignUp.update({
+                      data: {
+                        state: 1,
+                      },
+                      success: res => {
+                        console.log('groupSignUp.update.success: ', res)
+
+                        if (res.stats.updated) {
+                          wx.showToast({
+                            title: '收货成功',
+                          })
+
+                          const st = setTimeout(() => {
+                            wx.redirectTo({
+                              url: '/pages/myCircle/index'
+                            })
+
+                            clearTimeout(st)
+                          }, 300)
+                        } else {
+                          wx.showToast({
+                            title: '收货失败',
+                            icon: 'none',
+                          })
+                        }
+                      },
+                      fail: err => {
+                        console.error('groupSignUp.update.fail: ', err)
+
+                        wx.showToast({
+                          title: '收货失败',
+                          icon: 'none',
+                        })
+                      },
+                    })
+                  }
+                },
+              })
+            } else {
+              this.showTip()
+            }
+          },
+          fail: err => {
+            console.error('groupSignUp.get.fail: ', err)
+          },
+        })
+      } else if (!new_articles.length) {
+        this.showTip()
+      }
     })
   },
   openLocation (e) {
@@ -344,6 +364,30 @@ Page({
     })
   },
 
+  showTip () {
+    wx.showModal({
+      title: '',
+      content: '点击下方相机，发布一条动态吧',
+      cancelText: '去逛逛',
+      confirmText: '去发布',
+      success: res => {
+        if (res.confirm) {
+          this.showForm()
+        } else {
+          wx.switchTab({
+            url: '/pages/circle/index',
+            success: res => {
+              console.log('wx.switchTab.success: ', res)
+            },
+            fail: err => {
+              console.error('wx.switchTab.fail: ', err)
+            },
+          })
+        }
+      },
+    })
+  },
+
   showForm () {
     const openid = app.globalData.openid
 
@@ -398,7 +442,7 @@ Page({
   },
   uploadFile (filePath) {
     // 上传图片
-    const cloudPath = `image-${Date.now()}${filePath.match(/\.[^.]+?$/)[0]}`
+    const cloudPath = `articles/image-${Date.now()}${filePath.match(/\.[^.]+?$/)[0]}`
 
     wx.cloud.uploadFile({
       cloudPath,
@@ -462,42 +506,52 @@ Page({
       return
     }
 
-    const timestamp = Date.now()
-
-    const db = wx.cloud.database()
-
-    // 新增文章
-    db.collection('articles').add({
-      data: {
-        userInfo,
-        textarea,
-        images,
-        location,
-        timestamp,
-      },
+    wx.showModal({
+      title: '',
+      content: '立即发表？',
+      cancelText: '取消',
+      confirmText: '确定',
       success: res => {
-        console.log('[数据库] [add] 成功: ', res)
+        if (res.confirm) {
+          const timestamp = Date.now()
 
-        wx.showToast({
-          title: '发表成功',
-        })
+          const db = wx.cloud.database()
 
-        this.setData({
-          visible: false,
-          textarea: '',
-          images: [],
-          location: {},
-        })
+          // 新增文章
+          db.collection('articles').add({
+            data: {
+              userInfo,
+              textarea,
+              images,
+              location,
+              timestamp,
+            },
+            success: res => {
+              console.log('[数据库] [add] 成功: ', res)
 
-        this.getArticles(true)
-      },
-      fail: err => {
-        console.error('[数据库] [add] 失败：', err)
+              wx.showToast({
+                title: '发表成功',
+              })
 
-        wx.showToast({
-          title: '发表失败',
-          icon: 'none',
-        })
+              this.setData({
+                visible: false,
+                textarea: '',
+                images: [],
+                location: {},
+              })
+
+              this.getArticles(true)
+            },
+            fail: err => {
+              console.error('[数据库] [add] 失败：', err)
+
+              wx.showToast({
+                title: '发表失败',
+                icon: 'none',
+              })
+            },
+          })
+        }
       },
     })
   },

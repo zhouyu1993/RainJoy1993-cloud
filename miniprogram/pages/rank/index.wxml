@@ -1,0 +1,38 @@
+<view class="container">
+  <view class="main">
+    <view class="tab">
+      <view class="tab-item" bindtap="tab1">
+        <text class="{{hover == 0 ? 'hover' : ''}}">月排行榜</text>
+      </view>
+      <view class="tab-item" bindtap="tab2">
+        <text class="{{hover == 1 ? 'hover' : ''}}">日排行榜</text>
+      </view>
+    </view>
+
+    <view class="content" wx:if="{{hover == 0}}">
+      <view class="rank-list">
+        <view class="rank-list-item" wx:for="{{rank1}}" wx:key="{{index}}">
+          <view class="lt">
+            <text class="rank-text">{{index + 1}}</text>
+            <image class="avatar-image" src="{{item.userInfo.avatarUrl || avatarUrl}}" />
+            <text class="name-text">{{item.userInfo.nickName || '匿名用户'}}</text>
+          </view>
+          <view class="rt num">{{item.count}} 次</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="content" wx:else>
+      <view class="rank-list">
+        <view class="rank-list-item" wx:for="{{rank2}}" wx:key="{{index}}">
+          <view class="lt">
+            <text class="rank-text">{{index + 1}}</text>
+            <image class="avatar-image" src="{{item.userInfo.avatarUrl || avatarUrl}}" />
+            <text class="name-text">{{item.userInfo.nickName || '匿名用户'}}</text>
+          </view>
+          <view class="rt">{{item.time}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

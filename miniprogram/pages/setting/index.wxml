@@ -1,8 +1,8 @@
 <!--index.wxml-->
 <view class="container">
   <!-- 用户信息 -->
-  <view class="header" style="background-image: url(https://source.unsplash.com/random/750x280)">
-    <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
+  <view class="header" style="background-image: url(https://api.ixiaowai.cn/gqapi/gqapi.php)">
+    <button class="userinfo" hover-class="none" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
       <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
     </button>
@@ -18,10 +18,18 @@
           </button>
         </block>
         <block wx:elif="{{item.openType}}">
-          <button hover-class="none" open-type="{{item.openType}}">
-            <image src="{{item.image}}" mode="aspectFit"></image>
-            <view>{{item.name}}</view>
-          </button>
+          <block wx:if="{{item.openType === 'contact'}}">
+            <button hover-class="none" open-type="contact" bindcontact="handleContact" session-from="contact" send-message-title="我要进用户群" send-message-path="/pages/index/index" send-message-img="https://zhouyu1993.github.io/images/avatar.png" show-message-card="true">
+              <image src="{{item.image}}" mode="aspectFit"></image>
+              <view>{{item.name}}</view>
+            </button>
+          </block>
+          <block wx:else>
+            <button hover-class="none" open-type="{{item.openType}}">
+              <image src="{{item.image}}" mode="aspectFit"></image>
+              <view>{{item.name}}</view>
+            </button>
+          </block>
         </block>
       </block>
     </view>
@@ -29,7 +37,7 @@
 
   <view class="footer">
     <block wx:if="{{systemInfo.SDKVersion}}">
-      <view class="module-title">系统检测</view>
+      <view class="module-title" bindlongpress="setEnableDebug">系统检测</view>
       <view class="systemInfo">
         <view class="brand">手机品牌:<text>{{systemInfo.brand}}</text></view>
         <view class="model">手机品牌:<text>{{systemInfo.model}}</text></view>

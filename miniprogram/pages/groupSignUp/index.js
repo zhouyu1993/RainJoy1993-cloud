@@ -8,7 +8,7 @@ Page({
   data: {
     logged: false,
     userInfo: null,
-    avatarUrl: 'https://zhouyu1993.github.io/images/user-unlogin.png',
+    avatarUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/user-unlogin.png',
     nickName: '点击登录',
 
     openid: '',
@@ -19,8 +19,8 @@ Page({
 
     amounts: [],
 
-    plusUrl: 'https://zhouyu1993.github.io/images/plus.png',
-    addressUrl: 'https://zhouyu1993.github.io/images/location.png',
+    plusUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/plus.png',
+    addressUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/location.png',
     visible: false,
     textarea: '',
     address: {},
@@ -151,7 +151,7 @@ Page({
 
       if (!count.total) {
         // 新增用户
-        db.collection('profiles').add({
+        profiles.add({
           data: userInfo,
           success: res => {
             console.log('[数据库] [add] 成功: ', res)
@@ -399,7 +399,7 @@ Page({
             value: 'RainJoy' || '商家名称',
           },
           thing5: {
-            value: '请尽快领取，有时间麻烦发条好评～' || '温馨提示',
+            value: '请您点击卡片确认收货' || '温馨提示',
           },
         },
       },
@@ -491,40 +491,50 @@ Page({
       return
     }
 
-    const timestamp = Date.now()
-
-    const db = wx.cloud.database()
-
-    // 新增微信群的报名
-    db.collection('groups').add({
-      data: {
-        userInfo,
-        openGId,
-        textarea,
-        address,
-        timestamp,
-        state: 0,
-      },
+    wx.showModal({
+      title: '',
+      content: '立即报名？',
+      cancelText: '取消',
+      confirmText: '确定',
       success: res => {
-        console.log('[数据库] [add] 成功: ', res)
+        if (res.confirm) {
+          const timestamp = Date.now()
 
-        wx.showToast({
-          title: '报名成功',
-        })
+          const db = wx.cloud.database()
 
-        this.setData({
-          visible: false,
-          textarea: '',
-          address: {},
-        })
-      },
-      fail: err => {
-        console.error('[数据库] [add] 失败：', err)
+          // 新增微信群的报名
+          db.collection('groups').add({
+            data: {
+              userInfo,
+              openGId,
+              textarea,
+              address,
+              timestamp,
+              state: 0,
+            },
+            success: res => {
+              console.log('[数据库] [add] 成功: ', res)
 
-        wx.showToast({
-          title: '报名失败',
-          icon: 'none',
-        })
+              wx.showToast({
+                title: '报名成功',
+              })
+
+              this.setData({
+                visible: false,
+                textarea: '',
+                address: {},
+              })
+            },
+            fail: err => {
+              console.error('[数据库] [add] 失败：', err)
+
+              wx.showToast({
+                title: '报名失败',
+                icon: 'none',
+              })
+            },
+          })
+        }
       },
     })
   },

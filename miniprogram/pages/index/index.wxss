@@ -1,151 +1,228 @@
-.container {
+page, .container {
   height: 100%;
-  background-color: #fff; }
+}
 
-.module-title {
-  height: 100rpx;
-  margin-top: 20rpx;
-  font-size: 36rpx;
-  line-height: 100rpx;
+.main {
+  width: 100%;
+  height: 100%;
+}
+
+.clock-bg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 65%;
+  background-image: url(https://cmspic-10004025.image.myqcloud.com/9bdab8f2-e4a3-408a-bd0a-24e41a26651b);
+  background-size: cover;
+}
+
+
+.clock-total {
+  color: #fff;
+  padding: 60rpx 200rpx 40rpx;
   text-align: center;
-  background-color: #fff; }
+}
 
-.search .search-control {
-  display: -webkit-box;
-  display: -ms-flexbox;
+.clock-gray1 {
+  width: 60%;
+  height: 26rpx;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.clock-gray2 {
+  width: 65%;
+  height: 16rpx;
+  margin-top: -16rpx;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.clock-image {
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 0 20rpx;
-  background-color: #fff; }
-  .search .search-control input {
-    -webkit-box-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
-    height: 60rpx;
-    padding: 0 10rpx;
-    line-height: 60rpx;
-    border-top: 1rpx solid #ddd;
-    border-bottom: 1rpx solid #ddd;
-    border-left: 1rpx solid #ddd; }
-  .search .search-control button {
-    width: 100rpx;
-    height: 60rpx;
-    padding: 0;
-    font-size: 28rpx;
-    line-height: 60rpx;
-    color: #fff;
-    background-color: #ff397e;
-    border: 1rpx solid #ff397e;
-    border-radius: 0; }
-    .search .search-control button.cancel {
-      background-color: #ddd;
-      border: 1rpx solid #ddd; }
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  height: 80%;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx;
+  background-image: url(https://cmspic-10004025.image.myqcloud.com/fd257417-6e20-4720-888b-cd2abf03e84d);
+  background-size: cover;
+}
 
-.search .search-result-singer {
-  padding: 0 20rpx;
-  margin-top: 20rpx;
-  background-color: #fff; }
-  .search .search-result-singer .list {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap; }
-    .search .search-result-singer .list view {
-      margin-top: 20rpx;
-      margin-right: 20rpx;
-      line-height: 50rpx;
-      border-bottom: 1rpx solid #ddd; }
+.clock-date {
+  padding: 20rpx 14rpx;
+  background-color: transparent;
+  border: 1px solid #fff;
+}
 
-.search .search-result-song {
-  padding: 0 20rpx;
-  margin-top: 20rpx;
-  background-color: #fff; }
-  .search .search-result-song .list view {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    margin-top: 20rpx;
-    line-height: 50rpx;
-    border-bottom: 1rpx solid #ddd; }
-  .search .search-result-song .more {
-    padding: 20px;
-    color: #ff397e;
-    text-align: center; }
-
-.slide {
-  height: 400rpx;
-  margin-top: 20rpx;
-  background-color: #fff; }
-  .slide .slide-image {
-    width: 100%;
-    height: 100%; }
-
-.singer {
-  display: -webkit-box;
-  display: -ms-flexbox;
+.clock-date-main {
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  background-color: #fff; }
-  .singer .singer-item {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    margin-top: 10rpx; }
-  .singer .singer-image {
-    width: 160rpx;
-    height: 160rpx;
-    border-radius: 50%; }
-  .singer .singer-name {
-    margin: 10rpx 0; }
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 130rpx;
+  height: 300rpx;
+  color: #121212;
+  background-color: #fff;
+}
 
-.song {
-  padding: 20rpx;
-  background-color: #fff; }
-  .song .song-item {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    font-size: 32rpx;
-    line-height: 70rpx;
-    border-bottom: 1rpx solid #ddd; }
+.clock-date-main .date {
+  font-size: 80rpx;
+}
+
+.clock-date-main .year {
+  color: #a0a0a0;
+}
+
+.clock-list {
+  position: relative;
+  z-index: 2;
+  padding: 28rpx 0 140rpx;
+  background-color: #fff;
+  box-shadow: 0rpx 40rpx 50rpx rgba(0,0,0,.05);
+  box-sizing: border-box;
+}
+
+.clock-list-scroll {
+  font-size: 24rpx;
+  white-space: nowrap;
+}
+
+.clock-list-line {
+  height: 1px;
+  background: #ffe3df;
+  position: relative;
+  top: 20rpx;
+}
+
+.clock-list-item {
+  width: 11.111111%;
+  display: inline-block;
+  text-align: center;
+  color: #ccc;
+  vertical-align: bottom;
+}
+
+.clock-list-item .clock-list-item-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.clock-list-item .state-wrap {
+  height:38rpx;
+}
+
+.clock-list-item .state {
+  display: inline-block;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #ffe3df;
+}
+
+.clock-list-item .fail .state {
+  width: 70rpx;
+  height: 46rpx;
+  background: url(https://cmspic-10004025.image.myqcloud.com/becc1233-50b4-4dd0-8bbc-c02597e22005) 0 0 no-repeat;
+  background-size: contain;
+  border-radius: 0;
+  border-radius:0;
+  margin-bottom:-18rpx;
+}
+
+.clock-list-item .now {
+  border-radius:50%;
+  border:1px solid #fd6fa1;
+  width:32rpx;
+  height:32rpx;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: #fff;
+}
+
+.clock-list-item .now .state {
+  background: #fd6fa1;
+}
+
+.clock-list-item .selected {
+  border-radius:50%;
+  border:1px solid #c4c4c4;
+  width:32rpx;
+  height:32rpx;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: #fff;
+}
+
+.clock-list-item .selected .state {
+  background: #c4c4c4;
+}
+
+.clock-list-item .upcoming .state {
+  background: #c4c4c4;
+}
+
+.clock-action {
+  position: absolute;
+  z-index: 3;
+  bottom: -104rpx;
+  left: 50%;
+  width: 180rpx;
+  height: 206rpx;
+  padding: 45rpx 50rpx;
+  background-image: url(https://cmspic-10004025.image.myqcloud.com/293caa29-9306-43ff-8a5a-14077bf7cc5b);
+  background-size: cover;
+  color: #FFF;
+  text-align: center;
+  font-size: 36rpx;
+  box-sizing: border-box;
+  transform: translateX(-50%);
+}
+
+.clock-action.signuped, .clock-action.upcoming {
+  background-image: url(https://cmspic-10004025.image.myqcloud.com/1cddf3fc-4e85-4f7c-80cf-a632b7615b5f);
+}
+
+.clock-action button {
+  width: 80rpx;
+  height: 118rpx;
+  padding: 0;
+  font-size: 36rpx;
+  line-height: 59rpx;
+  color: #fff;
+}
+
+.clock-rank {
+  position: absolute;
+  top: 40rpx;
+  right: 0;
+  z-index: 2;
+  padding: 10rpx 20rpx;
+  color: #fd6fa1;
+  background: #ffffff;
+  border-top-left-radius: 50rpx;
+  border-bottom-left-radius: 50rpx;
+}
+
+.clock-rank image, .clock-rank text {
+  display: line-block;
+  vertical-align: middle;
+}
+
+.clock-rank image {
+  width: 34rpx;
+  height: 34rpx;
+}
+
+.clock-rank text {
+  padding-left: 10rpx;
+  display: inline-block;
+}

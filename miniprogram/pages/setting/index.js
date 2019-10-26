@@ -6,29 +6,15 @@ Page({
   data: {
     logged: false,
     userInfo: null,
-    avatarUrl: 'https://zhouyu1993.github.io/images/user-unlogin.png',
+    avatarUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/user-unlogin.png',
     nickName: '点击登录',
 
     modules: [],
 
     systemInfo: {},
     speacialValue: '',
-
-    enableDebug: false,
   },
   onLoad (options) {
-    const { debug = '', } = options
-
-    if (debug) {
-      wx.setEnableDebug({
-        enableDebug: true,
-      })
-    } else {
-      wx.setEnableDebug({
-        enableDebug: false,
-      })
-    }
-
     const systemInfo = wx.getSystemInfoSync()
 
     this.setData({
@@ -111,7 +97,7 @@ Page({
 
       if (!count.total) {
         // 新增用户
-        db.collection('profiles').add({
+        profiles.add({
           data: userInfo,
           success: res => {
             console.log('[数据库] [add] 成功: ', res)
@@ -249,5 +235,58 @@ Page({
         }
       },
     })
+  },
+
+  setEnableDebug () {
+    wx.showModal({
+      title: '',
+      content: '切换调试',
+      cancelText: '关闭',
+      confirmText: '开启',
+      success: res => {
+        if (res.confirm) {
+          wx.setEnableDebug({
+            enableDebug: true,
+          })
+        } else {
+          wx.setEnableDebug({
+            enableDebug: false,
+          })
+        }
+      },
+    })
+  },
+
+  handleContact (e) {
+    const { path, query, } = e.detail
+
+    let queryStr = ''
+    for (let key in query) {
+      queryStr += `${key}=${query[key]}`
+    }
+
+    if (url) {
+      wx.navigateTo({
+        url: `${path}?${queryStr}`,
+        success: res => {
+          console.log('wx.navigateTo.success: ', res)
+        },
+        fail: err => {
+          console.error('wx.navigateTo.fail: ', err)
+
+          if (/a tabbar page/.test(err.errMsg)) {
+            wx.switchTab({
+              url: path,
+              success: res => {
+                console.log('wx.switchTab.success: ', res)
+              },
+              fail: err => {
+                console.error('wx.switchTab.fail: ', err)
+              },
+            })
+          }
+        },
+      })
+    }
   },
 })

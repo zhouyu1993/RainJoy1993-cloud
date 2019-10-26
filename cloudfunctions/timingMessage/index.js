@@ -54,40 +54,46 @@ const formatTime = (time, format = 'YY-MM-DD hh:mm:ss', original = false) => {
  *
  */
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+
+  const {
+    OPENID,
+    // APPID,
+    // UNIONID,
+    // ENV,
+    // SOURCE,
+  } = wxContext
+
   const time = Date.now() + 8 * 60 * 60 * 1000
 
-  console.log('debug: ', event, '||', context, time)
+  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
 
   const { Type, } = event
 
   if (Type !== 'Timer') {
-    return
+    return 'init'
   }
 
   try {
-    const wxContext = cloud.getWXContext()
-
-    const openid = wxContext.OPENID
-
     const result = await cloud.callFunction({
       name: 'openapi',
       data: {
         action: 'sendSubscribeMessage',
-        touser: openid,
+        touser: OPENID,
         templateId: 'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
-        page: 'pages/groupSignUp/index',
+        page: 'pages/index/index',
         data: {
           thing1: {
             value: '亲爱的朋友' || '昵称',
           },
           thing2: {
-            value: '快来参加拼团报名吧' || '活动名称',
+            value: '快去微信群里参加拼团报名吧' || '活动名称',
           },
           date3: {
             value: formatTime(time, 'YY-MM-DD') || '活动日期',
           },
           thing4: {
-            value: '请分享至微信群里参加拼团报名' || '活动说明',
+            value: '点击卡片可以打卡签到哦' || '活动说明',
           },
         },
       },

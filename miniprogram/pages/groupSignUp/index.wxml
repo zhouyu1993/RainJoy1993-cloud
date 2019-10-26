@@ -2,7 +2,7 @@
 <view class="container">
   <!-- 用户信息 -->
   <view class="header">
-    <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
+    <button class="userinfo" hover-class="none" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
       <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
     </button>
@@ -52,7 +52,7 @@
       <view class="address" bindtap="chooseAddress">
         <image class="address-image" src="{{addressUrl}}" mode="aspectFit"></image>
         <view class="address-name" wx:if="{{address.userName}}">{{address.userName}} {{address.provinceName}} {{address.cityName}} {{address.countyName}}（{{address.detailInfo}}）{{address.telNumber}}</view>
-        <view wx:else>所在位置</view>
+        <view wx:else>收货地址</view>
       </view>
     </view>
   </view>

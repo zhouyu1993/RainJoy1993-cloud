@@ -16,9 +16,19 @@ cloud.init({
  *
  */
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+
+  // const {
+  //   OPENID,
+  //   APPID,
+  //   UNIONID,
+  //   ENV,
+  //   SOURCE,
+  // } = wxContext
+
   const time = Date.now() + 8 * 60 * 60 * 1000
 
-  console.log('debug: ', event, '||', context, time)
+  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
 
   switch (event.action) {
     case 'sendSubscribeMessage': {
@@ -42,12 +52,16 @@ async function sendSubscribeMessage (event) {
       data = {},
     } = event
 
-    const result = await cloud.openapi.subscribeMessage.send({
+    const param = {
       touser,
       templateId,
       page,
       data,
-    })
+    }
+
+    console.log('debug: ', param)
+
+    const result = await cloud.openapi.subscribeMessage.send(param)
 
     return result
   } catch (e) {
@@ -68,14 +82,18 @@ async function sendCustomerServiceMessage (event) {
       miniprogrampage = {},
     } = event
 
-    const result = await cloud.openapi.customerServiceMessage.send({
+    const param = {
       touser,
       msgtype,
       text,
       image,
       link,
       miniprogrampage,
-    })
+    }
+
+    console.log('debug: ', param)
+
+    const result = await cloud.openapi.customerServiceMessage.send(param)
 
     return result
   } catch (e) {

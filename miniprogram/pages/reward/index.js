@@ -4,7 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    avatar: 'https://zhouyu1993.github.io/images/reward.jpeg',
+    avatar: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/reward.jpeg',
     name: 'RainJoy',
     intro: '前端研发工程师',
     aphorisms: [

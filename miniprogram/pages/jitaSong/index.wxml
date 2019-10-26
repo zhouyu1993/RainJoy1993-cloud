@@ -5,7 +5,7 @@
         <image lazy-load src="{{item}}" mode="widthFix" class="song-puimage" />
       </block>
     </view>
-    <view class="song-singer" data-id="{{jitaSong.singerId}}" bindtap="toJitaSinger" wx:if="{{jitaSong.singer}}">查看 {{jitaSong.singer}} 更多歌谱</view>
+    <view class="song-singer" data-id="{{jitaSong.singerId}}" bindtap="toJitaSinger" wx:if="{{jitaSong.singer}}">查看 {{jitaSong.singer}} 更多曲谱</view>
 
     <view style="height:100rpx;;background-color:#fff;"></view>
   </view>

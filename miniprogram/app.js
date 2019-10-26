@@ -72,7 +72,6 @@ App({
   },
   getUpdateManager () {
     try {
-      // https://developers.weixin.qq.com/miniprogram/dev/api/getUpdateManager.html
       if (wx.getUpdateManager) {
         const updateManager = wx.getUpdateManager()
 

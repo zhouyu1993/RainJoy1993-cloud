@@ -38,6 +38,7 @@ page, .container {
 
 .main .modules button {
   width: 220rpx;
+  padding: 20rpx 10rpx;
   margin: 10rpx 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -50,6 +51,9 @@ page, .container {
 
 .main .modules button view {
   font-size: 24rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .footer {

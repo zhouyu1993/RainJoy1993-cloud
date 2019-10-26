@@ -132,9 +132,9 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
 * 工具
   - 办公 ✅
   - 图片 ✅
-  - 信息查询 ✅
-  - 效率 ✅
-  - 预约/报名 ✅
+  - 信息查询 ✅✅
+  - 效率 ✅✅
+  - 预约/报名 ✅✅
 
 ##
 
@@ -184,3 +184,8 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
 - 点赞表
 
 []
+
+# bugs
+
+* 云函数调用云函数（封装客服），会报错
+* 云函数（封装客服）

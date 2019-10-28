@@ -54,15 +54,15 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "pages/circle/index",
-					"pathName": "pages/circle/index",
+					"name": "pages/setting/index",
+					"pathName": "pages/setting/index",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": 1,
-					"name": "pages/setting/index",
-					"pathName": "pages/setting/index",
+					"name": "pages/circle/index",
+					"pathName": "pages/circle/index",
 					"query": "",
 					"scene": null
 				},

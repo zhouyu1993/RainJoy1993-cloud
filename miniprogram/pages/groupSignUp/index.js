@@ -142,33 +142,6 @@ Page({
       app.globalData.userInfo = userInfo
 
       this.getOpenid()
-
-      const db = wx.cloud.database()
-
-      const profiles = db.collection('profiles')
-
-      const count = await profiles.count()
-
-      if (!count.total) {
-        // 新增用户
-        profiles.add({
-          data: userInfo,
-          success: res => {
-            console.log('[数据库] [add] 成功: ', res)
-          },
-          fail: err => {
-            console.error('[数据库] [add] 失败：', err)
-          },
-        })
-      } else {
-        const res = await profiles.where({
-
-        }).get()
-
-        profiles.doc(res.data[0]._id).update({
-          data: userInfo,
-        })
-      }
     }
   },
   async getOpenid (callback) {
@@ -193,7 +166,7 @@ Page({
       console.error(e)
     }
 
-    const openid = app.globalData.openid
+    const { userInfo, openid, } = app.globalData
 
     if (!openid) {
       // 调用云函数 login
@@ -231,6 +204,37 @@ Page({
       })
 
       callback && callback(openid)
+    }
+
+    const profiles = db.collection('profiles')
+
+    const count = await profiles.count()
+
+    if (!count.total) {
+      // 新增用户
+      profiles.add({
+        data: userInfo,
+        success: res => {
+          console.log('[数据库profiles] [add] 成功: ', res)
+        },
+        fail: err => {
+          console.error('[数据库profiles] [add] 失败：', err)
+        },
+      })
+    } else {
+      const res = await profiles.where({
+
+      }).get()
+
+      profiles.doc(res.data[0]._id).update({
+        data: userInfo,
+        success: res => {
+          console.log('[数据库profiles] [update] 成功: ', res)
+        },
+        fail: err => {
+          console.error('[数据库profiles] [update] 失败：', err)
+        },
+      })
     }
   },
 

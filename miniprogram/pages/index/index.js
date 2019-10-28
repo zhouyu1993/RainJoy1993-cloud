@@ -108,8 +108,8 @@ Page({
       }
     })
   },
-  getOpenid (callback) {
-    const openid = app.globalData.openid
+  async getOpenid (callback) {
+    const { userInfo, openid, } = app.globalData
 
     if (!openid) {
       // 调用云函数 login
@@ -133,6 +133,39 @@ Page({
       })
     } else {
       callback && callback(openid)
+    }
+
+    const db = wx.cloud.database()
+
+    const profiles = db.collection('profiles')
+
+    const count = await profiles.count()
+
+    if (!count.total) {
+      // 新增用户
+      profiles.add({
+        data: userInfo,
+        success: res => {
+          console.log('[数据库profiles] [add] 成功: ', res)
+        },
+        fail: err => {
+          console.error('[数据库profiles] [add] 失败：', err)
+        },
+      })
+    } else {
+      const res = await profiles.where({
+
+      }).get()
+
+      profiles.doc(res.data[0]._id).update({
+        data: userInfo,
+        success: res => {
+          console.log('[数据库profiles] [update] 成功: ', res)
+        },
+        fail: err => {
+          console.error('[数据库profiles] [update] 失败：', err)
+        },
+      })
     }
   },
 

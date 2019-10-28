@@ -146,19 +146,13 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
     * setting 设置
       - 用户登录
 
-      - 我的收藏
-      - 我的点赞
       - 我的微圈
-
       - 拼团报名
-      - 头脑王者
-      - 智能美颜
+      - 头脑王者❓
 
+      - 智能美颜❓
       - 音乐小站
       - 吉他曲谱
-      - 福利抽奖
-
-      - 后台管理
 
       - 关于作者
       - 打赏支持

@@ -16,26 +16,34 @@ cloud.init({
  *
  */
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+  try {
+    const time = Date.now() + 8 * 60 * 60 * 1000
 
-  const {
-    OPENID,
-    APPID,
-    UNIONID,
-    ENV,
-    SOURCE,
-  } = wxContext
+    console.log('debug: ', event, '||', context, '||', time)
 
-  const time = Date.now() + 8 * 60 * 60 * 1000
+    const wxContext = cloud.getWXContext()
 
-  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
+    const {
+      OPENID,
+      APPID,
+      UNIONID,
+      ENV,
+      SOURCE,
+    } = wxContext
 
-  return {
-    event,
-    openid: OPENID,
-    appid: APPID,
-    unionid: UNIONID,
-    env: ENV,
-    source: SOURCE,
+    const result = {
+      event,
+      openid: OPENID,
+      appid: APPID,
+      unionid: UNIONID,
+      env: ENV,
+      source: SOURCE,
+    }
+
+    return result
+  } catch (e) {
+    console.error(e)
+
+    throw e
   }
 }

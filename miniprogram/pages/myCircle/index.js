@@ -147,6 +147,8 @@ Page({
           app.globalData.openid = openid
 
           callback && callback(openid)
+
+          wx.aldstat.sendOpenid(openid)
         },
         fail: err => {
           console.error('[云函数] [login] 调用失败', err)
@@ -589,6 +591,17 @@ Page({
   },
 
   subscribe () {
+    const openid = app.globalData.openid
+
+    if (!openid) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+      })
+
+      return
+    }
+    
     wx.requestSubscribeMessage({
       tmplIds: [
         'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
@@ -598,6 +611,29 @@ Page({
 
         if (res['NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s'] === 'accept') {
           this.formSubmit()
+
+          const db = wx.cloud.database()
+
+          const profiles = db.collection('profiles')
+
+          profiles.where({
+            _openid: openid,
+          }).get().then(res => {
+            console.log(res.data)
+
+            try {
+              const profile = res.data[0]
+              const num = +profile.appointment || 0
+
+              profiles.doc(profile._id).update({
+                data: {
+                  appointment: num + 1,
+                },
+              })
+            } catch (e) {
+              console.error(e)
+            }
+          })
         } else {
           wx.showToast({
             title: '请您接受订阅消息，否则无法收到通知',

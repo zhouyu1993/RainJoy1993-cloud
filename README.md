@@ -188,4 +188,5 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
 # bugs
 
 * 云函数调用云函数（封装客服），会报错
-* 云函数（封装客服）
+* 客服小助手接入后导致云函数（封装客服）停止，怎么再重启呢？
+* 定时触发器

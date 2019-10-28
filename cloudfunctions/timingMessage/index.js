@@ -46,6 +46,8 @@ const formatTime = (time, format = 'YY-MM-DD hh:mm:ss', original = false) => {
   return formatTime
 }
 
+const db = cloud.database()
+
 // 云函数入口函数
 /**
  * 将经自动鉴权过的小程序用户 openid 返回给小程序端
@@ -54,55 +56,63 @@ const formatTime = (time, format = 'YY-MM-DD hh:mm:ss', original = false) => {
  *
  */
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-
-  const {
-    OPENID,
-    // APPID,
-    // UNIONID,
-    // ENV,
-    // SOURCE,
-  } = wxContext
-
-  const time = Date.now() + 8 * 60 * 60 * 1000
-
-  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
-
-  const { Type, } = event
-
-  if (Type !== 'Timer') {
-    return 'init'
-  }
-
   try {
-    const result = await cloud.callFunction({
-      name: 'openapi',
-      data: {
-        action: 'sendSubscribeMessage',
-        touser: OPENID,
-        templateId: 'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
-        page: 'pages/index/index',
-        data: {
-          thing1: {
-            value: '亲爱的朋友' || '昵称',
+    const time = Date.now() + 8 * 60 * 60 * 1000
+
+    console.log('debug: ', event, '||', context, '||', time)
+
+    const { Type, } = event
+
+    if (Type !== 'Timer') {
+      return 'init'
+    }
+
+    const profilesCollection = db.collection('profiles')
+
+    const res = await profilesCollection.where({
+
+    }).get()
+
+    const profiles = (res.data || []).filter(profile => profile.appointment > 0)
+
+    const sendPromises = profiles.map(async profile => {
+      try {
+        const param = {
+          touser: profile._openid,
+          templateId: 'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
+          page: 'pages/index/index',
+          data: {
+            thing1: {
+              value: '亲爱的朋友' || '昵称',
+            },
+            thing2: {
+              value: '快去微信群里参加拼团报名吧' || '活动名称',
+            },
+            date3: {
+              value: formatTime(time, 'YY-MM-DD') || '活动日期',
+            },
+            thing4: {
+              value: '点击卡片可以打卡签到哦' || '活动说明',
+            },
           },
-          thing2: {
-            value: '快去微信群里参加拼团报名吧' || '活动名称',
+        }
+
+        await cloud.openapi.subscribeMessage.send(param)
+
+        return profilesCollection.doc(profile._id).update({
+          data: {
+            appointment: profile.appointment - 1,
           },
-          date3: {
-            value: formatTime(time, 'YY-MM-DD') || '活动日期',
-          },
-          thing4: {
-            value: '点击卡片可以打卡签到哦' || '活动说明',
-          },
-        },
-      },
+        })
+      } catch (e) {
+        return e
+      }
     })
 
-    return result
+    return Promise.all(sendPromises)
   } catch (e) {
-    console.error(e)
+    console.error('debug: ', e)
 
-    return e
+    throw e
   }
 }

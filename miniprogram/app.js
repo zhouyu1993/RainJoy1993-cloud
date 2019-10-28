@@ -1,4 +1,6 @@
 //app.js
+const ald = require('./utils/ald-stat.js')
+
 App({
   globalData: {
     userInfo: null,
@@ -28,19 +30,6 @@ App({
         //   如不填则使用默认环境（第一个创建的环境）
         // env: 'my-env-id',
         traceUser: true,
-      })
-
-      wx.cloud.callFunction({
-        name: 'timingMessage',
-        data: {
-
-        },
-        success: res => {
-          console.log('[云函数] [timingMessage] 调用成功', res)
-        },
-        fail: err => {
-          console.error('[云函数] [timingMessage] 调用失败', err)
-        },
       })
     }
   },

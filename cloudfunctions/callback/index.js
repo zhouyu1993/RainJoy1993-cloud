@@ -17,65 +17,61 @@ cloud.init({
  *
  */
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-
-  const {
-    OPENID,
-    // APPID,
-    // UNIONID,
-    // ENV,
-    // SOURCE,
-  } = wxContext
-
-  const time = Date.now() + 8 * 60 * 60 * 1000
-
-  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
-
-  const {
-    FromUserName = '',
-    ToUserName = '',
-    CreateTime = '',
-    MsgId = '',
-    MsgType = '', // text, image, event, miniprogrampage
-
-    Content = '', // MsgType === text
-
-    PicUrl = '', // MsgType === image
-    MediaId = '', // MsgType === image
-
-    Event = '', // MsgType === event
-    SessionFrom = '', // MsgType === event
-
-    Title = '', // MsgType === miniprogrampage
-    AppId = '', // MsgType === miniprogrampage
-    PagePath = '', // MsgType === miniprogrampage
-    ThumbUrl = '', // MsgType === miniprogrampage
-    ThumbMediaId = '', // MsgType === miniprogrampage
-  } = event
-
-  const touser = FromUserName || OPENID
-
   try {
-    try {
-      cloud.openapi.customerServiceMessage.setTyping({
-        touser,
-        command: 'Typing'
-      })
-    } catch (e) {
-      console.error(e)
+    const time = Date.now() + 8 * 60 * 60 * 1000
 
-      return e
-    }
+    console.log('debug: ', event, '||', context, '||', time)
+
+    const {
+      FromUserName = '',
+      ToUserName = '',
+      CreateTime = '',
+      MsgId = '',
+      MsgType = '', // text, image, event, miniprogrampage
+
+      Content = '', // MsgType === text
+
+      PicUrl = '', // MsgType === image
+      MediaId = '', // MsgType === image
+
+      Event = '', // MsgType === event
+      SessionFrom = '', // MsgType === event
+
+      Title = '', // MsgType === miniprogrampage
+      AppId = '', // MsgType === miniprogrampage
+      PagePath = '', // MsgType === miniprogrampage
+      ThumbUrl = '', // MsgType === miniprogrampage
+      ThumbMediaId = '', // MsgType === miniprogrampage
+    } = event
+
+    const wxContext = cloud.getWXContext()
+
+    const {
+      OPENID,
+      // APPID,
+      // UNIONID,
+      // ENV,
+      // SOURCE,
+    } = wxContext
+
+    const touser = FromUserName || OPENID
+
+    cloud.openapi.customerServiceMessage.setTyping({
+      touser,
+      command: 'Typing'
+    })
 
     let param = {}
 
     if (MsgType === 'text') {
       if (/胸|腿|性感|美女|丝袜|动漫|制服|护士|车模|二次元|推女郎|图片/.test(Content)) {
+        const key = Content.replace('图片', '')
+
         param = {
           touser,
           msgtype: 'text',
           text: {
-            content: `暂不支持发送图片消息，<a href="https://uploadbeta.com/api/pictures/random/?key=${Content.replace('图片', '')}">点击查看吧</a>`,
+            content: `暂不支持发送图片消息，<a href="https://uploadbeta.com/api/pictures/random/?key=${key.length > 2 ? '美女' : key}">点击查看吧</a>`,
           },
         }
       } else if (/博客/.test(Content)) {
@@ -107,22 +103,22 @@ exports.main = async (event, context) => {
         if (h >= 0 && h < 6) {
           content = '凌晨了...'
         } else if (h >= 6 && h < 9) {
-          content = '早上好'
+          content = '早上好！'
         } else if (h >= 9 && h < 11) {
-          content = '上午好'
+          content = '上午好！'
         } else if (h >= 11 && h < 13) {
-          content = '中午好'
+          content = '中午好！'
         } else if (h >= 13 && h < 18) {
-          content = '下午好'
+          content = '下午好！'
         } else if (h >= 18 && h <= 24) {
-          content = '晚上好'
+          content = '晚上好！'
         }
 
         param = {
           touser,
           msgtype: 'text',
           text: {
-            content,
+            content: `${content}要是你发张性感美照，客服小哥哥就会跟你聊天`,
           },
         }
       }
@@ -174,30 +170,15 @@ exports.main = async (event, context) => {
 
     const result = await cloud.openapi.customerServiceMessage.send(param)
 
-    // const result = await cloud.callFunction({
-    //   name: 'openapi',
-    //   data: {
-    //     action: 'sendCustomerServiceMessage',
-    //     ...param,
-    //   },
-    // })
-
-    try {
-      cloud.openapi.customerServiceMessage.setTyping({
-        touser,
-        command: 'CancelTyping'
-      })
-    } catch (e) {
-      console.error(e)
-
-      return e
-    }
-
+    cloud.openapi.customerServiceMessage.setTyping({
+      touser,
+      command: 'CancelTyping'
+    })
 
     return result
   } catch (e) {
     console.error(e)
 
-    return e
+    throw e
   }
 }

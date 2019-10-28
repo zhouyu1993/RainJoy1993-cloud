@@ -207,6 +207,8 @@ Page({
           app.globalData.openid = openid
 
           callback && callback(openid)
+
+          wx.aldstat.sendOpenid(openid)
         },
         fail: err => {
           console.error('[云函数] [login] 调用失败', err)
@@ -390,10 +392,10 @@ Page({
             value: '拼团报名' || '活动名称',
           },
           amount2: {
-            value: `${amount}元` || '订单金额',
+            value: `${amount}元` || '0元',
           },
           thing3: {
-            value: textarea || '订单内容',
+            value: textarea.slice(0, 19) || '订单内容',
           },
           name4: {
             value: 'RainJoy' || '商家名称',
@@ -408,7 +410,7 @@ Page({
 
         const errCode = res && res.result && res.result.errCode
 
-        if (res.result.errCode === 0) {
+        if (errCode === 0) {
           wx.showToast({
             title: '通知成功',
           })
@@ -436,17 +438,6 @@ Page({
     if (!openGId) {
       wx.showToast({
         title: '请在微信群内点击小程序参加',
-        icon: 'none',
-      })
-
-      return
-    }
-
-    const openid = app.globalData.openid
-
-    if (!openid) {
-      wx.showToast({
-        title: '请先登录',
         icon: 'none',
       })
 
@@ -571,20 +562,56 @@ Page({
   },
 
   subscribe () {
+    const openid = app.globalData.openid
+
+    if (!openid) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+      })
+
+      return
+    }
+
     wx.requestSubscribeMessage({
       tmplIds: [
-        'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
-        'TydTAuzjG8ufiZyy8uavgY_1j8cVuIT5Vsw-3V2HLcM',
+        'TydTAuzjG8ufiZyy8uavgY_1j8cVuIT5Vsw-3V2HLcM', // 到货通知
+        'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s', // 预约通知
       ],
       success: res => {
         console.log('[requestSubscribeMessage] 调用成功', res)
 
-        if (res['NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s'] === 'accept' && res['TydTAuzjG8ufiZyy8uavgY_1j8cVuIT5Vsw-3V2HLcM'] === 'accept') {
+        if (res['TydTAuzjG8ufiZyy8uavgY_1j8cVuIT5Vsw-3V2HLcM'] === 'accept') {
           this.formSubmit()
         } else {
           wx.showToast({
             title: '请您接受订阅消息，否则无法收到通知',
             icon: 'none',
+          })
+        }
+
+        if (res['NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s'] === 'accept') {
+          const db = wx.cloud.database()
+
+          const profiles = db.collection('profiles')
+
+          profiles.where({
+            _openid: openid,
+          }).get().then(res => {
+            console.log(res.data)
+
+            try {
+              const profile = res.data[0]
+              const num = +profile.appointment || 0
+
+              profiles.doc(profile._id).update({
+                data: {
+                  appointment: num + 1,
+                },
+              })
+            } catch (e) {
+              console.error(e)
+            }
           })
         }
       },
@@ -600,6 +627,17 @@ Page({
   },
 
   subscribe2 () {
+    const openid = app.globalData.openid
+
+    if (!openid) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+      })
+
+      return
+    }
+
     wx.requestSubscribeMessage({
       tmplIds: [
         'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
@@ -610,6 +648,29 @@ Page({
         if (res['NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s'] === 'accept') {
           wx.showToast({
             title: '预约成功',
+          })
+
+          const db = wx.cloud.database()
+
+          const profiles = db.collection('profiles')
+
+          profiles.where({
+            _openid: openid,
+          }).get().then(res => {
+            console.log(res.data)
+
+            try {
+              const profile = res.data[0]
+              const num = +profile.appointment || 0
+
+              profiles.doc(profile._id).update({
+                data: {
+                  appointment: num + 1,
+                },
+              })
+            } catch (e) {
+              console.error(e)
+            }
           })
         } else {
           wx.showToast({

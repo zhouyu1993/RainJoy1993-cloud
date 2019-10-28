@@ -127,6 +127,8 @@ Page({
           app.globalData.openid = openid
 
           callback && callback(openid)
+
+          wx.aldstat.sendOpenid(openid)
         },
         fail: err => {
           console.error('[云函数] [login] 调用失败', err)
@@ -200,9 +202,7 @@ Page({
   speacialInput (event) {
     const { value } = event.detail
 
-    this.setData({
-      speacialValue: value,
-    })
+    this.data.speacialValue = value
   },
   speacialSearch () {
     const value = this.data.speacialValue

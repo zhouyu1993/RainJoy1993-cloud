@@ -16,25 +16,15 @@ cloud.init({
  *
  */
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-
-  // const {
-  //   OPENID,
-  //   APPID,
-  //   UNIONID,
-  //   ENV,
-  //   SOURCE,
-  // } = wxContext
-
-  const time = Date.now() + 8 * 60 * 60 * 1000
-
-  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
-
-  const {
-    fileList = [],
-  } = event
-
   try {
+    const time = Date.now() + 8 * 60 * 60 * 1000
+
+    console.log('debug: ', event, '||', context, '||', time)
+
+    const {
+      fileList = [],
+    } = event
+
     const result = await cloud.deleteFile({
       fileList,
     })
@@ -43,6 +33,6 @@ exports.main = async (event, context) => {
   } catch (e) {
     console.error(e)
 
-    return e
+    throw e
   }
 }

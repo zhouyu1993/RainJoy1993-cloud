@@ -17,23 +17,21 @@ cloud.init({
  *
  */
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+  try {
+    const time = Date.now() + 8 * 60 * 60 * 1000
 
-  // const {
-  //   OPENID,
-  //   APPID,
-  //   UNIONID,
-  //   ENV,
-  //   SOURCE,
-  // } = wxContext
+    console.log('debug: ', event, '||', context, '||', time)
 
-  const time = Date.now() + 8 * 60 * 60 * 1000
+    const {
+      numbers = [],
+    } = event
 
-  console.log('debug: ', event, '||', context, '||', wxContext, '||', time)
+    const result = numbers.reduce((a,b) => a + b)
 
-  const {
-    numbers = [],
-  } = event
+    return result
+  } catch (e) {
+    console.error(e)
 
-  return numbers.reduce((a,b) => a + b)
+    throw e
+  }
 }

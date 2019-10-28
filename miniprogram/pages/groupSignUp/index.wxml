@@ -19,13 +19,13 @@
 
     <view class="list" wx:if="{{list.length}}">
       <block wx:for="{{list}}" wx:key="{{index}}">
-        <view class="list-item" data-index="{{index}}" data-data="{{item}}" bindtap="setClipboardDataOne">
+        <view class="list-item">
           <view class="list-item-left">
             <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
           </view>
           <view class="list-item-right">
             <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}">{{item.userInfo.nickName || '匿名用户'}}</view>
-            <text>{{item.textarea}}</text>
+            <text data-data="{{item}}" bindtap="setClipboardDataOne">{{item.textarea}}</text>
             <view class="address" wx:if="{{item.address.userName}}">{{item.address.userName}} {{item.address.provinceName}} {{item.address.cityName}} {{item.address.countyName}}（{{item.address.detailInfo}}）{{item.address.telNumber}}</view>
             <view class="time">{{item.time}}<text class="delete" data-id="{{item._id}}" bindtap="delete" wx:if="{{openid === item._openid}}">删除</text></view>
             <view class="action" wx:if="{{admin}}">
@@ -44,7 +44,7 @@
     <view class="form" wx:if="{{visible}}">
       <view class="btn-area">
         <button class="reset" hover-class="none" bindtap="formCancel">取消</button>
-        <button class="submit" type="primary" hover-class="none" bindtap="subscribe">发表</button>
+        <button class="submit" type="primary" hover-class="none" bindtap="subscribe">报名</button>
       </view>
 
       <textarea class="textarea" name="textarea" value="{{textarea}}" placeholder="您公司楼层+需要的物品" bindinput="textareaInput" />

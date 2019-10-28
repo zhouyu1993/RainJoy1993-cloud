@@ -31,6 +31,7 @@ page, .container {
   line-height: 92rpx;
   white-space: nowrap;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tab-item text.hover {
@@ -69,6 +70,7 @@ page, .container {
   line-height: 48rpx;
   white-space: nowrap;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .rank-text {
@@ -78,6 +80,7 @@ page, .container {
   color: #999;
   white-space: nowrap;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .rt {
@@ -91,4 +94,5 @@ page, .container {
   max-width: 150rpx;
   white-space: nowrap;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }

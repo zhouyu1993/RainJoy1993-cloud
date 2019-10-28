@@ -160,6 +160,14 @@ Page({
             console.error('[数据库] [add] 失败：', err)
           },
         })
+      } else {
+        const res = await profiles.where({
+
+        }).get()
+
+        profiles.doc(res.data[0]._id).update({
+          data: userInfo,
+        })
       }
     }
   },

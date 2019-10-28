@@ -128,6 +128,14 @@ Page({
             console.error('[数据库] [add] 失败：', err)
           },
         })
+      } else {
+        const res = await profiles.where({
+
+        }).get()
+
+        profiles.doc(res.data[0]._id).update({
+          data: userInfo,
+        })
       }
     }
   },
@@ -363,6 +371,13 @@ Page({
           })
         }
       },
+    })
+  },
+  previewImage (e) {
+    const { images = '', } = e.currentTarget.dataset
+
+    wx.previewImage({
+      urls: images,
     })
   },
 
@@ -601,7 +616,7 @@ Page({
 
       return
     }
-    
+
     wx.requestSubscribeMessage({
       tmplIds: [
         'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',

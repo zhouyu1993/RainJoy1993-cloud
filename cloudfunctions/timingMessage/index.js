@@ -77,8 +77,10 @@ exports.main = async (event, context) => {
 
     const sendPromises = profiles.map(async profile => {
       try {
+        const touser = profile._openid
+
         const param = {
-          touser: profile._openid,
+          touser,
           templateId: 'NZCSyE7gGWwW3--We94fpJt3S0JV9FNqMQBqFpsW78s',
           page: 'pages/index/index',
           data: {
@@ -97,6 +99,8 @@ exports.main = async (event, context) => {
           },
         }
 
+        console.log('debug: ', touser)
+
         await cloud.openapi.subscribeMessage.send(param)
 
         return profilesCollection.doc(profile._id).update({
@@ -105,7 +109,17 @@ exports.main = async (event, context) => {
           },
         })
       } catch (e) {
-        return e
+        console.error('debug: ', e)
+
+        if (e.errCode === 43101) {
+          return profilesCollection.doc(profile._id).update({
+            data: {
+              appointment: 0,
+            },
+          })
+        } else {
+          return e
+        }
       }
     })
 

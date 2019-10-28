@@ -96,3 +96,13 @@ page, .container {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+.icon-question {
+  position: absolute;
+  top: 50%;
+  right: 20rpx;
+  z-index: 2;
+  width: 34rpx;
+  height: 34rpx;
+  margin-top: -17rpx;
+}

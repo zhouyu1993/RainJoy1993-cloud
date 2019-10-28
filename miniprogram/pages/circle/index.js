@@ -11,6 +11,28 @@ Page({
     openid: '',
 
     articles: [],
+
+    pageWidth: 0,
+    pageHight: 0,
+    medium: {
+      src: '',
+      width: 0,
+      height: 0,
+      hidden: true,
+    },
+  },
+  onLoad (options) {
+    const systemInfo = wx.getSystemInfoSync()
+
+    const { windowWidth, screenWidth, windowHeight, screenHeight, } = systemInfo
+
+    const pageWidth = windowWidth || screenWidth
+    const pageHight = windowHeight || screenHeight
+
+    this.setData({
+      pageWidth,
+      pageHight,
+    })
   },
   onShow () {
     if (!wx.cloud) {
@@ -238,6 +260,69 @@ Page({
             },
           })
         }
+      },
+    })
+  },
+  previewImage (e) {
+    const { src = '', } = e.currentTarget.dataset
+
+    this.setData({
+      medium: {
+        src,
+      },
+    })
+  },
+  imageLoad (e) {
+    const { width, height, } = e.detail
+
+    const { pageWidth, medium, } = this.data
+
+    if (width > pageWidth) {
+      medium.width = pageWidth
+      medium.height = pageWidth / (width / height)
+    }
+
+    this.setData({
+      medium: {
+        ...medium,
+        hidden: false,
+      },
+    })
+  },
+  previewHidden () {
+    const { medium, } = this.data
+
+    this.setData({
+      medium: {
+        ...medium,
+        hidden: true,
+      },
+    })
+  },
+  downImage () {
+    const { medium, } = this.data
+
+    wx.cloud.downloadFile({
+      fileID: medium.src,
+      success: res => {
+        console.log(res)
+
+        const { statusCode, tempFilePath, } = res
+
+        if (statusCode === 200 && tempFilePath) {
+          wx.saveImageToPhotosAlbum({
+            filePath: tempFilePath,
+            success: res => {
+              console.log(res)
+            },
+            fail: err => {
+              console.error(err)
+            },
+          })
+        }
+      },
+      fail: err => {
+        console.error(err)
       },
     })
   },

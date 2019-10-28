@@ -3,7 +3,8 @@
   <!-- 用户信息 -->
   <view class="header">
     <button class="userinfo" hover-class="none" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFit" wx:if="{{userInfo.avatarUrl}}"></image>
+      <image class="userinfo-avatar" src="{{avatarUrl}}" mode="aspectFit" wx:else></image>
       <view class="userinfo-nickname">{{userInfo.nickName || nickName}}</view>
     </button>
   </view>
@@ -13,7 +14,7 @@
       <block wx:for="{{articles}}" wx:key="{{index}}">
         <view class="articles-item">
           <text>{{item.textarea}}</text>
-          <view class="images" wx:if="{{item.images.length}}">
+          <view class="images" wx:if="{{item.images.length}}" data-images="{{item.images}}" bindtap="previewImage">
             <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">
               <image class="image" src="{{image}}" mode="aspectFit"></image>
             </block>

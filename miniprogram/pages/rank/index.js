@@ -7,7 +7,7 @@ const app = getApp()
 Page({
   data: {
     avatarUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/user-unlogin.png',
-    
+
     hover: 0,
     rank1: [],
     rank2: [],
@@ -106,6 +106,17 @@ Page({
   tab2 () {
     this.setData({
       hover: 1,
+    })
+  },
+
+  showRule () {
+    const content = this.data.hover === 0 ? '【月排行榜】依据签到人的当月总签到次数排序，次数多者排前。签到次数相同时，签到平均时间早者排前。' : '【日排行榜】依据签到人当日签到时间记录，时间最近者排前。'
+
+    wx.showModal({
+      title: '排行榜规则',
+      showCancel: false,
+      content,
+      confirmText: '我知道了',
     })
   },
 })

@@ -132,9 +132,9 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
 * 工具
   - 办公 ✅
   - 图片 ✅
-  - 信息查询 ✅✅
+  - 信息查询 ✅
   - 效率 ✅✅
-  - 预约/报名 ✅✅
+  - 预约/报名 ✅
 
 ##
 
@@ -150,6 +150,16 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
       - 我的点赞
       - 我的微圈
 
+      - 拼团报名
+      - 头脑王者
+      - 智能美颜
+
+      - 音乐小站
+      - 吉他曲谱
+      - 福利抽奖
+
+      - 后台管理
+
       - 关于作者
       - 打赏支持
       - 更新日志
@@ -158,35 +168,11 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
       - 意见反馈
       - 授权设置
 
-      - 福利抽奖
-      - 后台管理
+# todos
 
-##
-
-- 文章表
-
-- articles[Array(Object)]
-  * `_id`
-  * `_openid`
-  * userInfo[Object]
-    - avatarUrl
-    - city
-    - country
-    - gender
-    - language
-    - nickName
-    - province
-  * location[Object]
-  * images[Array(String)]
-  * textarea[String]
-  * timestamp[Number]
-
-- 点赞表
-
-[]
+* 图片点击放大、再点击收回，长按保存✅
 
 # bugs
 
 * 云函数调用云函数（封装客服），会报错
 * 客服小助手接入后导致云函数（封装客服）停止，怎么再重启呢？
-* 定时触发器

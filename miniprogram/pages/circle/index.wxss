@@ -1,11 +1,10 @@
 page, .container {
   height: 100%;
+  background-color: #fff;
 }
 
 .main .articles {
   width: 100%;
-  padding-bottom: 20rpx;
-  background-color: #fff;
 }
 
 .main .articles .articles-item {
@@ -15,6 +14,7 @@ page, .container {
 }
 
 .main .articles .articles-item:last-child {
+  padding: 20rpx 20rpx 100rpx;
   border-bottom: 0;
 }
 

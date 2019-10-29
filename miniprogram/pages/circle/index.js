@@ -2,6 +2,8 @@
 
 import formatTime from '../../utils/formatTime'
 
+import navigateTo from '../../utils/navigateTo'
+
 const app = getApp()
 
 Page({
@@ -11,6 +13,8 @@ Page({
     openid: '',
 
     articles: [],
+
+    cameraUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/camera.png',
 
     pageWidth: 0,
     pageHight: 0,
@@ -148,7 +152,7 @@ Page({
           console.log('[数据库profiles] [add] 成功: ', res)
         },
         fail: err => {
-          console.error('[数据库profiles] [add] 失败：', err)
+          console.error('[数据库profiles] [add] 失败', err)
         },
       })
     } else {
@@ -159,10 +163,10 @@ Page({
       profiles.doc(res.data[0]._id).update({
         data: userInfo,
         success: res => {
-          console.log('[数据库profiles] [update] 成功: ', res)
+          console.log('[数据库profiles] [update] 成功', res)
         },
         fail: err => {
-          console.error('[数据库profiles] [update] 失败：', err)
+          console.error('[数据库profiles] [update] 失败', err)
         },
       })
     }
@@ -333,30 +337,50 @@ Page({
     })
   },
   downImage () {
-    const { medium, } = this.data
-
-    wx.cloud.downloadFile({
-      fileID: medium.src,
+    wx.showModal({
+      title: '',
+      content: '保存图片？',
+      cancelText: '取消',
+      confirmText: '保存',
       success: res => {
-        console.log(res)
+        if (res.confirm) {
+          const { medium, } = this.data
 
-        const { statusCode, tempFilePath, } = res
-
-        if (statusCode === 200 && tempFilePath) {
-          wx.saveImageToPhotosAlbum({
-            filePath: tempFilePath,
+          wx.cloud.downloadFile({
+            fileID: medium.src,
             success: res => {
-              console.log(res)
+              console.log('wx.cloud.downloadFile.success: ', res)
+
+              const { statusCode, tempFilePath, } = res
+
+              if (statusCode === 200 && tempFilePath) {
+                wx.saveImageToPhotosAlbum({
+                  filePath: tempFilePath,
+                  success: res => {
+                    console.log('wx.saveImageToPhotosAlbum.success: ', res)
+                  },
+                  fail: err => {
+                    console.error('wx.saveImageToPhotosAlbum.fail: ', err)
+                  },
+                })
+              }
             },
             fail: err => {
-              console.error(err)
+              console.error('wx.cloud.downloadFile.fail: ', err)
             },
           })
         }
       },
-      fail: err => {
-        console.error(err)
-      },
+    })
+  },
+
+  toMyCircle (e) {
+    const { openid, } = e.currentTarget.dataset
+
+    const url = (!openid || openid === this.data.openid) ? '/pages/myCircle/index' : `/pages/myCircle/index?openId=${openid}`
+
+    navigateTo({
+      url,
     })
   },
 })

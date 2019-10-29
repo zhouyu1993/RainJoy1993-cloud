@@ -2,6 +2,8 @@
 
 import formatTime from '../../utils/formatTime'
 
+import navigateTo from '../../utils/navigateTo'
+
 const app = getApp()
 
 Page({
@@ -14,6 +16,7 @@ Page({
     articles: [],
 
     cameraUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/camera.png',
+    circleUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/circle.png',
     plusUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/plus.png',
     locationUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/location.png',
     visible: false,
@@ -21,12 +24,21 @@ Page({
     images: [],
     location: {},
 
+    openid: '',
+
+    openId: '',
+
     groupSignUpId: '',
   },
   onLoad (options) {
-    const { groupSignUpId, } = options
+    const { openId = '', groupSignUpId = '', } = options
 
-    this.data.groupSignUpId = groupSignUpId
+    console.log('Page.onLoad: ', openId, groupSignUpId)
+
+    this.setData({
+      openId,
+      groupSignUpId,
+    })
   },
   onShow () {
     if (!wx.cloud) {
@@ -35,7 +47,13 @@ Page({
       return
     }
 
-    this.getUserInfo()
+    if (this.data.openId) {
+      this.getArticles(true)
+
+      wx.setNat
+    } else {
+      this.getUserInfo()
+    }
   },
   onPullDownRefresh () {
     if (!wx.cloud) {
@@ -125,6 +143,10 @@ Page({
 
           const openid = res.result.openid
 
+          this.setData({
+            openid,
+          })
+
           app.globalData.openid = openid
 
           callback && callback(openid)
@@ -136,6 +158,10 @@ Page({
         },
       })
     } else {
+      this.setData({
+        openid,
+      })
+
       callback && callback(openid)
     }
 
@@ -150,10 +176,10 @@ Page({
       profiles.add({
         data: userInfo,
         success: res => {
-          console.log('[数据库profiles] [add] 成功: ', res)
+          console.log('[数据库profiles] [add] 成功', res)
         },
         fail: err => {
-          console.error('[数据库profiles] [add] 失败：', err)
+          console.error('[数据库profiles] [add] 失败', err)
         },
       })
     } else {
@@ -164,19 +190,20 @@ Page({
       profiles.doc(res.data[0]._id).update({
         data: userInfo,
         success: res => {
-          console.log('[数据库profiles] [update] 成功: ', res)
+          console.log('[数据库profiles] [update] 成功', res)
         },
         fail: err => {
-          console.error('[数据库profiles] [update] 失败：', err)
+          console.error('[数据库profiles] [update] 失败', err)
         },
       })
     }
   },
 
   getArticles (refresh = false) {
+    const openId = this.data.openId
     const openid = app.globalData.openid
 
-    if (!openid) {
+    if (!openId && !openid) {
       return
     }
 
@@ -188,7 +215,7 @@ Page({
     db.collection('articles')
     .orderBy('timestamp', 'desc')
     .where({
-      _openid: openid,
+      _openid: openId || openid,
     })
     .skip(refresh ? 0 : articles.length)
     .limit(10)
@@ -226,6 +253,12 @@ Page({
         articles: new_articles,
       })
 
+      if (this.data.openId && new_articles.length) {
+        wx.setNavigationBarTitle({
+          title: `${new_articles[0].userInfo && new_articles[0].userInfo.nickName || '匿名用户'}的微圈`,
+        })
+      }
+
       const groupSignUpId = this.data.groupSignUpId
 
       if (groupSignUpId) {
@@ -260,12 +293,24 @@ Page({
                             title: '收货成功',
                           })
 
-                          const st = setTimeout(() => {
+                          let st = setTimeout(() => {
                             wx.redirectTo({
-                              url: '/pages/myCircle/index'
-                            })
+                              url: '/pages/myCircle/index',
+                              success: res => {
+                                console.log('wx.redirectTo.success: ', res)
 
-                            clearTimeout(st)
+                                clearTimeout(st)
+
+                                st = null
+                              },
+                              fail: err => {
+                                console.error('wx.redirectTo.fail: ', err)
+
+                                clearTimeout(st)
+
+                                st = null
+                              },
+                            })
                           }, 300)
                         } else {
                           wx.showToast({
@@ -397,14 +442,8 @@ Page({
         if (res.confirm) {
           this.showForm()
         } else {
-          wx.switchTab({
-            url: '/pages/circle/index',
-            success: res => {
-              console.log('wx.switchTab.success: ', res)
-            },
-            fail: err => {
-              console.error('wx.switchTab.fail: ', err)
-            },
+          navigateTo({
+            url: '/pages/circle/index'
           })
         }
       },
@@ -670,6 +709,12 @@ Page({
           icon: 'none',
         })
       },
+    })
+  },
+
+  toCircle () {
+    navigateTo({
+      url: '/pages/circle/index'
     })
   },
 })

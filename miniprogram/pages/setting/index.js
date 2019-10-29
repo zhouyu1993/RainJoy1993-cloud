@@ -1,5 +1,7 @@
 //index.js
 
+import navigateTo from '../../utils/navigateTo'
+
 const app = getApp()
 
 Page({
@@ -186,31 +188,8 @@ Page({
       }
     }
 
-    wx.navigateTo({
+    navigateTo({
       url: link,
-      success: res => {
-        console.log('wx.navigateTo.success: ', res)
-      },
-      fail: err => {
-        console.error('wx.navigateTo.fail: ', err)
-
-        if (/a tabbar page/.test(err.errMsg)) {
-          wx.switchTab({
-            url: value,
-            success: res => {
-              console.log('wx.switchTab.success: ', res)
-            },
-            fail: err => {
-              console.error('wx.switchTab.fail: ', err)
-            },
-          })
-        } else if (/is not found/.test(err.errMsg)) {
-          wx.showToast({
-            title: '待开发功能',
-            icon: 'none',
-          })
-        }
-      },
     })
   },
 
@@ -220,35 +199,12 @@ Page({
     this.data.speacialValue = value
   },
   speacialSearch () {
-    const value = this.data.speacialValue
+    const link = this.data.speacialValue
 
-    if (!value) return
+    if (!link) return
 
-    wx.navigateTo({
-      url: value,
-      success: res => {
-        console.log('wx.navigateTo.success: ', res)
-      },
-      fail: err => {
-        console.error('wx.navigateTo.fail: ', err)
-
-        if (/a tabbar page/.test(err.errMsg)) {
-          wx.switchTab({
-            url: value,
-            success: res => {
-              console.log('wx.switchTab.success: ', res)
-            },
-            fail: err => {
-              console.error('wx.switchTab.fail: ', err)
-            },
-          })
-        } else if (/is not found/.test(err.errMsg)) {
-          wx.showToast({
-            title: '待开发功能',
-            icon: 'none',
-          })
-        }
-      },
+    navigateTo({
+      url: link,
     })
   },
 
@@ -275,32 +231,16 @@ Page({
   handleContact (e) {
     const { path, query, } = e.detail
 
-    let queryStr = ''
-    for (let key in query) {
-      queryStr += `${key}=${query[key]}`
-    }
+    if (path) {
+      let queryStr = ''
+      for (let key in query) {
+        queryStr += `${key}=${query[key]}`
+      }
 
-    if (url) {
-      wx.navigateTo({
-        url: `${path}?${queryStr}`,
-        success: res => {
-          console.log('wx.navigateTo.success: ', res)
-        },
-        fail: err => {
-          console.error('wx.navigateTo.fail: ', err)
+      const link = `${path}?${queryStr}`
 
-          if (/a tabbar page/.test(err.errMsg)) {
-            wx.switchTab({
-              url: path,
-              success: res => {
-                console.log('wx.switchTab.success: ', res)
-              },
-              fail: err => {
-                console.error('wx.switchTab.fail: ', err)
-              },
-            })
-          }
-        },
+      navigateTo({
+        url: link,
       })
     }
   },

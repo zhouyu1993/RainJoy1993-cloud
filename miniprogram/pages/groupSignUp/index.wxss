@@ -21,6 +21,7 @@ page, .container {
 
 .main {
   width: 100%;
+  padding-bottom: 100rpx;
 }
 
 .main .groupName {
@@ -44,7 +45,6 @@ page, .container {
 }
 
 .main .list .list-item:last-child {
-  padding: 20rpx 20rpx 100rpx;
   border-bottom: 0;
 }
 
@@ -85,6 +85,11 @@ page, .container {
   margin-top: 20rpx;
   font-size: 24rpx;
   color: #666;
+}
+
+.main .list .list-item .list-item-right .edit {
+  margin-left: 20rpx;
+  color: #60f;
 }
 
 .main .list .list-item .list-item-right .delete {

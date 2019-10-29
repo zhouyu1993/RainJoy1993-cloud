@@ -1,0 +1,56 @@
+page, .container {
+  height: 100%;
+  background-color: #ffffff;
+}
+
+.main.calculator-page {
+  padding: 40rpx;
+}
+
+.calculator-page .layout-flex-acjc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+
+.calculator-page .lable {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.calculator-page .input {
+  width: 400rpx;
+}
+
+.calculator-page input {
+  width: 400rpx;
+  border: 1px solid #dddddd;
+}
+
+.calculator-page .tip {
+  margin-bottom: 50rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #666666;
+}
+
+.calculator-page .submit {
+  width: 200rpx;
+  margin: 0 auto;
+  padding: 20rpx 40rpx;
+  text-align: center;
+  color: #ffffff;
+  background-color: #ff397e;
+}
+
+.calculator-page .result {
+  width: 100%;
+  margin-top: 20rpx;
+  text-align: center;
+}
+
+.calculator-page .result .youMoneys, .calculator-page .result .taxs {
+  margin: 20rpx 0;
+}

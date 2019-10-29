@@ -1,7 +1,9 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/calculator/index",
     "pages/setting/index",
+    "pages/rank/index",
     "pages/circle/index",
     "pages/myCircle/index",
     "pages/groupSignUp/index",
@@ -12,8 +14,7 @@
     "pages/topList/index",
     "pages/jita/index",
     "pages/jitaSinger/index",
-    "pages/jitaSong/index",
-    "pages/rank/index"
+    "pages/jitaSong/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -31,9 +32,9 @@
         "iconPath": "images/home.png"
       },
       {
-        "pagePath": "pages/jita/index",
-        "text": "吉他",
-        "iconPath": "images/guitar.png"
+        "pagePath": "pages/calculator/index",
+        "text": "计算",
+        "iconPath": "images/calculator.png"
       },
       {
         "pagePath": "pages/setting/index",
@@ -42,6 +43,10 @@
       }
     ]
   },
+  "requiredBackgroundModes": [
+    "audio",
+    "location"
+  ],
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"

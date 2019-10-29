@@ -8,6 +8,8 @@ const app = getApp()
 
 Page({
   data: {
+    userInfo: null,
+
     clock: {},
     clockDate: [],
     clockDateNum: 0,
@@ -146,10 +148,10 @@ Page({
       profiles.add({
         data: userInfo,
         success: res => {
-          console.log('[数据库profiles] [add] 成功: ', res)
+          console.log('[数据库profiles] [add] 成功', res)
         },
         fail: err => {
-          console.error('[数据库profiles] [add] 失败：', err)
+          console.error('[数据库profiles] [add] 失败', err)
         },
       })
     } else {
@@ -160,10 +162,10 @@ Page({
       profiles.doc(res.data[0]._id).update({
         data: userInfo,
         success: res => {
-          console.log('[数据库profiles] [update] 成功: ', res)
+          console.log('[数据库profiles] [update] 成功', res)
         },
         fail: err => {
-          console.error('[数据库profiles] [update] 失败：', err)
+          console.error('[数据库profiles] [update] 失败', err)
         },
       })
     }
@@ -189,44 +191,50 @@ Page({
     .where({
       _openid: openid,
     })
-    .get()
-    .then(res => {
-      const { data = [], } = res
+    .watch({
+      onChange: res => {
+        console.log('clocks.watch.onChange: ', res)
 
-      const length = data.length
+        const { docs = [], } = res
 
-      if (length) {
-        const clock = this.data.clock
+        const length = docs.length
 
-        data.forEach(v => {
-          const timestamp = v.timestamp
+        if (length) {
+          const clock = this.data.clock
 
-          const timeObj = formatTime(timestamp, '', true)
+          docs.forEach(v => {
+            const timestamp = v.timestamp
 
-          clock.date[timeObj.DD] = 1
-        })
+            const timeObj = formatTime(timestamp, '', true)
 
-        const dates = this.data.clockDate
+            clock.date[timeObj.DD] = 1
+          })
 
-        const clockDate = dates.map((v, k) => {
-          let d = k + 1
-          const dd = d < 10 ? `0${d}` : d
+          const dates = this.data.clockDate
 
-          return {
-            date: dd,
-            title: `${clock.month}.${dd}`,
-            state: clock.today === k + 1 ? 'now' : clock.point === k + 1 ? 'selected' : clock.today < k + 1 ? 'upcoming' : clock.date[k + 1] === 1 ? '' : 'fail'
-          }
-        })
+          const clockDate = dates.map((v, k) => {
+            let d = k + 1
+            const dd = d < 10 ? `0${d}` : d
 
-        this.setData({
-          clock,
-          clockDate,
-          clockDateNum: length,
-        })
-      }
+            return {
+              date: dd,
+              title: `${clock.month}.${dd}`,
+              state: clock.today === k + 1 ? 'now' : clock.point === k + 1 ? 'selected' : clock.today < k + 1 ? 'upcoming' : clock.date[k + 1] === 1 ? '' : 'fail'
+            }
+          })
 
-      this.data.canPunchClock = true
+          this.setData({
+            clock,
+            clockDate,
+            clockDateNum: length,
+          })
+        }
+
+        this.data.canPunchClock = true
+      },
+      onError: err => {
+        console.error('clocks.watch.onError: ', err)
+      },
     })
   },
 
@@ -289,7 +297,7 @@ Page({
               timestamp,
             },
             success: res => {
-              console.log('[数据库] [add] 成功: ', res)
+              console.log('[数据库] [add] 成功', res)
 
               const clock = this.data.clock
 
@@ -303,7 +311,7 @@ Page({
               })
             },
             fail: err => {
-              console.error('[数据库] [add] 失败：', err)
+              console.error('[数据库] [add] 失败', err)
 
               wx.showToast({
                 title: '签到失败',
@@ -325,16 +333,22 @@ Page({
         icon: 'none',
       })
 
-      const st = setTimeout(() => {
+      let st = setTimeout(() => {
         wx.switchTab({
           url: '/pages/setting/index',
           success: res => {
             console.log('wx.switchTab.success: ', res)
 
             clearTimeout(st)
+
+            st = null
           },
           fail: err => {
             console.error('wx.switchTab.fail: ', err)
+
+            clearTimeout(st)
+
+            st = null
           },
         })
       }, 300)

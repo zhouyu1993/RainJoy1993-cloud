@@ -21,8 +21,6 @@ const navigateTo = option => {
     url,
     success = res => {},
     fail = res => {
-      console.log(res)
-
       alert('系统异常')
     },
     reLaunchUrl = '/pages/index/index',
@@ -38,18 +36,36 @@ const navigateTo = option => {
   wx.navigateTo({
     url,
     success: res => {
+      console.log('wx.navigateTo.success: ', res)
+
       success(res)
 
-      const st = setTimeout(() => {
+      let st = setTimeout(() => {
         flag = false
 
         clearTimeout(st)
+
+        st = null
       }, 300)
     },
     fail: err => {
-      console.error(err)
+      console.error('wx.navigateTo.fail: ', err)
 
-      if (reLaunchUrl) {
+      if (/a tabbar page/.test(err.errMsg)) {
+        wx.switchTab({
+          url: url.slice(0, url.indexOf('?')),
+          success: res => {
+            console.log('wx.switchTab.success: ', res)
+
+            success(res)
+          },
+          fail: err => {
+            console.error('wx.switchTab.fail: ', err)
+
+            fail(err)
+          },
+        })
+      } else if (reLaunchUrl) {
         wx.reLaunch({
           url: reLaunchUrl,
         })
@@ -57,10 +73,12 @@ const navigateTo = option => {
         fail(err)
       }
 
-      const st = setTimeout(() => {
+      let st = setTimeout(() => {
         flag = false
 
         clearTimeout(st)
+
+        st = null
       }, 300)
     },
   })

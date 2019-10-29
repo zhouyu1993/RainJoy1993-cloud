@@ -48,53 +48,56 @@ Page({
 
     // 获取签到
     db.collection('clocks')
-    .where({
+    .watch({
+      onChange: res => {
+        console.log('clocks.watch.onChange: ', res)
 
-    })
-    .get()
-    .then(res => {
-      const { data = [], } = res
+        const { docs = [], } = res
 
-      const length = data.length
+        const length = docs.length
 
-      if (length) {
-        const obj = {}
-        const list1 = []
-        const list2 = []
+        if (length) {
+          const obj = {}
+          const list1 = []
+          const list2 = []
 
-        const today = formatTime(Date.now(), 'YY-MM-DD')
+          const today = formatTime(Date.now(), 'YY-MM-DD')
 
-        data.forEach(v => {
-          const { _openid, timestamp, userInfo, } = v
+          docs.forEach(v => {
+            const { _openid, timestamp, userInfo, } = v
 
-          if (obj[_openid]) {
-            obj[_openid].count ++
-          } else {
-            obj[_openid] = {
-              count: 1,
-              userInfo,
+            if (obj[_openid]) {
+              obj[_openid].count ++
+            } else {
+              obj[_openid] = {
+                count: 1,
+                userInfo,
+              }
             }
+
+            const date = formatTime(timestamp, 'YY-MM-DD')
+
+            if (today === date) {
+              list2.push({
+                ...v,
+                time: formatTime(timestamp),
+              })
+            }
+          })
+
+          for (let key in obj) {
+            list1.push(obj[key])
           }
 
-          const date = formatTime(timestamp, 'YY-MM-DD')
-
-          if (today === date) {
-            list2.push({
-              ...v,
-              time: formatTime(timestamp),
-            })
-          }
-        })
-
-        for (let key in obj) {
-          list1.push(obj[key])
+          this.setData({
+            rank1: list1.sort((a, b) => b.count - a.count),
+            rank2: list2.sort((a, b) => a.timestamp - b.timestamp),
+          })
         }
-
-        this.setData({
-          rank1: list1.sort((a, b) => b.count - a.count),
-          rank2: list2.sort((a, b) => a.timestamp - b.timestamp),
-        })
-      }
+      },
+      onError: err => {
+        console.error('clocks.watch.onError: ', err)
+      },
     })
   },
 

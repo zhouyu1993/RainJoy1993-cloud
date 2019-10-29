@@ -1,26 +1,84 @@
 //index.js
 
-import { getMusicTopList } from '../../utils/actions'
+import { getMusicTopList, getMusicSrc } from '../../utils/actions'
 
 import navigateTo from '../../utils/navigateTo'
+
+const backgroundAudioManager = wx.getBackgroundAudioManager()
 
 Page({
   data: {
     id: '',
     musicTopList: {},
-    songlist1: [],
-    songlist2: [],
+
+    showIndex: '',
   },
   onLoad (options) {
-    console.log('Page.onLoad: ', options)
+    console.log('Page.onLoad: ', options, backgroundAudioManager)
 
     const { id, } = options
 
+    let showIndex = ''
+    if (id === backgroundAudioManager.id) {
+      showIndex = backgroundAudioManager.activeIndex
+    }
+
     this.setData({
       id,
+      showIndex,
     })
 
     this.getMusicTopList()
+
+    backgroundAudioManager.onPrev(() => {
+      console.log('backgroundAudioManager.onPrev')
+
+      this.prevSong()
+    })
+
+    backgroundAudioManager.onNext(() => {
+      console.log('backgroundAudioManager.onNext')
+
+      this.nextSong()
+    })
+
+    backgroundAudioManager.onEnded(() => {
+      console.log('backgroundAudioManager.onEnded')
+
+      this.nextSong()
+    })
+
+    backgroundAudioManager.onError(() => {
+      console.log('backgroundAudioManager.onError')
+
+      backgroundAudioManager.id = ''
+      backgroundAudioManager.songlist = []
+      backgroundAudioManager.activeIndex = ''
+
+      this.setData({
+        showIndex: '',
+      })
+    })
+
+    backgroundAudioManager.onStop(() => {
+      console.log('backgroundAudioManager.onStop')
+
+      backgroundAudioManager.id = ''
+      backgroundAudioManager.songlist = []
+      backgroundAudioManager.activeIndex = ''
+
+      this.setData({
+        showIndex: '',
+      })
+    })
+
+    backgroundAudioManager.onPlay(() => {
+      console.log('backgroundAudioManager.onPlay')
+    })
+
+    backgroundAudioManager.onPause(() => {
+      console.log('backgroundAudioManager.onPause')
+    })
   },
   onShow () {
 
@@ -43,6 +101,7 @@ Page({
       },
     }
   },
+
   async getMusicTopList () {
     const id = this.data.id
     if (!id) return
@@ -58,8 +117,6 @@ Page({
 
     this.setData({
       musicTopList: res,
-      songlist1: songlist.slice(0, 50),
-      songlist2: songlist.slice(50),
     })
 
     if (res.topinfo && res.topinfo.ListName) {
@@ -78,14 +135,125 @@ Page({
       })
     }
   },
-  musicSong (event) {
-    const { songmid = '', songname = '未知歌曲', albumname = '未知专辑', singername = '未知歌手', } = event.currentTarget.dataset
 
-    // navigateTo(`/pages/song/index?songmid=${songmid}&songname=${songname}&albumname=${albumname}&singername=${singername}`)
+  playSong (event) {
+    const { index, } = event.currentTarget.dataset
 
-    wx.showToast({
-      title: `这是${singername}演唱的《${songname}》`,
-      icon: 'none',
-    })
+    if (index === this.data.showIndex) {
+      console.log(backgroundAudioManager.paused)
+
+      backgroundAudioManager.paused ? backgroundAudioManager.play() : backgroundAudioManager.pause()
+
+      return
+    }
+
+    backgroundAudioManager.id = this.data.id
+    backgroundAudioManager.songlist = this.data.musicTopList.songlist
+    backgroundAudioManager.activeIndex = index
+
+    console.log('playSong: ', index)
+
+    this.toPlaySong(index)
+  },
+  prevSong () {
+    const songlist = backgroundAudioManager.songlist
+
+    const activeIndex = backgroundAudioManager.activeIndex
+
+    const index = activeIndex === 0 ? songlist.length - 1 : activeIndex - 1
+
+    backgroundAudioManager.activeIndex = index
+
+    console.log('prevSong: ', index)
+
+    this.toPlaySong(index)
+  },
+  nextSong () {
+    const songlist = backgroundAudioManager.songlist
+
+    const activeIndex = backgroundAudioManager.activeIndex
+
+    const index = activeIndex === songlist.length - 1 ? 0 : activeIndex + 1
+
+    backgroundAudioManager.activeIndex = index
+
+    console.log('nextSong: ', index)
+
+    this.toPlaySong(index)
+  },
+  async toPlaySong (index) {
+    try {
+      const songlist = backgroundAudioManager.songlist || this.data.musicTopList.songlist
+      const data = songlist[index].data
+      const { songmid, songname, albumname, singer = [], } = data
+
+      if (songmid) {
+        const singername = singer.map(item => item.name).join(' ')
+
+        const { songsrc, imgsrc, } = await getMusicSrc(songmid)
+
+        console.log(songname, '||' , albumname, '||', singername, '||', songsrc, '||', imgsrc)
+
+        if (songsrc) {
+          backgroundAudioManager.title = songname || '未知歌曲'
+          backgroundAudioManager.epname = albumname || '未知专辑'
+          backgroundAudioManager.singer = singername || '未知歌手'
+          backgroundAudioManager.coverImgUrl = imgsrc || 'https://api.ixiaowai.cn/gqapi/gqapi.php'
+          backgroundAudioManager.src = songsrc
+
+          const { id, } = this.data
+
+          let showIndex = ''
+          if (id === backgroundAudioManager.id) {
+            showIndex = backgroundAudioManager.activeIndex
+          }
+
+          this.setData({
+            showIndex,
+          })
+        } else {
+          wx.showToast({
+            title: '版权问题不支持播放',
+            icon: 'none',
+          })
+
+          let st = setTimeout(() => {
+            this.nextSong()
+
+            clearTimeout(st)
+
+            st = null
+          }, 1000)
+        }
+      } else {
+        wx.showToast({
+          title: '版权问题不支持播放',
+          icon: 'none',
+        })
+
+        let st = setTimeout(() => {
+          this.nextSong()
+
+          clearTimeout(st)
+
+          st = null
+        }, 1000)
+      }
+    } catch (e) {
+      console.log(e)
+
+      wx.showToast({
+        title: '网络异常',
+        icon: 'none',
+      })
+
+      let st = setTimeout(() => {
+        this.nextSong()
+
+        clearTimeout(st)
+
+        st = null
+      }, 1000)
+    }
   },
 })

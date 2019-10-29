@@ -77,6 +77,8 @@
       z-index: 1;
       border-radius: 0rpx;
       padding: 20rpx 0; }
+    .topList .topList-list .topList-songlist .song-item.hover {
+      color: #ff397e; }
       .topList .topList-list .topList-songlist .song-item::before {
         position: absolute;
         top: 0;

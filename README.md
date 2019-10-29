@@ -130,11 +130,11 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
   - 在线健身 - 提供各类型的健身运动在线学习/在线指导服务
 
 * 工具
-  - 办公 ✅
+  - 计算 ✅
   - 图片 ✅
-  - 信息查询 ✅
-  - 效率 ✅✅
+  - 效率 ✅
   - 预约/报名 ✅
+  - 信息查询 ✅
 
 ##
 
@@ -147,10 +147,6 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
       - 用户登录
 
       - 我的微圈
-      - 拼团报名
-      - 头脑王者❓
-
-      - 智能美颜❓
       - 音乐小站
       - 吉他曲谱
 
@@ -162,9 +158,13 @@ https://developers.weixin.qq.com/community/develop/doc/0004c60e2d47a8a3f257e4547
       - 意见反馈
       - 授权设置
 
+      - 智能美颜❓
+      - 头脑王者❓
+
 # todos
 
 * 图片点击放大、再点击收回，长按保存✅
+* 表单重新编辑
 
 # bugs
 

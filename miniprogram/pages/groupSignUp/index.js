@@ -24,6 +24,8 @@ Page({
     visible: false,
     textarea: '',
     address: {},
+
+    editId: '',
   },
   onShow () {
     if (!wx.cloud) {
@@ -215,10 +217,10 @@ Page({
       profiles.add({
         data: userInfo,
         success: res => {
-          console.log('[数据库profiles] [add] 成功: ', res)
+          console.log('[数据库profiles] [add] 成功', res)
         },
         fail: err => {
-          console.error('[数据库profiles] [add] 失败：', err)
+          console.error('[数据库profiles] [add] 失败', err)
         },
       })
     } else {
@@ -229,10 +231,10 @@ Page({
       profiles.doc(res.data[0]._id).update({
         data: userInfo,
         success: res => {
-          console.log('[数据库profiles] [update] 成功: ', res)
+          console.log('[数据库profiles] [update] 成功', res)
         },
         fail: err => {
-          console.error('[数据库profiles] [update] 失败：', err)
+          console.error('[数据库profiles] [update] 失败', err)
         },
       })
     }
@@ -285,7 +287,50 @@ Page({
       },
     })
   },
+  edit (e) {
+    const { openGId = '', } = this.data
+
+    if (!openGId) {
+      wx.showToast({
+        title: '请在微信群内点击小程序参加',
+        icon: 'none',
+      })
+
+      return
+    }
+
+    const time = new Date()
+
+    if (time.getHours() >= 12) {
+      wx.showToast({
+        title: '已不可修改，请联系群主',
+        icon: 'none',
+      })
+
+      return
+    }
+
+    const { data = {}, } = e.currentTarget.dataset
+
+    this.setData({
+      visible: true,
+      textarea: data.textarea,
+      address: data.address,
+      editId: data._id,
+    })
+  },
   delete (e) {
+    const time = new Date()
+
+    if (time.getHours() >= 12) {
+      wx.showToast({
+        title: '已不可删除，请联系群主',
+        icon: 'none',
+      })
+
+      return
+    }
+
     const { id, } = e.currentTarget.dataset
 
     wx.showModal({
@@ -331,6 +376,7 @@ Page({
       },
     })
   },
+
   setClipboardDataOne (e) {
     const { data = {}, } = e.currentTarget.dataset
 
@@ -471,19 +517,19 @@ Page({
     // 选择收货地址
     wx.chooseAddress({
       success: res => {
-        console.log('[选择收货地址] 成功：', res)
+        console.log('[选择收货地址] 成功', res)
 
         this.setData({
           address: res,
         })
       },
       fail: err => {
-        console.error('[选择收货地址] 失败：', err)
+        console.error('[选择收货地址] 失败', err)
       },
     })
   },
   formSubmit () {
-    const { userInfo = {}, openGId = '', textarea = '', address = {}, } = this.data
+    const { userInfo = {}, openGId = '', textarea = '', address = {}, editId = '', } = this.data
 
     if (!textarea) {
       wx.showToast({
@@ -505,48 +551,87 @@ Page({
 
           const db = wx.cloud.database()
 
-          // 新增微信群的报名
-          db.collection('groups').add({
-            data: {
-              userInfo,
-              openGId,
-              textarea,
-              address,
-              timestamp,
-              state: 0,
-            },
-            success: res => {
-              console.log('[数据库] [add] 成功: ', res)
+          const groups = db.collection('groups')
 
-              wx.showToast({
-                title: '报名成功',
-              })
+          if (!editId) {
+            // 新增报名
+            groups.add({
+              data: {
+                userInfo,
+                openGId,
+                textarea,
+                address,
+                timestamp,
+                state: 0,
+              },
+              success: res => {
+                console.log('[数据库] [add] 成功', res)
 
-              this.setData({
-                visible: false,
-                textarea: '',
-                address: {},
-              })
-            },
-            fail: err => {
-              console.error('[数据库] [add] 失败：', err)
+                wx.showToast({
+                  title: '报名成功',
+                })
 
-              wx.showToast({
-                title: '报名失败',
-                icon: 'none',
-              })
-            },
-          })
+                this.setData({
+                  visible: false,
+                  textarea: '',
+                  address: {},
+                })
+              },
+              fail: err => {
+                console.error('[数据库] [add] 失败', err)
+
+                wx.showToast({
+                  title: '报名失败',
+                  icon: 'none',
+                })
+              },
+            })
+          } else {
+            // 修改报名
+            groups.doc(editId).update({
+              data: {
+                userInfo,
+                textarea,
+                address,
+                timestamp,
+              },
+              success: res => {
+                console.log('[数据库] [edit] 成功', res)
+
+                wx.showToast({
+                  title: '修改成功',
+                })
+
+                this.setData({
+                  visible: false,
+                  textarea: '',
+                  address: {},
+                  editId: '',
+                })
+              },
+              fail: err => {
+                console.error('[数据库] [修改] 失败', err)
+
+                wx.showToast({
+                  title: '修改失败',
+                  icon: 'none',
+                })
+              },
+            })
+          }
         }
       },
     })
   },
   formCancel () {
-    const { textarea = '', } = this.data
+    const { textarea = '', editId = '', } = this.data
 
-    if (!textarea) {
+    if (!textarea || editId) {
       this.setData({
         visible: false,
+        textarea: '',
+        address: {},
+        editId: '',
       })
 
       return
@@ -634,6 +719,8 @@ Page({
           title: '请您接受订阅消息，否则无法收到通知',
           icon: 'none',
         })
+
+        this.formSubmit()
       },
     })
   },

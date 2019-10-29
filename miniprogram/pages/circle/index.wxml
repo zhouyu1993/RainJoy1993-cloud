@@ -5,7 +5,7 @@
       <block wx:for="{{articles}}" wx:key="{{index}}">
         <view class="articles-item">
           <view class="articles-item-left">
-            <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
+            <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit" data-openid="{{item._openid}}" bindtap="toMyCircle"></image>
           </view>
           <view class="articles-item-right">
             <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}">{{item.userInfo.nickName || '匿名用户'}}</view>

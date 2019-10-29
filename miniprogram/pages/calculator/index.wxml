@@ -1,0 +1,64 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="main calculator-page">
+    <view class="layout-flex-acjc">
+      <view class="lable">
+        税前工资
+      </view>
+      <view class="input">
+        <input type="number" value="{{money}}" bindinput="moneyChange" />
+      </view>
+    </view>
+    <view class="layout-flex-acjc">
+      <view class="lable">
+        社保总额(个人)
+      </view>
+      <view class="input">
+        <input type="number" value="{{shebao}}" bindinput="shebaoChange" />
+      </view>
+    </view>
+    <view class="tip">社保基数*(养老保险比例2%+医疗保险8%+失业保险0.5%)</view>
+    <view class="layout-flex-acjc">
+      <view class="lable">
+        公积金总额(个人)
+      </view>
+      <view class="input">
+        <input type="number" value="{{gongjijin}}" bindinput="gongjijinChange" />
+      </view>
+    </view>
+    <view class="tip">公积金基数*公积金比例(8%-12%)</view>
+    <view class="layout-flex-acjc">
+      <view class="lable">
+        专项附加扣除总额
+      </view>
+      <view class="input">
+        <input type="number" value="{{zhuanxiang}}" bindinput="zhuanxiangChange" />
+      </view>
+    </view>
+    <view class="tip">专项附加扣除(6项，个人所得税申报)</view>
+    <view class="submit-wrap">
+      <view class="submit" bindtap="submit">计算</view>
+    </view>
+
+    <view class="result" wx:if="{{youMoneySum}}">
+      <view>年度收入总额：{{youMoneySum}}</view>
+      <view>每月收入列表</view>
+      <view wx:if="{{youMoneys.length}}" class="youMoneys">
+        <block wx:for="{{youMoneys}}" wx:key="{{index}}">
+          <view>
+            <view class="item">第{{index + 1}}月：{{item}}</view>
+          </view>
+        </block>
+      </view>
+      <view>年度交税总额：{{taxSum}}</view>
+      <view>每月交税列表</view>
+      <view wx:if="{{taxs.length}}" class="taxs">
+        <block wx:for="{{taxs}}" wx:key="{{index}}">
+          <view>
+            <view class="item">第{{index + 1}}月：{{item}}</view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

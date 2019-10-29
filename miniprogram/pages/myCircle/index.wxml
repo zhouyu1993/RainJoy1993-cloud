@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <!-- 用户信息 -->
-  <view class="header">
+  <view class="header" wx:if="{{!openId}}">
     <button class="userinfo" hover-class="none" open-type="getUserInfo" bindgetuserinfo="onGetUserInfo">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFit" wx:if="{{userInfo.avatarUrl}}"></image>
       <image class="userinfo-avatar" src="{{avatarUrl}}" mode="aspectFit" wx:else></image>
@@ -13,21 +13,28 @@
     <view class="articles" wx:if="{{articles.length}}">
       <block wx:for="{{articles}}" wx:key="{{index}}">
         <view class="articles-item">
-          <text>{{item.textarea}}</text>
-          <view class="images" wx:if="{{item.images.length}}" data-images="{{item.images}}" bindtap="previewImage">
-            <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">
-              <image class="image" src="{{image}}" mode="aspectFit"></image>
-            </block>
+          <view class="articles-item-left" wx:if="{{openId}}">
+            <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
           </view>
-          <view class="address" bindtap="openLocation" data-latitude="{{item.location.latitude}}" data-longitude="{{item.location.longitude}}" wx:if="{{item.location.name}}">{{item.location.name}}（{{item.location.address}}）</view>
-          <view class="time">{{item.time}}<text class="delete" data-id="{{item._id}}" data-filelist="{{item.images}}" bindtap="delete">删除</text></view>
+          <view class="articles-item-right">
+            <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}" wx:if="{{openId}}">{{item.userInfo.nickName || '匿名用户'}}</view>
+            <text>{{item.textarea}}</text>
+            <view class="images" wx:if="{{item.images.length}}" data-images="{{item.images}}" bindtap="previewImage">
+              <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">
+                <image class="image" src="{{image}}" mode="aspectFit"></image>
+              </block>
+            </view>
+            <view class="address" bindtap="openLocation" data-latitude="{{item.location.latitude}}" data-longitude="{{item.location.longitude}}" wx:if="{{item.location.name}}">{{item.location.name}}（{{item.location.address}}）</view>
+            <view class="time">{{item.time}}<text class="delete" data-id="{{item._id}}" data-filelist="{{item.images}}" bindtap="delete" wx:if="{{!openId}}">删除</text></view>
+          </view>
         </view>
       </block>
     </view>
   </view>
 
-  <view class="footer">
+  <view class="footer" wx:if="{{!openId}}">
     <image class="camera" src="{{cameraUrl}}" bindtap="chooseImage" bindlongpress="showForm"></image>
+    <image class="circle" src="{{circleUrl}}" bindtap="toCircle"></image>
 
     <view class="form" wx:if="{{visible}}">
       <view class="btn-area">

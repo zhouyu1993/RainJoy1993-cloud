@@ -40,6 +40,7 @@ page, .container {
 
 .rank-list {
   margin-top: 20rpx;
+  background-color: #fff;
 }
 
 .rank-list-item {
@@ -102,7 +103,15 @@ page, .container {
   top: 50%;
   right: 20rpx;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 80rpx;
+  height: 80rpx;
+  margin-top: -40rpx;
+}
+
+.icon-question image {
   width: 34rpx;
   height: 34rpx;
-  margin-top: -17rpx;
 }

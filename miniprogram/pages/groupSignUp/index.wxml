@@ -10,9 +10,6 @@
   </view>
 
   <view class="main">
-    <button type="primary" hover-class="none" bindtap="subscribe2" style="margin: 20rpx;">明天提醒</button>
-    <button type="primary" hover-class="none" bindtap="setClipboardDataAll" style="margin: 20rpx;" wx:if="{{admin && list.length}}">一键复制</button>
-
     <view class="groupName" wx:if="{{openGId}}">
       群名：
       <open-data type="groupName" open-gid="{{openGId}}"></open-data>
@@ -28,7 +25,7 @@
             <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}">{{item.userInfo.nickName || '匿名用户'}}</view>
             <text data-data="{{item}}" bindtap="setClipboardDataOne">{{item.textarea}}</text>
             <view class="address" wx:if="{{item.address.userName}}">{{item.address.userName}} {{item.address.provinceName}} {{item.address.cityName}} {{item.address.countyName}}（{{item.address.detailInfo}}）{{item.address.telNumber}}</view>
-            <view class="time">{{item.time}}<text class="delete" data-id="{{item._id}}" bindtap="delete" wx:if="{{openid === item._openid}}">删除</text></view>
+            <view class="time">{{item.time}}<text class="edit" data-data="{{item}}" bindtap="edit" wx:if="{{openid === item._openid}}">修改</text><text class="delete" data-id="{{item._id}}" bindtap="delete" wx:if="{{openid === item._openid}}">删除</text></view>
             <view class="action" wx:if="{{admin}}">
               <input placeholder="请输入金额" data-index="{{index}}" bindinput="amountInput" />
               <text data-index="{{index}}" data-id="{{item._id}}" data-openid="{{item._openid}}" data-textarea="{{item.textarea}}" bindtap="notify">通知</text>
@@ -37,6 +34,10 @@
          </view>
       </block>
     </view>
+
+    <button type="primary" hover-class="none" bindtap="showForm" style="margin: 20rpx;">立即下单</button>
+    <button type="primary" hover-class="none" bindtap="subscribe2" style="margin: 20rpx;">明天提醒</button>
+    <button type="primary" hover-class="none" bindtap="setClipboardDataAll" style="margin: 20rpx;" wx:if="{{admin && list.length}}">一键复制</button>
   </view>
 
   <view class="footer">

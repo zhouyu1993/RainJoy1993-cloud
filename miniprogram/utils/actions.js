@@ -1,4 +1,4 @@
-import { CYQQ, JITA, GITLAB, BZQLL, FANYI } from './api'
+import { CYQQ, IYQQ, JITA, FANYI, GITLAB } from './api'
 import promiseRequest from './promiseRequest'
 
 const getHotKey = async () => {
@@ -11,6 +11,91 @@ const getHotKey = async () => {
     })
 
     return res
+  } catch (e) {
+    throw e
+  }
+}
+
+const getMusicHome = async () => {
+  try {
+    const res = await promiseRequest({
+      url: `${CYQQ}/v8/fcg-bin/fcg_myqq_topList.fcg?format=json`,
+      showLoading: true,
+      fail: () => {},
+      isSuccess: res => res.code === 0,
+    })
+
+    return res
+  } catch (e) {
+    throw e
+  }
+}
+
+const getMusicTopList = async (id) => {
+  try {
+    const res = await promiseRequest({
+      url: `${CYQQ}/v8/fcg-bin/fcg_v8_toplist_cp.fcg?topid=${id}&format=json`,
+      showLoading: true,
+      fail: () => {},
+      isSuccess: res => res.code === 0,
+    })
+
+    return res
+  } catch (e) {
+    throw e
+  }
+}
+
+const getMusicSrc = async (songmid) => {
+  try {
+    const res = await promiseRequest({
+      url: `${IYQQ}/v8/playsong.html?songmid=${songmid}`,
+      responseType: 'text',
+      showLoading: true,
+      fail: () => {},
+      isSuccess: () => true,
+    })
+
+    const data = res
+
+    /*eslint-disable no-useless-escape */
+    const start = data.search(/<audio/ig)
+    const end = data.search(/<\/audio/ig)
+    const audioHtml = data.slice(start, end)
+    const audioArr = audioHtml.split(' ')
+    let songsrc = audioArr.find(item => /src=/.test(item))
+    if (songsrc) {
+      songsrc = songsrc.replace('src=', '').replace(/"/g, '')
+    }
+
+    if (songsrc) {
+      let imgsrc = ''
+
+      try {
+        const start = data.search(/album_cover__img/ig)
+        const data2 = data.slice(start)
+        const end = data2.search(/\>/i)
+        const imgHtml = data2.slice(0, end)
+        const imgArr = imgHtml.split(' ')
+        imgsrc = imgArr.find(item => /src=/.test(item))
+        if (imgsrc) {
+          imgsrc = imgsrc.replace('src=', '').replace(/"/g, '')
+        }
+        if (imgsrc) {
+          imgsrc = imgsrc.search(/http(s?):/) < 0 ? 'https:' + imgsrc : imgsrc
+        }
+
+      } catch (e) {
+        console.log(e)
+      }
+
+      return {
+        songsrc,
+        imgsrc,
+      }
+    }
+
+    return {}
   } catch (e) {
     throw e
   }
@@ -76,34 +161,19 @@ const searchJita = async (key) => {
   }
 }
 
-const getMusicHome = async () => {
-  try {
-    const res = await promiseRequest({
-      url: `${CYQQ}/v8/fcg-bin/fcg_myqq_topList.fcg?format=json`,
-      showLoading: true,
-      fail: () => {},
-      isSuccess: res => res.code === 0,
-    })
+const langDetect = async (value) => {
+  const res = await promiseRequest({
+    url: `${FANYI}/langdetect`,
+    data: {
+      query: value,
+    },
+    method: 'POST',
+    showLoading: false,
+    fail: () => {},
+    isSuccess: res => res.error === 0,
+  })
 
-    return res
-  } catch (e) {
-    throw e
-  }
-}
-
-const getMusicTopList = async (id) => {
-  try {
-    const res = await promiseRequest({
-      url: `${CYQQ}/v8/fcg-bin/fcg_v8_toplist_cp.fcg?topid=${id}&format=json`,
-      showLoading: true,
-      fail: () => {},
-      isSuccess: res => res.code === 0,
-    })
-
-    return res
-  } catch (e) {
-    throw e
-  }
+  return res
 }
 
 const getRainJoy1993Config = async () => {
@@ -121,61 +191,15 @@ const getRainJoy1993Config = async () => {
   }
 }
 
-const searchSong = async (key, page = 1) => {
-  try {
-    const res = await promiseRequest({
-      url: `${BZQLL}/music/tencent/search?key=579621905&s=${key}&limit=10&offset=${page}&type=song`,
-      showLoading: true,
-      fail: () => {},
-      isSuccess: res => res.code === 200,
-    })
-
-    return res
-  } catch (e) {
-    throw e
-  }
-}
-
-const getSongIrc = async (mid) => {
-  try {
-    const res = await promiseRequest({
-      url: `${BZQLL}/music/tencent/lrc?id=${mid}&key=579621905`,
-      showLoading: true,
-      fail: () => {},
-      isSuccess: res => true,
-    })
-
-    return res
-  } catch (e) {
-    throw e
-  }
-}
-
-const langDetect = async (value) => {
-  const res = await promiseRequest({
-    url: `${FANYI}/langdetect`,
-    data: {
-      query: value,
-    },
-    method: 'POST',
-    showLoading: false,
-    fail: () => {},
-    isSuccess: res => res.error === 0,
-  })
-
-  return res
-}
-
 export {
   getHotKey,
+  getMusicHome,
+  getMusicTopList,
+  getMusicSrc,
   getJitaHome,
   getJitaSinger,
   getJitaSong,
   searchJita,
-  getMusicHome,
-  getMusicTopList,
-  getRainJoy1993Config,
-  searchSong,
-  getSongIrc,
   langDetect,
+  getRainJoy1993Config,
 }

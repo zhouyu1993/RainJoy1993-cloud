@@ -73,7 +73,7 @@ exports.main = async (event, context) => {
 
     }).get()
 
-    const profiles = (res.data || []).filter(profile => profile.appointment > 0)
+    const profiles = (res.data || []).filter(profile => +profile.appointment > 0)
 
     const sendPromises = profiles.map(async profile => {
       try {
@@ -99,7 +99,7 @@ exports.main = async (event, context) => {
           },
         }
 
-        console.log('debug: ', touser)
+        console.log('debug: ', param)
 
         await cloud.openapi.subscribeMessage.send(param)
 

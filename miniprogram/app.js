@@ -45,6 +45,8 @@ App({
     wx.showShareMenu({
       withShareTicket: true,
     })
+
+    this.getUpdateManager()
   },
   onHide () {
     console.log('App.onHide')
@@ -57,6 +59,12 @@ App({
 
     wx.switchTab({
       url: '/pages/setting/index',
+      success: res => {
+        console.log('wx.switchTab.success: ', res)
+      },
+      fail: err => {
+        console.error('wx.switchTab.fail: ', err)
+      },
     })
   },
   getUpdateManager () {

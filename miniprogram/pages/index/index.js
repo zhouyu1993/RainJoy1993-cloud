@@ -35,9 +35,13 @@ Page({
       date: {},
     }
 
-    now.setMonth(month)
-    now.setDate(0)
-    const dates = [...new Array(now.getDate())]
+    function daysInMonth () {
+      const now = new Date()
+      const time = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+      return time.getDate()
+    }
+
+    const dates = [...new Array(daysInMonth())]
 
     const clockDate = dates.map((v, k) => {
       let d = k + 1

@@ -8,7 +8,7 @@
     {
       "name": "myTrigger",
       "type": "timer",
-      "config": "0 35 10 * * MON-FRI *"
+      "config": "0 0 10 * * MON-FRI *"
     }
   ]
 }

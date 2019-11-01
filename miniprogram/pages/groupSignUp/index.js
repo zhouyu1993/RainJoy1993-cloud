@@ -21,11 +21,13 @@ Page({
 
     plusUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/plus.png',
     addressUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/location.png',
-    visible: false,
+    visible: true,
     textarea: '',
     address: {},
 
     editId: '',
+
+    goods: [],
   },
   onShow () {
     if (!wx.cloud) {
@@ -76,6 +78,8 @@ Page({
               })
 
               this.getGroups(openGId)
+
+              this.getGoods()
             } catch (e) {
               console.error(e)
             }
@@ -287,6 +291,35 @@ Page({
       },
     })
   },
+  getGoods () {
+    const db = wx.cloud.database()
+
+    // 获取商品
+    db.collection('goods')
+      .where({
+
+      })
+      .watch({
+        onChange: res => {
+          console.log('goods.watch.onChange: ', res)
+
+          const { docs = [], } = res
+
+          const goods = docs.filter(item => item.price).map(item => ({
+            ...item,
+            checked: false,
+            number: 0,
+          }))
+
+          this.setData({
+            goods,
+          })
+        },
+        onError: err => {
+          console.error('goods.watch.onError: ', err)
+        },
+      })
+  },
   edit (e) {
     const { openGId = '', } = this.data
 
@@ -301,7 +334,8 @@ Page({
 
     const time = new Date()
 
-    if (time.getHours() >= 12) {
+    if (time.getHours() >= 12 && time.getHours() < 15) {
+      // [12, 15) 不可修改
       wx.showToast({
         title: '已不可修改，请联系群主',
         icon: 'none',
@@ -314,7 +348,7 @@ Page({
 
     this.setData({
       visible: true,
-      textarea: data.textarea,
+      textarea: `${data.textarea} ${data.goods}`,
       address: data.address,
       editId: data._id,
     })
@@ -322,7 +356,8 @@ Page({
   delete (e) {
     const time = new Date()
 
-    if (time.getHours() >= 12) {
+    if (time.getHours() >= 12 && time.getHours() < 15) {
+      // [12, 15) 不可删除
       wx.showToast({
         title: '已不可删除，请联系群主',
         icon: 'none',
@@ -380,7 +415,7 @@ Page({
   setClipboardDataOne (e) {
     const { data = {}, } = e.currentTarget.dataset
 
-    this.setClipboardData(`${data.userInfo.nickName} ${data.textarea} ${data.time}`)
+    this.setClipboardData(`${data.userInfo.nickName} ${data.textarea} ${data.goods} ${data.time}`)
   },
   setClipboardDataAll () {
     const { list = [], } = this.data
@@ -388,7 +423,7 @@ Page({
     if (list.length) {
       let data = ''
       list.forEach((item, index) => {
-        data += `${index + 1}、${item.userInfo.nickName} ${item.textarea} ${item.time}
+        data += `${index + 1}、${item.userInfo.nickName} ${item.textarea} ${data.goods} ${item.time}
 
 `
       })
@@ -421,7 +456,7 @@ Page({
     })
   },
   notify (e) {
-    const { index, id, openid, textarea, } = e.currentTarget.dataset
+    const { index, data = {}, } = e.currentTarget.dataset
 
     const { amounts = [], } = this.data
 
@@ -436,15 +471,17 @@ Page({
       return
     }
 
+    const { _id, _openid, textarea, goods, } = data
+
     // 通知用户
     // 调用云函数 openapi
     wx.cloud.callFunction({
       name: 'openapi',
       data: {
         action: 'sendSubscribeMessage',
-        touser: openid,
+        touser: _openid,
         templateId: 'TydTAuzjG8ufiZyy8uavgY_1j8cVuIT5Vsw-3V2HLcM',
-        page: `pages/myCircle/index?groupSignUpId=${id}`,
+        page: `pages/myCircle/index?groupSignUpId=${_id}`,
         data: {
           thing1: {
             value: '拼团报名' || '活动名称',
@@ -453,7 +490,7 @@ Page({
             value: `${amount}元` || '0元',
           },
           thing3: {
-            value: textarea.slice(0, 19) || '订单内容',
+            value: (textarea + ' ' + goods).slice(0, 19) || '订单内容',
           },
           name4: {
             value: 'RainJoy' || '商家名称',
@@ -528,10 +565,91 @@ Page({
       },
     })
   },
-  formSubmit () {
-    const { userInfo = {}, openGId = '', textarea = '', address = {}, editId = '', } = this.data
+  checkboxChange (e) {
+    const { value = [], } = e.detail
 
-    if (!textarea) {
+    const { goods = [], } = this.data
+
+    goods.forEach(item => {
+      item.checked = false
+    })
+
+    value.forEach(v => {
+      const item = goods[v]
+      item.checked = true
+
+      const number = +item.number
+      if (!number) {
+        item.number = 1
+      }
+    })
+
+    this.setData({
+      goods,
+    })
+  },
+  decrease (e) {
+    const { index, } = e.currentTarget.dataset
+
+    const { goods = [], } = this.data
+
+    const number = goods[index].number
+    if (number > 0) {
+      if (number === 1) {
+        goods[index].checked = false
+      }
+
+      goods[index].number--
+
+      this.setData({
+        goods,
+      })
+    }
+  },
+  increase (e) {
+    const { index, } = e.currentTarget.dataset
+
+    const { goods = [], } = this.data
+
+    const number = goods[index].number
+    if (number < 99) {
+      goods[index].checked = true
+
+      goods[index].number++
+
+      this.setData({
+        goods,
+      })
+    }
+  },
+  numberInput (e) {
+    const { value, } = e.detail
+    const { index, } = e.currentTarget.dataset
+
+    const { goods = [], } = this.data
+
+    if (value < 0) {
+      goods[index].checked = true
+      goods[index].number = 1
+    } else if (value > 99) {
+      goods[index].checked = true
+      goods[index].number = 99
+    } else {
+      goods[index].checked = !!value
+      goods[index].number = value
+    }
+
+
+    this.setData({
+      goods,
+    })
+  },
+  formSubmit () {
+    const { userInfo = {}, openGId = '', textarea = '', address = {}, goods = [], editId = '', } = this.data
+
+    const _goods = goods.filter(item => !!item.checked).map(item => `${item.name}${item.number}${item.unit}`).join(' ')
+
+    if (!textarea && !_goods.length) {
       wx.showToast({
         title: '请输入',
         icon: 'none',
@@ -560,6 +678,7 @@ Page({
                 userInfo,
                 openGId,
                 textarea,
+                goods: _goods,
                 address,
                 timestamp,
                 state: 0,
@@ -592,6 +711,7 @@ Page({
               data: {
                 userInfo,
                 textarea,
+                goods: _goods,
                 address,
                 timestamp,
               },
@@ -695,8 +815,6 @@ Page({
           profiles.where({
             _openid: openid,
           }).get().then(res => {
-            console.log(res.data)
-
             try {
               const profile = res.data[0]
               const num = +profile.appointment || 0
@@ -719,8 +837,6 @@ Page({
           title: '请您接受订阅消息，否则无法收到通知',
           icon: 'none',
         })
-
-        this.formSubmit()
       },
     })
   },
@@ -756,8 +872,6 @@ Page({
           profiles.where({
             _openid: openid,
           }).get().then(res => {
-            console.log(res.data)
-
             try {
               const profile = res.data[0]
               const num = +profile.appointment || 0

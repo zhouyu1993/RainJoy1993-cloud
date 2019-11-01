@@ -23,12 +23,12 @@
           </view>
           <view class="list-item-right">
             <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}">{{item.userInfo.nickName || '匿名用户'}}</view>
-            <text data-data="{{item}}" bindtap="setClipboardDataOne">{{item.textarea}}</text>
+            <text data-data="{{item}}" bindtap="setClipboardDataOne">{{item.textarea}} {{item.goods}}</text>
             <view class="address" wx:if="{{item.address.userName}}">{{item.address.userName}} {{item.address.provinceName}} {{item.address.cityName}} {{item.address.countyName}}（{{item.address.detailInfo}}）{{item.address.telNumber}}</view>
             <view class="time">{{item.time}}<text class="edit" data-data="{{item}}" bindtap="edit" wx:if="{{openid === item._openid}}">修改</text><text class="delete" data-id="{{item._id}}" bindtap="delete" wx:if="{{openid === item._openid}}">删除</text></view>
             <view class="action" wx:if="{{admin}}">
               <input placeholder="请输入金额" data-index="{{index}}" bindinput="amountInput" />
-              <text data-index="{{index}}" data-id="{{item._id}}" data-openid="{{item._openid}}" data-textarea="{{item.textarea}}" bindtap="notify">通知</text>
+              <text data-index="{{index}}" data-data="{{item}}" bindtap="notify">通知</text>
             </view>
           </view>
          </view>
@@ -49,7 +49,27 @@
         <button class="submit" type="primary" hover-class="none" bindtap="subscribe">报名</button>
       </view>
 
-      <textarea class="textarea" name="textarea" value="{{textarea}}" placeholder="您公司楼层+需要的物品" bindinput="textareaInput" />
+
+      <scroll-view scroll-y="true" class="goods">
+        <view class="goods-item">
+          <checkbox-group bindchange="checkboxChange">
+            <label class="checkbox" wx:for="{{goods}}" wx:key="{{index}}">
+              <checkbox value="{{index}}" checked="{{item.checked}}"/>
+              {{item.name}}（{{item.price}}）
+            </label>
+          </checkbox-group>
+          <view>
+            <view class="number" wx:for="{{goods}}" wx:key="{{index}}">
+              <button data-index="{{index}}" bindtap="decrease">-</button>
+              <input type="number" value="{{item.number}}" data-index="{{index}}" bindinput="numberInput" />
+              <button data-index="{{index}}" bindtap="increase">+</button>
+              （{{item.unit}}）
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+
+      <textarea class="textarea" name="textarea" value="{{textarea}}" placeholder="公司+楼层+物品" bindinput="textareaInput" />
 
       <view class="address" bindtap="chooseAddress">
         <image class="address-image" src="{{addressUrl}}" mode="aspectFit"></image>

@@ -155,8 +155,9 @@ page, .container {
   width: 100%;
   height: 200rpx;
   padding: 20rpx 40rpx;
-  font-size: 24rpx;
+  font-size: 32rpx;
   background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .footer .form .address {
@@ -165,8 +166,6 @@ page, .container {
   margin: 0 20rpx;
   padding: 20rpx 0;
   font-size: 28rpx;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .footer .form .address .address-image {
@@ -178,4 +177,60 @@ page, .container {
 .footer .form .address .address-name {
   flex: 1;
   color: #ff397e;
+}
+
+.footer .form  .goods {
+  height: 700rpx;
+  margin-top: 20rpx;
+  padding: 20rpx;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.footer .form  .goods .goods-item {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+}
+
+.footer .form  .goods .goods-item:first-child {
+  margin-top: 0;
+}
+
+.footer .form  .goods .goods-item .checkbox {
+  display: flex;
+  align-items: center;
+  height: 60rpx;
+  padding: 5rpx 0;
+  line-height: 60rpx;
+}
+
+.footer .form  .goods .goods-item .number {
+  display: flex;
+  align-items: center;
+  height: 60rpx;
+  padding: 5rpx 0;
+  line-height: 60rpx;
+}
+
+.footer .form  .goods .goods-item .number button {
+  width: 50rpx;
+  height: 50rpx;
+  padding: 0;
+  line-height: 50rpx;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.footer .form  .goods .goods-item .number input {
+  width: 100rpx;
+  height: 50rpx;
+  margin: 0 10rpx;
+  line-height: 50rpx;
+  border: 1px solid #ddd;
+  text-align: center;
 }

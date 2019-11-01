@@ -2,7 +2,7 @@
   <view class="main">
     <view class="tab">
       <view class="tab-item" bindtap="tab1">
-        <text class="{{hover == 0 ? 'hover' : ''}}">月排行榜</text>
+        <text class="{{hover == 0 ? 'hover' : ''}}">总排行榜</text>
       </view>
       <view class="tab-item" bindtap="tab2">
         <text class="{{hover == 1 ? 'hover' : ''}}">日排行榜</text>

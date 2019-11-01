@@ -7,5 +7,9 @@
     <view class="aphorisms">
       <view wx:for="{{aphorisms}}" wx:key="{{index}}">{{item}}</view>
     </view>
+
+    <button type="primary" open-type="contact" bindcontact="handleContact" session-from="contact" send-message-title="我要打赏支持" send-message-path="/pages/index/index" send-message-img="https://zhouyu1993.github.io/images/avatar.png" show-message-card="true" style="margin: 20rpx;">打赏支持</button>
+
+    <view style="margin: 0;font-size: 24rpx; color: #ccc;">点击后，发送卡片或输入打赏</view>
   </view>
 </view>

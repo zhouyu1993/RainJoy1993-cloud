@@ -32,4 +32,21 @@ Page({
       },
     }
   },
+
+  handleContact (e) {
+    const { path, query, } = e.detail
+
+    if (path) {
+      let queryStr = ''
+      for (let key in query) {
+        queryStr += `${key}=${query[key]}`
+      }
+
+      const link = `${path}?${queryStr}`
+
+      navigateTo({
+        url: link,
+      })
+    }
+  },
 })

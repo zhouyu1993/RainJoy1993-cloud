@@ -64,7 +64,12 @@ exports.main = async (event, context) => {
     let param = {}
 
     if (MsgType === 'text') {
-      if (/胸|腿|性感|美女|丝袜|动漫|制服|护士|车模|二次元|推女郎|图片/.test(Content)) {
+      if (/用户|打赏|买单/.test(Content)) {
+        param = {
+          touser,
+          ...await getImage(Content),
+        }
+      } else if (/胸|腿|性感|美女|丝袜|动漫|制服|护士|车模|二次元|推女郎|图片/.test(Content)) {
         const key = Content.replace('图片', '')
 
         param = {
@@ -123,29 +128,10 @@ exports.main = async (event, context) => {
         }
       }
     } else if (MsgType === 'miniprogrampage') {
-      if (Title === '我要进用户群') {
-        const img = await cloud.downloadFile({
-          fileID: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/groupQRCode.jpeg',
-        })
-
-        console.log('debug: ', img)
-
-        const media = await cloud.openapi.customerServiceMessage.uploadTempMedia({
-          type: 'image',
-          media: {
-            contentType: 'image/jpeg',
-            value: img.fileContent,
-          },
-        })
-
-        console.log('debug: ', media)
-
+      if (/用户|打赏|买单/.test(Title)) {
         param = {
           touser,
-          msgtype: 'image',
-          image: {
-            media_id: media.mediaId,
-          },
+          ...await getImage(Title),
         }
       } else {
         param = {
@@ -180,5 +166,37 @@ exports.main = async (event, context) => {
     console.error(e)
 
     throw e
+  }
+}
+
+async function getImage (title = '') {
+  let fileID
+  if (/用户/.test(title)) {
+    fileID = 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/groupQRCode.jpeg'
+  } else if (/打赏|买单/.test(title)) {
+    fileID = 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/reward.jpeg'
+  }
+
+  const img = await cloud.downloadFile({
+    fileID,
+  })
+
+  console.log('debug: ', img)
+
+  const media = await cloud.openapi.customerServiceMessage.uploadTempMedia({
+    type: 'image',
+    media: {
+      contentType: 'image/jpeg',
+      value: img.fileContent,
+    },
+  })
+
+  console.log('debug: ', media)
+
+  return {
+    msgtype: 'image',
+    image: {
+      media_id: media.mediaId,
+    },
   }
 }

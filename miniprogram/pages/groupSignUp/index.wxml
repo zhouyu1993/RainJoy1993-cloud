@@ -15,6 +15,10 @@
       <open-data type="groupName" open-gid="{{openGId}}"></open-data>
     </view>
 
+    <button type="primary" hover-class="none" bindtap="showForm" style="margin: 20rpx;">立即下单</button>
+    <button type="primary" hover-class="none" bindtap="subscribe2" style="margin: 20rpx;">明天提醒</button>
+    <button type="primary" hover-class="none" bindtap="setClipboardDataAll" style="margin: 20rpx;" wx:if="{{admin && list.length}}">一键复制</button>
+
     <view class="list" wx:if="{{list.length}}">
       <block wx:for="{{list}}" wx:key="{{index}}">
         <view class="list-item">
@@ -31,13 +35,9 @@
               <text data-index="{{index}}" data-data="{{item}}" bindtap="notify">通知</text>
             </view>
           </view>
-         </view>
+        </view>
       </block>
     </view>
-
-    <button type="primary" hover-class="none" bindtap="showForm" style="margin: 20rpx;">立即下单</button>
-    <button type="primary" hover-class="none" bindtap="subscribe2" style="margin: 20rpx;">明天提醒</button>
-    <button type="primary" hover-class="none" bindtap="setClipboardDataAll" style="margin: 20rpx;" wx:if="{{admin && list.length}}">一键复制</button>
   </view>
 
   <view class="footer">
@@ -49,8 +49,7 @@
         <button class="submit" type="primary" hover-class="none" bindtap="subscribe">报名</button>
       </view>
 
-
-      <scroll-view scroll-y="true" class="goods">
+      <scroll-view scroll-y="true" class="goods" wx:if="{{goods.length}}">
         <view class="goods-item">
           <checkbox-group bindchange="checkboxChange">
             <label class="checkbox" wx:for="{{goods}}" wx:key="{{index}}">
@@ -69,7 +68,7 @@
         </view>
       </scroll-view>
 
-      <textarea class="textarea" name="textarea" value="{{textarea}}" placeholder="公司+楼层+物品" bindinput="textareaInput" />
+      <textarea class="textarea" name="textarea" value="{{textarea}}" placeholder="公司+楼层+物品（注意不要重复）" bindinput="textareaInput" />
 
       <view class="address" bindtap="chooseAddress">
         <image class="address-image" src="{{addressUrl}}" mode="aspectFit"></image>

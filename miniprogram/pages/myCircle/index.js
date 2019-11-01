@@ -289,29 +289,23 @@ Page({
                         console.log('groupSignUp.update.success: ', res)
 
                         if (res.stats.updated) {
-                          wx.showToast({
-                            title: '收货成功',
+                          wx.showModal({
+                            title: '',
+                            content: '收货成功',
+                            cancelText: '去评价',
+                            confirmText: '去支付',
+                            success: res => {
+                              wx.redirectTo({
+                                url: res.confirm ? '/pages/reward/index' : '/pages/myCircle/index',
+                                success: res => {
+                                  console.log('wx.redirectTo.success: ', res)
+                                },
+                                fail: err => {
+                                  console.error('wx.redirectTo.fail: ', err)
+                                },
+                              })
+                            },
                           })
-
-                          let st = setTimeout(() => {
-                            wx.redirectTo({
-                              url: '/pages/myCircle/index',
-                              success: res => {
-                                console.log('wx.redirectTo.success: ', res)
-
-                                clearTimeout(st)
-
-                                st = null
-                              },
-                              fail: err => {
-                                console.error('wx.redirectTo.fail: ', err)
-
-                                clearTimeout(st)
-
-                                st = null
-                              },
-                            })
-                          }, 300)
                         } else {
                           wx.showToast({
                             title: '收货失败',
@@ -332,7 +326,23 @@ Page({
                 },
               })
             } else {
-              this.showTip()
+              wx.showModal({
+                title: '',
+                content: '收货成功',
+                cancelText: '去评价',
+                confirmText: '去支付',
+                success: res => {
+                  wx.redirectTo({
+                    url: res.confirm ? '/pages/reward/index' : '/pages/myCircle/index',
+                    success: res => {
+                      console.log('wx.redirectTo.success: ', res)
+                    },
+                    fail: err => {
+                      console.error('wx.redirectTo.fail: ', err)
+                    },
+                  })
+                },
+              })
             }
           },
           fail: err => {

@@ -21,13 +21,14 @@ Page({
 
     plusUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/plus.png',
     addressUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/location.png',
-    visible: true,
+    visible: false,
     textarea: '',
     address: {},
 
     editId: '',
 
     goods: [],
+    goodsBackup: [],
   },
   onShow () {
     if (!wx.cloud) {
@@ -65,7 +66,7 @@ Page({
           data: {
             openData: wx.cloud.CloudID(cloudID),
           },
-          success: res => {
+          success: async res => {
             console.log('[云函数] [cx] 调用成功', res)
 
             try {
@@ -79,7 +80,30 @@ Page({
 
               this.getGroups(openGId)
 
-              this.getGoods()
+              let superGroups = [
+                {
+                  openGId: 'tGSfYh0Z6l4FyfUApepTKdiDZC3Ps',
+                },
+              ]
+
+              try {
+                const db = wx.cloud.database()
+
+                // 获取管理员
+                const result = await db.collection('superGroups')
+                .where({
+
+                })
+                .get()
+
+                superGroups = result.data
+              } catch (e) {
+                console.error(e)
+              }
+
+              if (superGroups.some(superGroup => superGroup.openGId === this.data.openGId)) {
+                this.getGoods()
+              }
             } catch (e) {
               console.error(e)
             }
@@ -303,7 +327,11 @@ Page({
         onChange: res => {
           console.log('goods.watch.onChange: ', res)
 
-          const { docs = [], } = res
+          const { type = '', docs = [], } = res
+
+          if (type !== 'init') {
+            return
+          }
 
           const goods = docs.filter(item => item.price).map(item => ({
             ...item,
@@ -313,6 +341,7 @@ Page({
 
           this.setData({
             goods,
+            goodsBackup: JSON.parse(JSON.stringify(goods)),
           })
         },
         onError: err => {
@@ -678,10 +707,10 @@ Page({
                 userInfo,
                 openGId,
                 textarea,
-                goods: _goods,
                 address,
                 timestamp,
                 state: 0,
+                goods: _goods,
               },
               success: res => {
                 console.log('[数据库] [add] 成功', res)
@@ -711,9 +740,9 @@ Page({
               data: {
                 userInfo,
                 textarea,
-                goods: _goods,
                 address,
                 timestamp,
+                goods: _goods,
               },
               success: res => {
                 console.log('[数据库] [edit] 成功', res)
@@ -744,9 +773,11 @@ Page({
     })
   },
   formCancel () {
-    const { textarea = '', editId = '', } = this.data
+    const { textarea = '', goods = [], editId = '', } = this.data
 
-    if (!textarea || editId) {
+    const _goods = goods.filter(item => !!item.checked).map(item => `${item.name}${item.number}${item.unit}`).join(' ')
+
+    if ((!textarea && !_goods.length) || editId) {
       this.setData({
         visible: false,
         textarea: '',
@@ -772,6 +803,7 @@ Page({
             visible: false,
             textarea: '',
             address: {},
+            goods: this.data.goodsBackup,
           })
         }
       },

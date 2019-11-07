@@ -10,9 +10,9 @@
           <view class="articles-item-right">
             <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}">{{item.userInfo.nickName || '匿名用户'}}</view>
             <text>{{item.textarea}}</text>
-            <view class="images" wx:if="{{item.images.length}}">
+            <view class="images" wx:if="{{item.images.length}}" data-images="{{item.images}}" bindtap="previewImage">
               <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">
-                <image class="image" mode="aspectFit" src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
+                <image class="image" mode="aspectFit" src="{{image}}"></image>
               </block>
             </view>
             <view class="address" bindtap="openLocation" data-latitude="{{item.location.latitude}}" data-longitude="{{item.location.longitude}}" wx:if="{{item.location.name}}">{{item.location.name}}（{{item.location.address}}）</view>
@@ -20,11 +20,6 @@
           </view>
         </view>
       </block>
-    </view>
-  </view>
-  <view class="footer">
-    <view class="preview-image {{medium.height < pageHight ? 'cssflex' : 'scroll'}}" hidden="{{medium.hidden}}">
-      <image style="width:{{medium.width}}px;height:{{medium.height}}px;" src="{{medium.src}}" bindload="imageLoad" bindtap="previewHidden" bindlongpress="downImage" />
     </view>
   </view>
 </view>

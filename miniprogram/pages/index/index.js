@@ -307,11 +307,8 @@ Page({
 
               clock.date[clock.today] = 1
 
-              const clockDateNum = this.data.clockDateNum
-
               this.setData({
                 clock,
-                clockDateNum: clockDateNum + 1,
               })
             },
             fail: err => {

@@ -153,11 +153,10 @@ page, .container {
 
 .footer .form .textarea {
   width: 100%;
-  height: 200rpx;
+  height: 400rpx;
   padding: 20rpx 40rpx;
   font-size: 32rpx;
   background-color: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .footer .form .address {
@@ -166,6 +165,8 @@ page, .container {
   margin: 0 20rpx;
   padding: 20rpx 0;
   font-size: 28rpx;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 
 .footer .form .address .address-image {
@@ -180,23 +181,15 @@ page, .container {
 }
 
 .footer .form  .goods {
-  height: 700rpx;
-  margin-top: 20rpx;
+  height: 600rpx;
   padding: 20rpx;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
 }
 
 .footer .form  .goods .goods-item {
   display: flex;
   align-content: center;
   justify-content: space-between;
-  margin-top: 10rpx;
   font-size: 24rpx;
-}
-
-.footer .form  .goods .goods-item:first-child {
-  margin-top: 0;
 }
 
 .footer .form  .goods .goods-item .checkbox {

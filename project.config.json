@@ -84,7 +84,7 @@
 					"id": 4,
 					"name": "pages/myCircle/index",
 					"pathName": "pages/myCircle/index",
-					"query": "groupSignUpId=586490d25dbbdfe90410ecc002d2448e&openId=",
+					"query": "groupSignUpId=&openId=",
 					"scene": null
 				},
 				{
@@ -153,6 +153,13 @@
 					"name": "pages/jitaSong/index",
 					"pathName": "pages/jitaSong/index",
 					"query": "id=2224",
+					"scene": null
+				},
+				{
+					"id": 14,
+					"name": "pages/aiAlbum/index",
+					"pathName": "pages/aiAlbum/index",
+					"query": "",
 					"scene": null
 				}
 			]

@@ -498,7 +498,7 @@ Page({
 
     // 选择图片
     wx.chooseImage({
-      count: 1,
+      count: 9,
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
@@ -506,9 +506,11 @@ Page({
           title: '上传中',
         })
 
-        const filePath = res.tempFilePaths[0]
+        const tempFilePaths = res.tempFilePaths
 
-        this.uploadFile(filePath)
+        tempFilePaths.forEach(filePath => {
+          this.uploadFile(filePath)
+        })
       },
     })
   },
@@ -521,6 +523,8 @@ Page({
       filePath,
       success: res => {
         console.log('[上传文件] 成功：', res)
+
+        wx.hideLoading()
 
         const { images = [], } = this.data
 
@@ -538,9 +542,6 @@ Page({
           title: '上传失败',
           icon: 'none',
         })
-      },
-      complete: () => {
-        wx.hideLoading()
       },
     })
   },
@@ -563,6 +564,11 @@ Page({
       },
       fail: err => {
         console.error('[选择位置] 失败：', err)
+
+        wx.showToast({
+          title: '请在[设置-授权设置]中开启',
+          icon: 'none',
+        })
       },
     })
   },

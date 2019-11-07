@@ -375,9 +375,11 @@ Page({
 
     const { data = {}, } = e.currentTarget.dataset
 
+    console.log(data, `${data.textarea} ${data.goods || ''}`)
+
     this.setData({
       visible: true,
-      textarea: `${data.textarea} ${data.goods}`,
+      textarea: `${data.textarea} ${data.goods || ''}`,
       address: data.address,
       editId: data._id,
     })
@@ -444,7 +446,7 @@ Page({
   setClipboardDataOne (e) {
     const { data = {}, } = e.currentTarget.dataset
 
-    this.setClipboardData(`${data.userInfo.nickName} ${data.textarea} ${data.goods} ${data.time}`)
+    this.setClipboardData(`${data.userInfo.nickName} ${data.textarea} ${data.goods || ''} ${data.time}`)
   },
   setClipboardDataAll () {
     const { list = [], } = this.data
@@ -452,7 +454,7 @@ Page({
     if (list.length) {
       let data = ''
       list.forEach((item, index) => {
-        data += `${index + 1}、${item.userInfo.nickName} ${item.textarea} ${data.goods} ${item.time}
+        data += `${index + 1}、${item.userInfo.nickName} ${item.textarea} ${item.goods || ''} ${item.time}
 
 `
       })
@@ -591,6 +593,11 @@ Page({
       },
       fail: err => {
         console.error('[选择收货地址] 失败', err)
+
+        wx.showToast({
+          title: '请在[设置-授权设置]中开启',
+          icon: 'none',
+        })
       },
     })
   },
@@ -723,6 +730,7 @@ Page({
                   visible: false,
                   textarea: '',
                   address: {},
+                  goods: this.data.goodsBackup,
                 })
               },
               fail: err => {
@@ -756,6 +764,7 @@ Page({
                   textarea: '',
                   address: {},
                   editId: '',
+                  goods: this.data.goodsBackup,
                 })
               },
               fail: err => {
@@ -783,6 +792,7 @@ Page({
         textarea: '',
         address: {},
         editId: '',
+        goods: this.data.goodsBackup,
       })
 
       return

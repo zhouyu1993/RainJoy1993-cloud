@@ -15,28 +15,9 @@ Page({
     articles: [],
 
     cameraUrl: 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/camera.png',
-
-    pageWidth: 0,
-    pageHight: 0,
-    medium: {
-      src: '',
-      width: 0,
-      height: 0,
-      hidden: true,
-    },
   },
   onLoad (options) {
-    const systemInfo = wx.getSystemInfoSync()
 
-    const { windowWidth, screenWidth, windowHeight, screenHeight, } = systemInfo
-
-    const pageWidth = windowWidth || screenWidth
-    const pageHight = windowHeight || screenHeight
-
-    this.setData({
-      pageWidth,
-      pageHight,
-    })
   },
   onShow () {
     if (!wx.cloud) {
@@ -301,76 +282,10 @@ Page({
     })
   },
   previewImage (e) {
-    const { src = '', } = e.currentTarget.dataset
+    const { images = '', } = e.currentTarget.dataset
 
-    this.setData({
-      medium: {
-        src,
-      },
-    })
-  },
-  imageLoad (e) {
-    const { width, height, } = e.detail
-
-    const { pageWidth, medium, } = this.data
-
-    if (width > pageWidth) {
-      medium.width = pageWidth
-      medium.height = pageWidth / (width / height)
-    }
-
-    this.setData({
-      medium: {
-        ...medium,
-        hidden: false,
-      },
-    })
-  },
-  previewHidden () {
-    const { medium, } = this.data
-
-    this.setData({
-      medium: {
-        ...medium,
-        hidden: true,
-      },
-    })
-  },
-  downImage () {
-    wx.showModal({
-      title: '',
-      content: '保存图片？',
-      cancelText: '取消',
-      confirmText: '保存',
-      success: res => {
-        if (res.confirm) {
-          const { medium, } = this.data
-
-          wx.cloud.downloadFile({
-            fileID: medium.src,
-            success: res => {
-              console.log('wx.cloud.downloadFile.success: ', res)
-
-              const { statusCode, tempFilePath, } = res
-
-              if (statusCode === 200 && tempFilePath) {
-                wx.saveImageToPhotosAlbum({
-                  filePath: tempFilePath,
-                  success: res => {
-                    console.log('wx.saveImageToPhotosAlbum.success: ', res)
-                  },
-                  fail: err => {
-                    console.error('wx.saveImageToPhotosAlbum.fail: ', err)
-                  },
-                })
-              }
-            },
-            fail: err => {
-              console.error('wx.cloud.downloadFile.fail: ', err)
-            },
-          })
-        }
-      },
+    wx.previewImage({
+      urls: images,
     })
   },
 

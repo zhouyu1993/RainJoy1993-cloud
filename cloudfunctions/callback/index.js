@@ -64,7 +64,7 @@ exports.main = async (event, context) => {
     let param = {}
 
     if (MsgType === 'text') {
-      if (/用户|打赏|买单/.test(Content)) {
+      if (/用户|打赏|买单|支付/.test(Content)) {
         param = {
           touser,
           ...await getImage(Content),
@@ -128,7 +128,7 @@ exports.main = async (event, context) => {
         }
       }
     } else if (MsgType === 'miniprogrampage') {
-      if (/用户|打赏|买单/.test(Title)) {
+      if (/用户|打赏|买单|支付/.test(Title)) {
         param = {
           touser,
           ...await getImage(Title),
@@ -173,8 +173,10 @@ async function getImage (title = '') {
   let fileID
   if (/用户/.test(title)) {
     fileID = 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/groupQRCode.jpeg'
-  } else if (/打赏|买单/.test(title)) {
+  } else if (/打赏/.test(title)) {
     fileID = 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/reward.jpeg'
+  } else if (/买单|支付/.test(title)) {
+    fileID = 'cloud://development-6cz0i.6465-development-6cz0i-1255810278/assets/wxpay.jpeg'
   }
 
   const img = await cloud.downloadFile({

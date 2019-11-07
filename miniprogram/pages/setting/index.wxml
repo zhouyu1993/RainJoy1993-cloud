@@ -11,7 +11,7 @@
 
   <view class="main">
     <view class="modules" wx:if="{{modules.length}}">
-      <block wx:for="{{modules}}" wx:key="{{index}}">
+      <block wx:for="{{modules}}" wx:key="index">
         <block wx:if="{{item.link}}">
           <button hover-class="none" data-login="{{item.login}}" data-link="{{item.link}}" bindtap="goTo">
             <image src="{{item.image}}" mode="aspectFit"></image>

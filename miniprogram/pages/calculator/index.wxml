@@ -44,7 +44,7 @@
       <view>年度收入总额：{{youMoneySum}}</view>
       <view>每月收入列表</view>
       <view wx:if="{{youMoneys.length}}" class="youMoneys">
-        <block wx:for="{{youMoneys}}" wx:key="{{index}}">
+        <block wx:for="{{youMoneys}}" wx:key="index">
           <view>
             <view class="item">第{{index + 1}}月：{{item}}</view>
           </view>
@@ -53,7 +53,7 @@
       <view>年度交税总额：{{taxSum}}</view>
       <view>每月交税列表</view>
       <view wx:if="{{taxs.length}}" class="taxs">
-        <block wx:for="{{taxs}}" wx:key="{{index}}">
+        <block wx:for="{{taxs}}" wx:key="index">
           <view>
             <view class="item">第{{index + 1}}月：{{item}}</view>
           </view>

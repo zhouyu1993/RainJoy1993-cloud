@@ -2,7 +2,7 @@
   <view class="main">
     <block wx:if="{{jitaHome.slide && jitaHome.slide.length}}">
       <swiper autoplay class="slide">
-        <block wx:for="{{jitaHome.slide}}" wx:key="{{index}}">
+        <block wx:for="{{jitaHome.slide}}" wx:key="index">
           <swiper-item>
             <image lazy-load src="{{item}}" class="slide-image" />
           </swiper-item>
@@ -21,7 +21,7 @@
         <view class="search-result-singer" wx:if="{{jitaData.singer && jitaData.singer.length}}">
           <view>歌手：</view>
           <view class="list">
-            <block wx:for="{{jitaData.singer}}" wx:key="{{index}}">
+            <block wx:for="{{jitaData.singer}}" wx:key="index">
               <view data-id="{{item.id}}" bindtap="toJitaSinger">{{item.name}}</view>
             </block>
           </view>
@@ -29,7 +29,7 @@
         <view class="search-result-song" wx:if="{{jitaData.pz && jitaData.pz.length}}">
           <view>曲谱：</view>
           <view class="list">
-            <block wx:for="{{jitaData.pz}}" wx:key="{{index}}">
+            <block wx:for="{{jitaData.pz}}" wx:key="index">
               <view data-id="{{item.id}}" bindtap="toJitaSong">
                 <text>{{item.name}}-{{item.keyword}}</text><text>{{item.click}}</text>
               </view>
@@ -43,7 +43,7 @@
     <block wx:if="{{jitaHome.singer && jitaHome.singer.length}}">
       <view class="module-title">热门歌手</view>
       <view class="singer">
-        <block wx:for="{{jitaHome.singer}}" wx:key="{{index}}">
+        <block wx:for="{{jitaHome.singer}}" wx:key="index">
           <view class="singer-item">
             <image lazy-load src="{{item.face}}" class="singer-image" data-id="{{item.id}}" bindtap="toJitaSinger" mode="aspectFit" />
             <text class="singer-name">{{item.name}}</text>
@@ -55,7 +55,7 @@
     <block wx:if="{{jitaHome.hot_pz && jitaHome.hot_pz.length}}">
       <view class="module-title">热门曲谱</view>
       <view class="song">
-        <block wx:for="{{jitaHome.hot_pz}}" wx:key="{{index}}">
+        <block wx:for="{{jitaHome.hot_pz}}" wx:key="index">
           <view class="song-item" data-id="{{item.id}}" bindtap="toJitaSong">
             <text class="singer-name">{{item.name}}</text>
             <text class="singer-click">{{item.click}}</text>
@@ -67,7 +67,7 @@
     <block wx:if="{{jitaHome.zj_pz && jitaHome.zj_pz.length}}">
       <view class="module-title">最新曲谱</view>
       <view class="song">
-        <block wx:for="{{jitaHome.zj_pz}}" wx:key="{{index}}">
+        <block wx:for="{{jitaHome.zj_pz}}" wx:key="index">
           <view class="song-item" data-id="{{item.id}}" bindtap="toJitaSong">
             <text class="singer-name">{{item.name}}</text>
             <text class="singer-click">{{item.click}}</text>

@@ -20,7 +20,7 @@
     <button type="primary" hover-class="none" bindtap="setClipboardDataAll" style="margin: 20rpx;" wx:if="{{admin && list.length}}">一键复制</button>
 
     <view class="list" wx:if="{{list.length}}">
-      <block wx:for="{{list}}" wx:key="{{index}}">
+      <block wx:for="{{list}}" wx:key="index">
         <view class="list-item">
           <view class="list-item-left">
             <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
@@ -62,13 +62,13 @@
         <scroll-view scroll-y="true" class="goods">
           <view class="goods-item">
             <checkbox-group bindchange="checkboxChange">
-              <label class="checkbox" wx:for="{{goods}}" wx:key="{{index}}">
+              <label class="checkbox" wx:for="{{goods}}" wx:key="index">
                 <checkbox value="{{index}}" checked="{{item.checked}}"/>
                 {{item.name}}（{{item.price}}）
               </label>
             </checkbox-group>
             <view>
-              <view class="number" wx:for="{{goods}}" wx:key="{{index}}">
+              <view class="number" wx:for="{{goods}}" wx:key="index">
                 <button data-index="{{index}}" bindtap="decrease">-</button>
                 <input type="number" value="{{item.number}}" data-index="{{index}}" bindinput="numberInput" />
                 <button data-index="{{index}}" bindtap="increase">+</button>

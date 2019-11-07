@@ -11,7 +11,7 @@
 
   <view class="main">
     <view class="articles" wx:if="{{articles.length}}">
-      <block wx:for="{{articles}}" wx:key="{{index}}">
+      <block wx:for="{{articles}}" wx:key="index">
         <view class="articles-item">
           <view class="articles-item-left" wx:if="{{openId}}">
             <image class="avatar" src="{{item.userInfo.avatarUrl || avatarUrl}}" mode="aspectFit"></image>
@@ -20,7 +20,7 @@
             <view class="nickname {{item.userInfo.gender ? 'man' : 'woman'}}" wx:if="{{openId}}">{{item.userInfo.nickName || '匿名用户'}}</view>
             <text>{{item.textarea}}</text>
             <view class="images" wx:if="{{item.images.length}}" data-images="{{item.images}}" bindtap="previewImage">
-              <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="{{idx}}">
+              <block wx:for="{{item.images}}" wx:for-item="image" wx:for-index="idx" wx:key="idx">
                 <image class="image" src="{{image}}" mode="aspectFit"></image>
               </block>
             </view>
@@ -46,7 +46,7 @@
 
       <view class="uploader">
         <view class="uploader-images">
-          <block wx:for="{{images}}" wx:key="{{index}}">
+          <block wx:for="{{images}}" wx:key="index">
             <image class="uploader-image" src="{{item}}" mode="aspectFit"></image>
           </block>
           <image class="uploader-image" src="{{plusUrl}}" bindtap="chooseImage"></image>

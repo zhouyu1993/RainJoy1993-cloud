@@ -17,7 +17,7 @@
     <view class="clock-list">
       <view class="clock-list-line"></view>
       <scroll-view scroll-x="true" scroll-into-view="{{clock.view}}" class="clock-list-scroll">
-        <block wx:for="{{clockDate}}" wx:key="{{index}}">
+        <block wx:for="{{clockDate}}" wx:key="index">
           <view id="date-{{item.date}}" class="clock-list-item" data-date="{{item.date}}" bindtap="changeClock">
             <view class="clock-list-item-state">
               <view class="state-wrap {{item.state}}">

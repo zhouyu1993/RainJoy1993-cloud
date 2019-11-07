@@ -14,7 +14,7 @@
 
     <view class="content" wx:if="{{hover == 0}}">
       <view class="rank-list">
-        <view class="rank-list-item" wx:for="{{rank1}}" wx:key="{{index}}">
+        <view class="rank-list-item" wx:for="{{rank1}}" wx:key="index">
           <view class="lt">
             <text class="rank-text">{{index + 1}}</text>
             <image class="avatar-image" src="{{item.userInfo.avatarUrl || avatarUrl}}" />
@@ -27,7 +27,7 @@
 
     <view class="content" wx:else>
       <view class="rank-list">
-        <view class="rank-list-item" wx:for="{{rank2}}" wx:key="{{index}}">
+        <view class="rank-list-item" wx:for="{{rank2}}" wx:key="index">
           <view class="lt">
             <text class="rank-text">{{index + 1}}</text>
             <image class="avatar-image" src="{{item.userInfo.avatarUrl || avatarUrl}}" />

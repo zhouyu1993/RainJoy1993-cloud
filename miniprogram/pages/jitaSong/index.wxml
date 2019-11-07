@@ -1,7 +1,7 @@
 <view class="container">
   <view class="main">
     <view class="song-pulist" wx:if="{{jitaSong.list && jitaSong.list.length}}">
-      <block wx:for="{{jitaSong.list}}" wx:key="{{index}}">
+      <block wx:for="{{jitaSong.list}}" wx:key="index">
         <image lazy-load src="{{item}}" mode="widthFix" class="song-puimage" />
       </block>
     </view>

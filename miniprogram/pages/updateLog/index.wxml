@@ -5,7 +5,7 @@
     <view class="name">{{name}}</view>
     <view class="intro">{{intro}}</view>
     <view class="logs">
-      <view wx:for="{{logs}}" wx:key="{{index}}">{{item}}</view>
+      <view wx:for="{{logs}}" wx:key="index">{{item}}</view>
     </view>
   </view>
 </view>

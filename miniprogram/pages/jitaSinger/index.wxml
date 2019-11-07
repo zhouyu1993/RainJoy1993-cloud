@@ -4,7 +4,7 @@
       <image lazy-load src="{{jitaSinger.singer_face}}" mode="aspectFit" />
     </view>
     <view class="song" wx:if="{{jitaSinger.list && jitaSinger.list.length}}">
-      <block wx:for="{{jitaSinger.list}}" wx:key="{{index}}">
+      <block wx:for="{{jitaSinger.list}}" wx:key="index">
         <view class="song-item" data-id="{{item.id}}" bindtap="toJitaSong">
           <text class="singer-name">{{item.name}}</text>
           <text class="singer-click">{{item.click}}</text>
